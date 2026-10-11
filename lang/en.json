@@ -1,0 +1,14 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "Player",
+      "npc": "NPC"
+    },
+    "Item": {
+      "form": "Form",
+      "item": "Item",
+      "weapon": "Weapon",
+      "armour": "Armour"
+    }
+  }
+}

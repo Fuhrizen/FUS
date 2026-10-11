@@ -1,0 +1,12 @@
+<section class="fus-form-sheet">
+  <fieldset {{#unless editable}}disabled{{/unless}}>
+    <label>Name <input name="name" value="{{item.name}}" title="Form name" required></label>
+    <label>Description <textarea name="system.description" rows="4" title="Appearance and nature of this Form">{{system.description}}</textarea></label>
+    <div class="fus-form-defaults">
+      <label>Max HP <input type="number" min="0" step="any" name="system.maxhp" {{#if owned}}required{{/if}} value="{{system.maxhp}}" placeholder="Set on application" title="Maximum HP for this character"></label>
+      <label>Move speed (ft) <input type="number" min="0" step="any" name="system.move" value="{{system.move}}" title="Movement distance in feet"></label>
+    </div>
+    <h3>Actions</h3><div>{{#each weaponActions}}<div class="fus-weapon-action-row"><span>{{name}} <span class="fus-cost-pips" title="{{cost}} actions" aria-label="{{cost}} actions">{{#each costPips}}◆{{/each}}</span></span><button type="button" data-action="editWeaponAction" data-action-id="{{id}}">Edit</button><button type="button" data-action="removeWeaponAction" data-action-id="{{id}}">×</button></div>{{/each}}</div><button type="button" data-action="addWeaponAction">Add action</button>
+    <label>Rules <textarea name="system.rules" rows="8" title="Form abilities, exceptions and rule references">{{system.rules}}</textarea></label>
+  </fieldset>
+</section>

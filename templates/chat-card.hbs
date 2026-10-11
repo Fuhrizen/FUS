@@ -1,0 +1,7 @@
+<article class="fus-chat-card">
+  <header><strong>{{title}}</strong>{{#if cost}}<span class="fus-cost-pips" title="{{cost}} actions" aria-label="{{cost}} actions">{{#each costPips}}◆{{/each}}</span>{{/if}}{{#if subtitle}}<p>{{subtitle}}</p>{{/if}}</header>
+  {{#if tags}}<p class="fus-chat-tags">{{#each tags}}<span>{{this}}</span>{{#unless @last}} · {{/unless}}{{/each}}</p>{{/if}}
+  {{#if bodyHTML}}<div class="fus-chat-body">{{{bodyHTML}}}</div>{{/if}}
+  {{#if rows}}<table><tbody>{{#each rows}}<tr><th scope="row"><span {{#if colour}}class="fus-damage-badge" style="--damage-colour:{{colour}}"{{/if}}>{{#if icon}}<i class="fa-solid fa-{{icon}}" aria-hidden="true"></i> {{/if}}{{label}}</span></th><td>{{detail}}</td><td><strong>{{value}}</strong></td></tr>{{/each}}</tbody></table>{{/if}}
+  {{#if actions}}<footer>{{#each actions}}<button type="button" data-fus-chat-action="{{action}}">{{label}}</button>{{/each}}</footer>{{/if}}
+</article>

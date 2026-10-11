@@ -1,0 +1,90 @@
+{
+  "id": "FUS",
+  "title": "Fuhrizen's Universal System",
+  "description": "A plain character sheet for FUS. Editable character data without game-rule enforcement.",
+  "version": "0.0.1",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
+  },
+  "authors": [
+    {
+      "name": "FUS"
+    }
+  ],
+  "esmodules": [
+    "scripts/fus.mjs"
+  ],
+  "styles": [
+    "styles/character-sheet.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {}
+    },
+    "Item": {
+      "form": {},
+      "item": {},
+      "weapon": {},
+      "armour": {}
+    }
+  },
+  "packs": [
+    {
+      "name": "baseline",
+      "label": "Forms",
+      "path": "packs/baseline",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "medieval",
+      "label": "Medieval Starter Equipment",
+      "path": "packs/medieval",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "modern",
+      "label": "Modern Starter Equipment",
+      "path": "packs/modern",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "sci-fi",
+      "label": "Sci-Fi Starter Equipment",
+      "path": "packs/sci-fi",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
+  "url": "https://github.com/Fuhrizen/FUS",
+  "manifest": "https://raw.githubusercontent.com/Fuhrizen/FUS/main/system.json",
+  "download": "https://github.com/Fuhrizen/FUS/releases/download/v0.0.1/FUS-0.0.1.zip"
+}
