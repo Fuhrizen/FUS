@@ -1,6 +1,6 @@
 {
   "name": "fus-foundry",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "FUS beta system for Foundry VTT v14",
   "scripts": {

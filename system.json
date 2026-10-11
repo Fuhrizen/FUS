@@ -2,7 +2,7 @@
   "id": "FUS",
   "title": "Fuhrizen's Universal System",
   "description": "A plain character sheet for FUS. Editable character data without game-rule enforcement.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "compatibility": {
     "minimum": "14",
     "verified": "14",
@@ -85,6 +85,6 @@
     }
   ],
   "url": "https://github.com/Fuhrizen/FUS",
-  "manifest": "https://raw.githubusercontent.com/Fuhrizen/FUS/main/system.json",
-  "download": "https://github.com/Fuhrizen/FUS/releases/download/v0.0.1/FUS-0.0.1.zip"
+  "manifest": "https://github.com/Fuhrizen/FUS/releases/download/beta/system.json",
+  "download": "https://github.com/Fuhrizen/FUS/releases/download/v0.0.2/FUS-0.0.2.zip"
 }

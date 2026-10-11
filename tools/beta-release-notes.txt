@@ -1,0 +1,9 @@
+FUS v0.0.2 Beta for Foundry VTT v14.
+
+- Shared actions on Misc items, Armour, Weapons and Forms.
+- Shift-click toggles targets; entering targeting clears previous targets.
+- Simplified public documentation and shared action schema.
+
+Automated tests and package checks passed. Live Foundry UI validation remains necessary.
+
+The beta channel manifest is https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.
