@@ -1,0 +1,58 @@
+name: Publish versioned FUS release
+on:
+  push:
+    branches: [main]
+    paths: [system.json, package.json, '.github/workflows/release.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fus-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build:packs
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const manifest = JSON.parse(fs.readFileSync('system.json', 'utf8'));
+            const version = manifest.version;
+            const tag = `v${version}`;
+            const beta = Number(version.split('.')[0]) < 1;
+            const {owner, repo} = context.repo;
+            let release;
+            try {
+              release = (await github.rest.repos.getReleaseByTag({owner, repo, tag})).data;
+              // Do not replace an existing version's assets with a different commit.
+              core.notice(`${tag} already exists. Bump the version to publish another release.`);
+              return;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
+            release = (await github.rest.repos.createRelease({
+              owner, repo, tag_name: tag, target_commitish: context.sha,
+              name: `${tag}${beta ? ' Beta' : ''}`, prerelease: beta,
+              body: `FUS ${version}${beta ? ' beta' : ''} for Foundry VTT v14.\n\nAutomated tests and package checks passed. Live Foundry testing is still required.\n\nDownload FUS-${version}.zip and replace the FUS system folder. See CHANGELOG.md for this version's changes.`,
+              draft: true
+            })).data;
+            for (const name of [`FUS-${version}.zip`, 'system.json']) {
+              await github.rest.repos.uploadReleaseAsset({
+                owner, repo, release_id: release.id, name,
+                data: fs.readFileSync(`dist/${name}`),
+                headers: {'content-type': name.endsWith('.zip') ? 'application/zip' : 'application/json'}
+              });
+            }
+            await github.rest.repos.updateRelease({owner, repo, release_id: release.id, draft: false});
