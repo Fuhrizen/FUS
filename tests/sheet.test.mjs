@@ -475,7 +475,7 @@ test('adding weapon or armour component preserves scroll and focuses new value',
  }
 });
 test('inventory armour equip toggles persist and reject wrong types or read-only edits',async()=>{
- const s=sheet();const armour={id:'armour',type:'armour',system:{equipped:false},update:async data=>{armour.system.equipped=data['system.equipped'];}};s.document.items=[armour,{id:'weapon',type:'weapon',system:{}}];
+ const s=sheet();s.document.isOwner=true;const armour={id:'armour',parent:s.document,type:'armour',system:{equipped:false},update:async data=>{armour.system.equipped=data['system.equipped'];}};s.document.items=[armour,{id:'weapon',type:'weapon',system:{}}];
  await action(s,{action:'toggleArmourEquip',itemId:'armour'});assert.equal(armour.system.equipped,true);
  await action(s,{action:'toggleArmourEquip',itemId:'armour'});assert.equal(armour.system.equipped,false);
  await action(s,{action:'toggleArmourEquip',itemId:'weapon'});s.isEditable=false;await action(s,{action:'toggleArmourEquip',itemId:'armour'});assert.equal(armour.system.equipped,false);

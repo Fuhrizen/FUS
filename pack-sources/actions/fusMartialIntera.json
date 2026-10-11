@@ -1,0 +1,31 @@
+{
+  "_id": "fusMartialIntera",
+  "name": "Interact",
+  "type": "action",
+  "img": "systems/FUS/assets/actions/brace.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "none",
+      "skill": "",
+      "targetMode": "none",
+      "freeHands": 1,
+      "rangeOptimal": 0,
+      "rangeMaximum": 0,
+      "damage": false,
+      "description": "Draw, stow, pick up or manipulate an object. Usually costs 1 action; complex interactions may take more. Update the item\u2019s carry state on the inventory sheet."
+    }
+  },
+  "effects": [],
+  "folder": "c9fae0c3419fa34f",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!fusMartialIntera"
+}

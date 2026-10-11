@@ -49,7 +49,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "5.56 NATO"
+    "ammoType": "5.56 NATO",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

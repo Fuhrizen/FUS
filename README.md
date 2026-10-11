@@ -42,3 +42,15 @@ Moving previews follow drag clones and token animation updates; visible cover fa
 See [Testing FUS](docs/TESTING.md) for the unit, coverage, compendium, package and browser gates, local commands, and Foundry smoke checks.
 
 Items can consume one parent unit when an action is used and optionally remove themselves at zero quantity. Exhausted ammo and consumed parents are removed after successful use; damage cards retain a snapshot for consumed sources. Ammo/charge-bearing weapons cannot stack: legacy stacks split into separate copies, and the inventory + button adds another independent weapon.
+
+### Character readiness and setup
+
+Weapons must be held before their actions can be used. Inventory carry controls support stowed, worn, one-hand and two-hand states, sharing a two-hand limit across the character. Weapon profiles specify their usual grip. Shared Action definitions can override source grip and require free hands, occupied hands, or another equipped/held item. Shift use cannot bypass these requirements. Copies and split stacks begin stowed.
+
+Character setup opens a three-step wizard for identity, starting skills/Focuses, and an owned Form or Baseline. It checks the starting budgets (4 skill points, rank at most 3; 7 Focus points, rank at most 2). Cancelling leaves the character unchanged. Applying replaces the creation fields but retains equipment and notes. Reset asks for confirmation, restores Baseline stats and stows equipment, preserving items, notes and memories. The previous setup is saved in `flags.FUS.characterSetupBackup`.
+
+Baseline includes Grapple, Escape Grapple, Release Grapple and Interact. Grapple and Escape supply Athletics rolls and the opposed-test instructions; the GM compares the defender's Athletics/Acrobatics test and manages Restrained. These presets do not automate the opposed result or repeated-attack tracking.
+
+There is one current encounter. Existing additional encounters are preserved as stopped entries in the encounter setting's `archivedEncounters` data. Clear the current encounter to create another.
+
+Cover previews use the native sight sweep/visibility polygon, cached closed-loop geometry, and a separate Total Cover mask. Target cover candidates use a scene spatial index; target lines use native closest sight collisions where available. Pan and zoom reuse the overlay geometry. Native Foundry behavior still needs verification in a live v14 world; browser checks use explicit host fixtures.

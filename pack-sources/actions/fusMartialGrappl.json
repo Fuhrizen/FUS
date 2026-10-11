@@ -1,0 +1,31 @@
+{
+  "_id": "fusMartialGrappl",
+  "name": "Grapple",
+  "type": "action",
+  "img": "systems/FUS/assets/actions/strike.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "skill": "athletics",
+      "targetMode": "required",
+      "freeHands": 1,
+      "rangeOptimal": 5,
+      "rangeMaximum": 5,
+      "damage": false,
+      "description": "Spend 1 action and roll Athletics plus a relevant Focus, opposed by the target\u2019s better Athletics or Acrobatics plus relevant Focus. The winner restrains the target until release or escape. The current state wins ties. Counts as an attack for repeated-attack penalties."
+    }
+  },
+  "effects": [],
+  "folder": "c9fae0c3419fa34f",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!fusMartialGrappl"
+}

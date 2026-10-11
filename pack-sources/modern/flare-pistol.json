@@ -28,7 +28,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Flares"
+    "ammoType": "Flares",
+    "handsRequired": 1,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

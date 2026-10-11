@@ -1,3 +1,4 @@
+import {checkHands,checkRequiredCarry} from './equipment.mjs';
 import {applyDefensiveReaction} from './reactions.mjs';
 import {ammoTrackingEnabled} from './rules-settings.mjs';
 import {attackBonuses,isAttackAction} from './hit-chance.mjs';
@@ -32,7 +33,7 @@ export function resourceAfterUse(weapon,action){
 export function actionAvailability(actor,weapon,action){
  if((action.consumeSource||weapon.system.consumeOnUse)&&Number(weapon.system.quantity??1)<1)return {locked:true,reason:'No uses remaining.'};if(action.missing)return {locked:true,reason:'The linked Action definition is unavailable.'};
  if(action.requiresFocus && !matchingFocuses(actor,weapon,action).some(f=>f.rank>=1))return {locked:true,reason:'This action requires its selected Focus at +1 or higher.'};
- try{requiredActionItem(actor,action);ammoRequirement(weapon,action);resourceAfterUse(weapon,action);}catch(e){return {locked:true,reason:e.message};}
+ try{checkHands(actor,weapon,action);requiredActionItem(actor,action);ammoRequirement(weapon,action);resourceAfterUse(weapon,action);}catch(e){return {locked:true,reason:e.message};}
  return {locked:false,reason:''};
 }
 export function requiredActionItem(actor,action){
@@ -40,7 +41,7 @@ export function requiredActionItem(actor,action){
  const amount=Number(action.requiredItemQuantity??1);if(!Number.isSafeInteger(amount)||amount<1)throw new Error('Required item quantity must be a positive whole number.');
  const item=Array.from(actor.items??[]).find(i=>i.id===reference||i.uuid===reference||i._stats?.compendiumSource===reference||i.flags?.core?.sourceId===reference||i.name?.trim().toLocaleLowerCase()===reference.toLocaleLowerCase());
  if(!item||Number(item.system.quantity??1)<amount)throw new Error(`Requires ${amount} × ${reference}.`);
- return {item,amount};
+ checkRequiredCarry(item,action);return {item,amount};
 }
 export function ammoRequirement(source,action){
  if(!ammoTrackingEnabled()||source.type!=='weapon'||source.system.combatMode!=='ranged'||!action.adjustResource||action.resourceMode!=='reset'||!source.system.ammoType)return [];
@@ -68,6 +69,7 @@ export const executeWeaponAction=executeSourceAction;
 function checkOwnership(actor,weapon){if(!actor?.isOwner || !isFUSActor(actor) || !['weapon','armour','item','form'].includes(weapon.type) || weapon.parent?.uuid!==actor.uuid)throw new Error('Use an action source owned by this character.');}
 async function executeAction(actor,weapon,actionId,{focus=null,force=false,skipTarget=false}={}){
  checkOwnership(actor,weapon);await loadSourceActions(weapon);const definition=sourceActions(weapon).find(a=>a.id===actionId);if(!definition)throw new Error('This action no longer exists.');const action={...definition};
+ checkHands(actor,weapon,action);
  const availability=actionAvailability(actor,weapon,action);
  if(availability.locked && !force)throw new Error(availability.reason);
  if(action.missing)throw new Error('The linked Action definition is unavailable.');

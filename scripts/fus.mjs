@@ -1,3 +1,4 @@
+import {validCarry} from './equipment.mjs';
 import {splitWeaponStack,validWeaponQuantity} from './inventory.mjs';
 import {ensureBaselineReactions} from './reactions.mjs';
 import {migrateStarterAmmo} from './starter-ammo.mjs';
@@ -12,7 +13,7 @@ import {FUSActionSheet} from './action-sheet.mjs';
 import {rememberAction,forgetAction,migrateActionLibrary,loadSourceActions,migrateSourceActions} from './action-library.mjs';
 import {ensureActorForm,preventFormRemoval,validFormSelection} from './forms.mjs';
 import {isFUSActor,actorCreationDefaults,sceneCreationDefaults} from './actor-types.mjs';
-import {registerEncounters,openEncounters,updateEncounterHealth} from './encounters.mjs';
+import {migrateSingleEncounter,registerEncounters,openEncounters,updateEncounterHealth} from './encounters.mjs';
 import {mountActionDamage,rollActionDamage} from './action-damage.mjs';
 import {characterStats,healthAfterCapacityChange} from './health.mjs';
 import {openWeaponActions,executeWeaponAction} from './attacks.mjs';
@@ -70,13 +71,13 @@ Hooks.on("preUpdateActor", (actor, changes) => {
 
 // Forms are replaceable but cannot be cleared or deleted while selected.
 Hooks.on('preDeleteItem',item=>preventFormRemoval(item));
-Hooks.on('preUpdateItem',(item,changes)=>{if(!validWeaponQuantity(item,changes)){ui.notifications.warn('Weapons with ammo or charges must be separate items.');return false;}if(item.type==='form'&&item.parent && (changes['system.maxhp']===null || changes['system.maxhp']==='' || changes.system?.maxhp===null))return false;});
-Hooks.on('preCreateItem',item=>{if(item.type==='action'&&['systems/FUS/assets/action.svg','icons/svg/item.svg','icons/svg/item-bag.svg'].includes(item.img))item.updateSource({img:actionIcon(item.name)});});
+Hooks.on('preUpdateItem',(item,changes)=>{if(!validCarry(item,changes)){ui.notifications.warn('Only two hands are available. Stow another item first.');return false;}if(!validWeaponQuantity(item,changes)){ui.notifications.warn('Weapons with ammo or charges must be separate items.');return false;}if(item.type==='form'&&item.parent && (changes['system.maxhp']===null || changes['system.maxhp']==='' || changes.system?.maxhp===null))return false;});
+Hooks.on('preCreateItem',item=>{if(!validCarry(item,{})){ui.notifications.warn('Only two hands are available.');return false;}if(item.type==='action'&&['systems/FUS/assets/action.svg','icons/svg/item.svg','icons/svg/item-bag.svg'].includes(item.img))item.updateSource({img:actionIcon(item.name)});});
 Hooks.on('createActor',async(actor,_options,userId)=>{if(userId===game.user.id){await ensureActorForm(actor);for(const item of actor.items)await loadSourceActions(item);}});
 for(const event of ['createItem','updateItem'])Hooks.on(event,async(item,_options,userId)=>{if(item.type==='action'){rememberAction(item);await refreshActionViews();}else {if(event==='createItem'&&userId===game.user.id)await splitWeaponStack(item);if(event==='createItem'&&game.user.isGM&&(!game.users.activeGM||game.users.activeGM.id===game.user.id))await migrateSourceActions(item);await loadSourceActions(item);}});
 Hooks.on('deleteItem',async item=>{if(item.type==='action'){forgetAction(item);await refreshActionViews();}});
 async function refreshActionViews(){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const doc of [...actors,...game.items,...actors.flatMap(a=>a.items.contents)])if(doc.sheet?.rendered)await doc.sheet.render({force:true});}
-Hooks.once('ready',async()=>{try{if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();await ensureBaselineReactions();await migrateBoardRanges();await migrateActionIcons();await migrateStarterAmmo();if(game.user.isGM&&game.users.activeGM?.id===game.user.id){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const actor of actors)for(const item of [...actor.items])await splitWeaponStack(item);}for(const actor of game.actors)if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(actor);for(const token of canvas.tokens?.placeables??[])if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(token.actor);}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
+Hooks.once('ready',async()=>{try{await migrateSingleEncounter();if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();await ensureBaselineReactions();await migrateBoardRanges();await migrateActionIcons();await migrateStarterAmmo();if(game.user.isGM&&game.users.activeGM?.id===game.user.id){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const actor of actors)for(const item of [...actor.items])await splitWeaponStack(item);}for(const actor of game.actors)if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(actor);for(const token of canvas.tokens?.placeables??[])if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(token.actor);}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
 
 Hooks.on('renderChatMessageHTML',(message,html)=>{
   const reference=message.flags?.FUS;if(!['attack','weaponAction'].includes(reference?.kind))return;

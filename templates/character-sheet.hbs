@@ -330,6 +330,11 @@
 @keyframes fus-draw-reveal{from{transform:translateY(-8px) scale(.9);opacity:.2}to{transform:translateY(0) scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){.fus-initiative-group[data-initiative-group=acting] .fus-token-card{animation:none}}
 
+.fus-sheet .fus-sidebar fieldset{padding:12px;border:1px solid var(--color-border-light-primary);border-radius:8px;background:linear-gradient(180deg,rgba(128,128,128,.1),transparent)}
+.fus-sheet .fus-sidebar .fus-portrait{justify-self:center;border-radius:8px;overflow:hidden}
+.fus-sheet .fus-sidebar .fus-form-selection .fus-form-name{height:auto;min-height:34px;white-space:normal;overflow-wrap:anywhere;text-align:center;padding:6px}
+.fus-sidebar-readiness{display:grid;grid-template-columns:1fr auto;gap:4px;padding:8px;border-radius:5px;background:rgba(128,128,128,.12)}.fus-sidebar-readiness small{grid-column:1/-1}.fus-sidebar-identity{display:grid;text-align:center;gap:4px}.fus-reset-character{font-size:.85em}
+.fus-carry-menu{position:relative;font-size:.8em}.fus-carry-menu summary{cursor:pointer;text-transform:capitalize}.fus-carry-menu>div{display:flex;flex-wrap:wrap;gap:4px;padding:6px}.fus-inventory-controls .fus-carry-menu button{width:auto;flex-basis:auto;padding:0 6px}
 </style>
   <aside class="fus-sidebar">
     <fieldset {{#unless editable}}disabled{{/unless}}>
@@ -348,6 +353,10 @@
         <span>Form</span>
         <div class="fus-form-selection"><button type="button" class="fus-form-name" data-action="openForm" title="Edit Form; drop another Form here to replace it">{{selectedFormName}}</button></div>
       </div>
+      <div class="fus-sidebar-readiness"><span><i class="fa-solid fa-hand"></i> Hands</span><strong>{{hands.used}} / {{hands.capacity}}</strong><small>{{hands.free}} free</small></div>
+      <div class="fus-sidebar-identity"><strong>{{system.role}}</strong><small>{{system.affiliation}}</small></div>
+      <button type="button" data-action="characterSetup"><i class="fa-solid fa-user-pen"></i> Character setup</button>
+      <button type="button" data-action="resetCharacter" class="fus-reset-character"><i class="fa-solid fa-rotate-left"></i> Reset character</button>
     </fieldset>
   </aside>
   <div class="fus-main">
@@ -380,7 +389,7 @@
                 <input type="number" min="0" step="1" data-item-quantity="{{id}}" {{#if individual}}max="1"{{/if}} value="{{quantity}}" title="Item quantity" aria-label="{{name}} quantity" {{#unless ../../editable}}disabled{{/unless}}>
                 {{#if ../../editable}}<button type="button" data-action="adjustItemQuantity" data-item-id="{{id}}" data-delta="1" title="{{#if individual}}Add separate weapon{{else}}Increase quantity{{/if}}" aria-label="{{#if individual}}Add separate {{name}}{{else}}Increase {{name}} quantity{{/if}}">+</button>{{/if}}
               </div>
-              <div class="fus-inventory-controls">{{#if ../../editable}}{{#if armour}}<button type="button" class="fus-inventory-equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleArmourEquip" data-item-id="{{id}}" aria-pressed="{{#if equipped}}true{{else}}false{{/if}}" title="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}" aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></button>{{/if}}{{#if weapon}}<button type="button" data-action="weaponActions" data-item-id="{{id}}" title="Weapon actions" aria-label="{{name}} actions"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button><button type="button" data-action="rollInventoryDamage" data-item-id="{{id}}" title="Roll {{name}} damage" aria-label="Roll {{name}} damage"><i class="fa-solid fa-dice" aria-hidden="true"></i></button>{{/if}}{{/if}}<button type="button" data-action="openInventoryItem" data-item-id="{{id}}" title="Open item" aria-label="Open {{name}}"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></button>{{#if ../../editable}}<button type="button" class="fus-inventory-delete" data-action="removeInventoryItem" data-item-id="{{id}}" title="Remove item" aria-label="Remove {{name}}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>{{/if}}</div>
+              <div class="fus-inventory-controls">{{#if ../../editable}}<details class="fus-carry-menu"><summary title="Manage equipped items and hands">{{carryLabel}}</summary><div><button type="button" data-action="equipItem" data-item-id="{{id}}" data-carry="stowed">Stow</button><button type="button" data-action="equipItem" data-item-id="{{id}}" data-carry="worn">Wear</button><button type="button" data-action="equipItem" data-item-id="{{id}}" data-carry="held" data-hands="1">Hold 1H</button><button type="button" data-action="equipItem" data-item-id="{{id}}" data-carry="held" data-hands="2">Hold 2H</button></div></details>{{else}}<small>{{carryLabel}}</small>{{/if}}{{#if ../../editable}}{{#if armour}}<button type="button" class="fus-inventory-equip {{#if equipped}}is-equipped{{/if}}" data-action="toggleArmourEquip" data-item-id="{{id}}" aria-pressed="{{#if equipped}}true{{else}}false{{/if}}" title="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}" aria-label="{{#if equipped}}Unequip{{else}}Equip{{/if}} {{name}}"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></button>{{/if}}{{#if weapon}}<button type="button" data-action="weaponActions" data-item-id="{{id}}" title="Weapon actions" aria-label="{{name}} actions"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i></button><button type="button" data-action="rollInventoryDamage" data-item-id="{{id}}" title="Roll {{name}} damage" aria-label="Roll {{name}} damage"><i class="fa-solid fa-dice" aria-hidden="true"></i></button>{{/if}}{{/if}}<button type="button" data-action="openInventoryItem" data-item-id="{{id}}" title="Open item" aria-label="Open {{name}}"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></button>{{#if ../../editable}}<button type="button" class="fus-inventory-delete" data-action="removeInventoryItem" data-item-id="{{id}}" title="Remove item" aria-label="Remove {{name}}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>{{/if}}</div>
             </article>
             {{else}}<p class="fus-inventory-empty">No entries.</p>{{/each}}
           </section>

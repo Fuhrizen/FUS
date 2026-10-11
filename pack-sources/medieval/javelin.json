@@ -28,7 +28,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Javelins"
+    "ammoType": "Javelins",
+    "handsRequired": 1,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "ec5fcc05e9953f23",

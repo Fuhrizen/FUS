@@ -49,7 +49,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "7.62\u00d739"
+    "ammoType": "7.62\u00d739",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

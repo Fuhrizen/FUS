@@ -1,7 +1,7 @@
 import {areaProfile,areaTargets} from './area-targeting.mjs';
 import {targetHitChance,sourceAttackProfile} from './hit-chance.mjs';
 import {targetPath} from './target-path.mjs';
-import {targetContext,canAttackPoint,elevatedPoint,canvasToClient,clientToCanvas,sceneWalls} from './cover.mjs';
+import {targetContext,canAttackPoint,elevatedPoint,canvasToClient,clientToCanvas,sceneCoverCandidates} from './cover.mjs';
 import {showCoverPreview,clearCoverPreview} from './cover-preview.mjs';
 import {escapeHTML} from './rolls.mjs';
 export function rangeProfile(source,action={}){const p=sourceAttackProfile(source,action);return {melee:p.combatMode==='melee',optimal:p.optimal,maximum:p.maximum};}
@@ -56,7 +56,7 @@ export function promptTargetSelection(actor,action,source,readTargets,{origin=nu
     svg.style.display='block';
     for(const [circle,distance] of [[outer,profile.maximum],[inner,profile.optimal]]){circle.setAttribute('cx',x);circle.setAttribute('cy',y);circle.setAttribute('r',distance*px+(profile.melee?Math.max(token.w??0,token.h??0)/2*scale:0));circle.style.display=distance>0?'':'none';}
     
-    const a=elevatedPoint(origin,token.document?.elevation??0),b=elevatedPoint(point,token.document?.elevation??0),visible=canAttackPoint(a,b),path=targetPath(a,b,sceneWalls(),{distance:measured.effective,...profile});
+    const a=elevatedPoint(origin,token.document?.elevation??0),b=elevatedPoint(point,token.document?.elevation??0),visible=canAttackPoint(a,b),path=targetPath(a,b,sceneCoverCandidates(a,b),{distance:measured.effective,...profile});
     line.replaceChildren();for(const segment of path.segments){const from=canvasToClient(segment.from),to=canvasToClient(segment.to),node=document.createElementNS(svg.namespaceURI,'line');for(const [key,value]of Object.entries({x1:from.x,y1:from.y,x2:to.x,y2:to.y,stroke:segment.colour,'stroke-dasharray':segment.dashed?'5 5':'none','data-factor':segment.factor,class:'fus-range-line'}))node.setAttribute(key,value);const title=document.createElementNS(svg.namespaceURI,'title');title.textContent=segment.factors.join(' · ');node.append(title);line.append(node);}
 
     distanceLabel.style.display='block';distanceLabel.style.left=`${mouse.x+12}px`;distanceLabel.style.top=`${mouse.y+12}px`;const hovered=[...(c.tokens?.placeables??[])].reverse().find(t=>t.visible&&t.bounds?.contains(point.x,point.y));const context=hovered?targetContext(token,hovered):null;const prediction=context?targetHitChance(actor,source,action,token,hovered,context):null;distanceLabel.textContent=prediction?`${hovered.name} · ${context.distance} ft · ${prediction.chance}% HIT`:`${measured.effective.toFixed(1)} ft${visible?'':' · blocked'}`;distanceLabel.style.setProperty?.('--fus-hit-chance',`${prediction?.chance??0}%`);distanceLabel.title=prediction?[prediction.reason,...prediction.factors,`2d10 + ${prediction.bonus} vs DC ${prediction.dc}`].filter(Boolean).join(' · '):'';

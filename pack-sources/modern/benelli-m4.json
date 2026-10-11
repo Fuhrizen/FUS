@@ -35,7 +35,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "12 gauge"
+    "ammoType": "12 gauge",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

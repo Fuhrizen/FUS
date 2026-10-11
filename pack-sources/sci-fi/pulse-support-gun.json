@@ -49,7 +49,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Pulse Charges"
+    "ammoType": "Pulse Charges",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "febd18d6d6aa0978",

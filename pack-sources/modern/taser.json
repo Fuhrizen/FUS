@@ -28,7 +28,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Taser Cartridges"
+    "ammoType": "Taser Cartridges",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

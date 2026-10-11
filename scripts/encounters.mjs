@@ -1,10 +1,10 @@
 import {expireDefensiveReactions} from './reactions.mjs';
-import {newEncounter,transitionEncounter,normalizeEncounter,encounterGroups} from './encounter-model.mjs';
+import {singleEncounterState,newEncounter,transitionEncounter,normalizeEncounter,encounterGroups} from './encounter-model.mjs';
 const {HandlebarsApplicationMixin}=foundry.applications.api;
 const {AbstractSidebarTab}=foundry.applications.sidebar;
 let queue=Promise.resolve();const views=new Set();
 function reportError(error){console.error('FUS Encounters:',error);try{ui.notifications.error(error.message);}catch(notificationError){console.error('FUS notification failed:',notificationError);}}
-const state=()=>game.settings.get('FUS','encounters');
+const state=()=>singleEncounterState(game.settings.get('FUS','encounters')); 
 const refresh=async data=>{try{await expireDefensiveReactions(data);for(const view of views)if(view.rendered)await view.render({force:true});}catch(error){reportError(error);}};
 async function write(change){const task=queue.catch(()=>{}).then(async()=>{if(!game.user.isGM)throw new Error('The GM manages the encounter.');const data=structuredClone(state());await change(data);await game.settings.set('FUS','encounters',data);});queue=task;return task;}
 async function context(){const data=state(),raw=data.encounters.find(e=>e.id===data.selectedId),encounter=raw?normalizeEncounter(raw):null;return {gm:game.user.isGM,encounter,encounters:data.encounters.map(e=>({...e,selected:e.id===data.selectedId})),remaining:encounter?.pool.length??0,groups:encounterGroups(encounter,{gm:game.user.isGM})};}
@@ -12,8 +12,8 @@ async function action(event,target){
  const name=target.dataset.action,id=target.dataset.participant;
  try{
   if(name==='openActor'){const p=state().encounters.find(e=>e.id===state().selectedId)?.participants.find(p=>p.id===id);const token=p?.tokenUuid?await fromUuid(p.tokenUuid):null;const actor=token?.actor??await fromUuid(p.actorUuid);if(actor?.isOwner)await actor.sheet.render({force:true});return;}
-  if(name==='createEncounter'){const label=await foundry.applications.api.DialogV2.prompt({window:{title:'New encounter'},content:'<label>Name <input name="name" value="Encounter" required></label>',ok:{label:'Create',callback:(_e,b)=>b.form.elements.name.value.trim()},rejectClose:false});if(!label)return;await write(data=>{const e=newEncounter(foundry.utils.randomID(),label);data.encounters.push(e);data.selectedId=e.id;});return;}
-  if(name==='selectEncounter'){await write(data=>{data.selectedId=target.dataset.encounter;});return;}
+  if(name==='createEncounter'){if(state().encounters.length)throw new Error('Clear the current encounter before creating another.');const label=await foundry.applications.api.DialogV2.prompt({window:{title:'New encounter'},content:'<label>Name <input name="name" value="Encounter" required></label>',ok:{label:'Create',callback:(_e,b)=>b.form.elements.name.value.trim()},rejectClose:false});if(!label)return;await write(data=>{if(data.encounters.length)throw new Error('Only one encounter can exist at a time.');const e=newEncounter(foundry.utils.randomID(),label);data.encounters.push(e);data.selectedId=e.id;});return;}
+  if(name==='selectEncounter')return;
   if(name==='deleteEncounter'){if(!await foundry.applications.api.DialogV2.confirm({window:{title:'Delete encounter'},content:'<p>Delete this FUS encounter?</p>',rejectClose:false}))return;await write(data=>{data.encounters=data.encounters.filter(e=>e.id!==data.selectedId);data.selectedId=data.encounters[0]?.id??'';});return;}
   await write(async data=>{
    let index=data.encounters.findIndex(e=>e.id===data.selectedId);if(index<0 && name==='addTokens'){const e=newEncounter(foundry.utils.randomID());data.encounters.push(e);data.selectedId=e.id;index=data.encounters.length-1;}if(index<0)throw new Error('Add selected tokens to begin.');
@@ -67,3 +67,5 @@ function mountEncounterHUD(app,root){if(!root?.querySelector)return;root.querySe
  if(game.user.isGM){const button=document.createElement('button');button.type='button';button.className='control-icon';button.dataset.fusEncounter='';button.title='Add selected tokens to FUS encounter';button.innerHTML='<i class="fa-solid fa-swords" aria-hidden="true"></i>';button.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();const selected=canvas.tokens?.controlled??[];if(selected.length)action({},{dataset:{action:'addTokens'}});else toggleEncounterToken(token).catch(reportError);},true);column.append(button);}
  if((token.isOwner||token.actor?.isOwner||game.user.isGM)&&!root.querySelector('.fus-pin-controls')){const row=document.createElement('div');row.className='fus-pin-controls control-icon';row.innerHTML='<button type="button" aria-label="Remove pin">−</button><span class="badge"></span><button type="button" aria-label="Add pin">+</button>';const display=row.querySelector('span');display.textContent=String(token.flags?.FUS?.pins??0);display.setAttribute('aria-label','Pins');row.querySelectorAll('button').forEach(button=>button.classList.add('control-icon'));row.querySelectorAll('button').forEach((button,index)=>button.addEventListener('click',async e=>{e.preventDefault();e.stopImmediatePropagation();try{const count=await game.FUS.changePins(token,index?1:-1);display.textContent=String(count);}catch(error){reportError(error);}},true));for(const type of ['pointerdown','mousedown','pointerup','mouseup','dblclick','contextmenu'])row.addEventListener(type,e=>{e.preventDefault();e.stopPropagation();},true);root.append(row);}
 }
+
+export async function migrateSingleEncounter(){if(!game.user.isGM||game.users?.activeGM&&game.users.activeGM.id!==game.user.id)return;const old=game.settings.get('FUS','encounters');if(old.encounters?.length>1){await write(()=>{});const current=state();await expireDefensiveReactions({encounters:[...current.encounters,...(current.archivedEncounters??[])]});}}

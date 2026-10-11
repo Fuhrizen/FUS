@@ -7,7 +7,7 @@ def write(p,d):p.write_text(json.dumps(d,indent=2)+'\n')
 def stable(s):return hashlib.sha256(s.encode()).hexdigest()[:16]
 def icon(name):
  n=name.lower()
- for words,key in [(['reload','recharge'],'reload'),(['aim'],'aim'),(['suppress'],'suppress'),(['burst','grenade','molotov'],'burst'),(['shot','fire'],'fire'),(['thrust'],'thrust'),(['heavy','crush','servo'],'heavy'),(['strike','swing'],'strike'),(['brace','defensive','dodge'],'brace'),(['scan','status'],'scan'),(['interface'],'interface'),(['psychic','empathic','pulse'],'psychic')]:
+ for words,key in [(['reload','recharge'],'reload'),(['aim'],'aim'),(['suppress'],'suppress'),(['burst','grenade','molotov'],'burst'),(['shot','fire'],'fire'),(['thrust'],'thrust'),(['heavy','crush','servo'],'heavy'),(['release'],'brace'),(['strike','swing','grapple','escape'],'strike'),(['brace','defensive','dodge','interact','release'],'brace'),(['scan','status'],'scan'),(['interface'],'interface'),(['psychic','empathic','pulse'],'psychic')]:
   if any(w in n for w in words):return f'systems/FUS/assets/actions/{key}.svg'
  return 'systems/FUS/assets/action.svg'
 for p in (root/'pack-sources/actions').glob('*.json'):

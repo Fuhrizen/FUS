@@ -35,7 +35,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": ".50 BMG"
+    "ammoType": ".50 BMG",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "9f46c121a5c23bbf",

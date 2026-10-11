@@ -35,7 +35,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Bolts"
+    "ammoType": "Bolts",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "ec5fcc05e9953f23",

@@ -1,0 +1,31 @@
+{
+  "_id": "fusMartialReleas",
+  "name": "Release Grapple",
+  "type": "action",
+  "img": "systems/FUS/assets/actions/brace.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "none",
+      "skill": "",
+      "targetMode": "none",
+      "freeHands": 0,
+      "rangeOptimal": 0,
+      "rangeMaximum": 0,
+      "damage": false,
+      "description": "Release a creature you are restraining. The GM removes Restrained when the hold ends."
+    }
+  },
+  "effects": [],
+  "folder": "c9fae0c3419fa34f",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!fusMartialReleas"
+}

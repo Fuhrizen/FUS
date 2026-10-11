@@ -27,7 +27,10 @@
         "focusActorUuid": "",
         "focusName": ""
       }
-    ]
+    ],
+    "handsRequired": 1,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "febd18d6d6aa0978",

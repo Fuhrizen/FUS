@@ -1,3 +1,4 @@
+import {handUsage,equipItem,stowedCopy} from './equipment.mjs';
 import {ammoTrackingEnabled} from './rules-settings.mjs';
 import {loadSourceActions} from './action-library.mjs';
 import {isFUSActor} from './actor-types.mjs';
@@ -20,7 +21,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
     position: {width: 850, height: 650}, window: {resizable: true},
     form: {submitOnChange: true, closeOnSubmit: false},
     actions: {
-      toggleUnavailable:FUSCharacterSheet.toggleUnavailable,openSourceItem:FUSCharacterSheet.onAction,useSourceAction:FUSCharacterSheet.onAction,weaponActions:FUSCharacterSheet.onAction,toggleArmourEquip:FUSCharacterSheet.onAction,rollInventoryDamage:FUSCharacterSheet.onAction,
+      toggleUnavailable:FUSCharacterSheet.toggleUnavailable,openSourceItem:FUSCharacterSheet.onAction,useSourceAction:FUSCharacterSheet.onAction,weaponActions:FUSCharacterSheet.onAction,toggleArmourEquip:FUSCharacterSheet.onAction,equipItem:FUSCharacterSheet.onAction,characterSetup:FUSCharacterSheet.onAction,resetCharacter:FUSCharacterSheet.onAction,rollInventoryDamage:FUSCharacterSheet.onAction,
       openForm: FUSCharacterSheet.onAction,
       adjustItemQuantity: FUSCharacterSheet.onAction,
       openInventoryItem: FUSCharacterSheet.onAction, removeInventoryItem: FUSCharacterSheet.onAction,
@@ -59,6 +60,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       skillGroups: this._skillGroups(),
       search: this._search,
       focusManagement: this._focusManagement,
+      hands:handUsage(this.document),
       formDetails: selectedForm ? {...selectedForm.system, moveDisplay:selectedForm.system.move??'Not set'} : null,
       inventoryGroups: inventoryGroups(this.document,this._openInventory),
       inventoryRows: [...(this.document.items??[])].filter(item=>['item','weapon','armour'].includes(item.type)).map(item=>({id:item.id,name:item.name,img:item.img,description:item.system.description??'',typeLabel:{item:'Item',weapon:'Weapon',armour:'Armour'}[item.type]})).sort((a,b)=>a.name.localeCompare(b.name)),
@@ -183,7 +185,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
   async _setItemQuantity(id,value){
     if(!this.isEditable || !Number.isSafeInteger(value) || value<0)return;
     const item=[...(this.document.items??[])].find(item=>item.id===id && ['item','weapon','armour'].includes(item.type));
-    if(item&&individualWeapon(item)&&value>1){const data=item.toObject();delete data._id;data.folder=null;data.system.quantity=1;await this.document.createEmbeddedDocuments('Item',Array.from({length:value-1},()=>structuredClone(data)));return;}if(item)await item.update({'system.quantity':value});
+    if(item&&individualWeapon(item)&&value>1){const data=stowedCopy(item.toObject());delete data._id;data.folder=null;data.system.quantity=1;await this.document.createEmbeddedDocuments('Item',Array.from({length:value-1},()=>structuredClone(data)));return;}if(item)await item.update({'system.quantity':value});
   }
   async _transferInventoryItem(item){
     if(!this.isEditable || !item.parent?.isOwner || !['item','weapon','armour'].includes(item.type)){
@@ -207,7 +209,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
   }
   async _copyInventoryItem(item,amount=quantity(item)){
     if(!this.isEditable || !['item','weapon','armour'].includes(item?.type))return;
-    const source=item.toObject();delete source._id;source.folder=null;
+    const source=stowedCopy(item.toObject());delete source._id;source.folder=null;
     source.system.quantity=amount;
     source.flags??={};source.flags.core??={};source.flags.core.sourceId=item.uuid;
     const payload=individualWeapon(item)?Array.from({length:amount},()=>({...structuredClone(source),system:{...structuredClone(source.system),quantity:1}})):[source];const created=await this.document.createEmbeddedDocuments('Item',payload);const [owned]=created;owned._fusTransferIds=created.map(i=>i.id);
@@ -508,9 +510,13 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       } else if(action==='weaponActions'){
         const weapon=[...(this.document.items??[])].find(i=>i.id===target.dataset.itemId && i.type==='weapon');
         if(weapon)await openSourceActions(this.document,weapon);
+      } else if(action==='characterSetup'||action==='resetCharacter'){
+        const wizard=await import('./character-wizard.mjs');await (action==='characterSetup'?wizard.openCharacterWizard(this.document):wizard.resetCharacter(this.document));
+      } else if(action==='equipItem'){
+        const item=this.document.items.get(target.dataset.itemId);if(item)await equipItem(this.document,item,target.dataset.carry,Number(target.dataset.hands??0));
       } else if(action==='toggleArmourEquip'){
         const item=[...(this.document.items??[])].find(item=>item.id===target.dataset.itemId && item.type==='armour');
-        if(item)await item.update({'system.equipped':!item.system.equipped});
+        if(item)await equipItem(this.document,item,item.system.equipped?'stowed':'worn');
       } else if(action==='rollInventoryDamage'){
         const item=[...(this.document.items??[])].find(item=>item.id===target.dataset.itemId && item.type==='weapon');
         if(item)await chooseActionDamage(this.document,item);

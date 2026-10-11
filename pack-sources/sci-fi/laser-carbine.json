@@ -35,7 +35,10 @@
         "focusName": ""
       }
     ],
-    "ammoType": "Laser Charges"
+    "ammoType": "Laser Charges",
+    "handsRequired": 2,
+    "carryState": "stowed",
+    "handsHeld": 0
   },
   "effects": [],
   "folder": "febd18d6d6aa0978",

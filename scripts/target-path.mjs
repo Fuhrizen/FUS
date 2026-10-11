@@ -6,7 +6,9 @@ export function targetPath(origin,target,walls,{distance=0,optimal=0,maximum=0,m
  const selectedCover=coverFor(origin,target,walls);if(!melee&&[2,4].includes(selectedCover.level)){const dx=target.x-origin.x,dy=target.y-origin.y,len=dx*dx+dy*dy,t=len?Math.max(0,Math.min(.98,((selectedCover.point.x-origin.x)*dx+(selectedCover.point.y-origin.y)*dy)/len)):0;events.push({t,level:selectedCover.level,label:COVER_LEVELS[selectedCover.level]});}
  for(const wall of walls){if(wallCoverLevel(wall)!==99)continue;const t=wallIntersection(origin,target,wall);if(t===null)continue;const bounds=(wall.document??wall).elevation,elevation=at(t).elevation;if(bounds&&(bounds.bottom!=null&&elevation<bounds.bottom||bounds.top!=null&&elevation>bounds.top))continue;events.push({t,level:99,label:'Total Cover'});}
 
- if(!hasLineOfSight(origin,target)){let lo=0,hi=1;for(let i=0;i<18;i++){const mid=(lo+hi)/2;if(hasLineOfSight(origin,at(mid)))lo=mid;else hi=mid;}events.push({t:(lo+hi)/2,blocked:true,label:'LOS blocked'});}
+ const backend=globalThis.CONFIG?.Canvas?.polygonBackends?.sight,collision=backend?.testCollision(origin,target,{type:'sight',mode:'closest',level:globalThis.canvas?.level});
+ if(collision&&Number.isFinite(collision.x)&&Number.isFinite(collision.y)){const distance=Math.hypot(target.x-origin.x,target.y-origin.y)||1;events.push({t:Math.min(1,Math.hypot(collision.x-origin.x,collision.y-origin.y)/distance),blocked:true,label:'LOS blocked'});}
+ else if(collision!==null&&!hasLineOfSight(origin,target)){let lo=0,hi=1;for(let i=0;i<18;i++){const mid=(lo+hi)/2;if(hasLineOfSight(origin,at(mid)))lo=mid;else hi=mid;}events.push({t:(lo+hi)/2,blocked:true,label:'LOS blocked'});}
  for(const [value,label]of [[optimal,'Extended range'],[maximum,'Out of range']])if(value>0&&value<distance)events.push({t:value/distance,range:label,label});
  events.sort((a,b)=>a.t-b.t);
  const segments=[],boundaries=[];let start=0,cover=0,blocked=false,range='';
