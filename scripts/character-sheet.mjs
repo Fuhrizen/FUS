@@ -5,7 +5,7 @@ import {chooseActionDamage} from './action-damage.mjs';
 import {characterStats,healthAfterCapacityChange} from './health.mjs';
 import {openSourceActions,availableActionGroups} from './attacks.mjs';
 import {renderChatCard} from './chat-card.mjs';
-import {inventoryGroups,quantity} from './inventory.mjs';
+import {inventoryGroups,quantity,individualWeapon} from './inventory.mjs';
 import {appliedForm, formMaximum, migrateFormData} from './forms.mjs';
 import {SKILLS, SKILL_GROUPS, focusId, signed, focusLabel, nextFocusName} from "./config.mjs";
 import {rollActor} from "./rolls.mjs";
@@ -183,7 +183,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
   async _setItemQuantity(id,value){
     if(!this.isEditable || !Number.isSafeInteger(value) || value<0)return;
     const item=[...(this.document.items??[])].find(item=>item.id===id && ['item','weapon','armour'].includes(item.type));
-    if(item)await item.update({'system.quantity':value});
+    if(item&&individualWeapon(item)&&value>1){const data=item.toObject();delete data._id;data.folder=null;data.system.quantity=1;await this.document.createEmbeddedDocuments('Item',Array.from({length:value-1},()=>structuredClone(data)));return;}if(item)await item.update({'system.quantity':value});
   }
   async _transferInventoryItem(item){
     if(!this.isEditable || !item.parent?.isOwner || !['item','weapon','armour'].includes(item.type)){
@@ -201,7 +201,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       if(remaining===0)await source.deleteEmbeddedDocuments('Item',[item.id]);
       else await item.update({'system.quantity':remaining});
     }catch(error){
-      await this.document.deleteEmbeddedDocuments('Item',[owned.id]);throw error;
+      await this.document.deleteEmbeddedDocuments('Item',owned._fusTransferIds??[owned.id]);throw error;
     }
     return owned;
   }
@@ -210,7 +210,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
     const source=item.toObject();delete source._id;source.folder=null;
     source.system.quantity=amount;
     source.flags??={};source.flags.core??={};source.flags.core.sourceId=item.uuid;
-    const [owned]=await this.document.createEmbeddedDocuments('Item',[source]);
+    const payload=individualWeapon(item)?Array.from({length:amount},()=>({...structuredClone(source),system:{...structuredClone(source.system),quantity:1}})):[source];const created=await this.document.createEmbeddedDocuments('Item',payload);const [owned]=created;owned._fusTransferIds=created.map(i=>i.id);
     return owned;
   }
   async _removeInventoryItem(id){

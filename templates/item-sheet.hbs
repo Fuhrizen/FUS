@@ -306,6 +306,7 @@
   <fieldset {{#unless editable}}disabled{{/unless}}>
     <div class="fus-item-heading"><button type="button" data-action="chooseIcon" title="Choose item icon"><img src="{{item.img}}" alt="{{item.name}}"></button><label>Title <input name="name" value="{{item.name}}" title="Item title" required></label></div>
 
+    <label class="fus-check"><input type="checkbox" name="system.consumeOnUse" {{checked system.consumeOnUse}}>Consume one of this item when an action is used</label><label class="fus-check"><input type="checkbox" name="system.deleteWhenEmpty" {{checked system.deleteWhenEmpty}}>Remove this item when its quantity reaches zero</label><small>Ammunition supplies and items consumed by their own action are removed when exhausted.</small>
     {{#if misc}}<label>Ammunition type (optional)<input name="system.ammoType" value="{{system.ammoType}}" placeholder="Match a weapon ammunition type"></label>{{/if}}
     {{#if weapon}}
     <details class="fus-item-panel" open><summary>Weapon profile</summary><div class="fus-item-panel-body"><label>Combat type <select name="system.combatMode"><option value="ranged" {{#unless melee}}selected{{/unless}}>Ranged</option><option value="melee" {{#if melee}}selected{{/if}}>Melee</option></select></label>

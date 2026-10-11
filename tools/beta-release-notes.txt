@@ -1,8 +1,9 @@
-Cover previews and targeting feedback
+Cover performance, inventory lifecycle and attack accuracy
 
-- Use Foundry v14 viewport coordinate conversion and preserve getter-based point coordinates in cover, targeting and area effects.
-- Make visible Soft/Hard Cover wall faces more prominent, retain LOS masking and closed-loop areas, and refresh previews when walls or the viewport change.
-- Split targeting lines at cover crossings, LOS blockers and range boundaries, label those points, and dash blocked portions. Total Cover stops the attack even when sight is allowed.
-- Remove the wall Cover description; explain each option with upward tooltips.
-- Run CI only during release. Automatically publish minor or feature collections; reject automatic major requests without manual approval.
-- Add regression checks for viewport placement, transparent Total Cover, option tooltips and release approval policy.
+- Cache cover geometry in map coordinates; zoom/pan reprojects the existing overlay, stationary refreshes reuse it, and native closest-collision checks reduce LOS work. Replace per-ray shadow wedges with one clipped shadow polygon per cover wall.
+- Targeting lines change colour without labels. Apply only one nearest Soft/Hard Cover wall within 5 ft of the target. Total Cover and native LOS continue to block attacks. Keep existing wall definitions.
+- Melee ignores physical cover bonuses, uses token-edge reach and retains defensive dodge; base Attack DC stays 14.
+- Range falloff increases ranged DC from +0 at optimal to +6 at maximum. New Range falloff setting can restore the rulebook’s fixed +2 beyond optimal.
+- Items can consume a parent quantity when used and remove themselves when exhausted. Empty ammo is removed after successful use, with rollback on chat failure. Consumed-source damage cards retain their damage data.
+- Weapons with ammo/charges are separate items. Legacy stacks split into independent copies, quantity increases add separate weapons, and transfer rollback removes all created copies.
+- Expanded regressions for zoom/cache reuse, nearest cover, melee, falloff, consumption and independent weapon state. CI runs only as part of release.

@@ -9,7 +9,7 @@ export async function actionTargets(actor,action,source,{prompt=promptTargetSele
  if(mode==='none'||(skipTarget&&sourceAttackProfile(source,action).optimal>0))return [];
  if(mode==='self')return [{name:actor.name??'Self',actorUuid:actor.uuid,tokenUuid:actor.token?.uuid??''}];
  const origin=await resolveOriginToken(actor);if(globalThis.canvas?.ready&&!origin)return null;
- const read=()=>selectedActionTargets().map(row=>{const token=globalThis.canvas?.tokens?.placeables?.find(t=>t.document.uuid===row.tokenUuid);if(!origin||!token)return row;const context=targetContext(origin,token);return {...row,...context,hitChance:targetHitChance(actor,source,action,origin,token,context)};});
+ const read=()=>selectedActionTargets().map(row=>{const token=globalThis.canvas?.tokens?.placeables?.find(t=>t.document.uuid===row.tokenUuid);if(!origin||!token)return row;const context=targetContext(origin,token);if(sourceAttackProfile(source,action).combatMode==='melee'){context.distance=Math.round(context.reachDistance*10)/10;if(context.cover.level!==99)context.cover={level:0,label:'No cover'};}return {...row,...context,hitChance:targetHitChance(actor,source,action,origin,token,context)};});
  return prompt(actor,action,source,read,{origin});
 }
 const tokenTargetRows=targets=>targets.length?[{label:'Target',detail:targets.map(t=>`${t.name}${t.distance!==undefined?` · ${t.distance} ft`:''}${t.cover?.level&&t.cover.level!==99?` · ${t.cover.label} (+${t.cover.level} DC)`:''}${t.los===false?' · LOS blocked':''}${t.hitChance?` · ${t.hitChance.chance}% hit${t.hit!==undefined?` · ${t.hit?'HIT':'MISS'}`:''}`:''}`).join(' / '),value:''}]:[];

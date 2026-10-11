@@ -4,7 +4,7 @@ const text=()=>new foundry.data.fields.StringField({required:true,blank:true,ini
 const number=()=>new foundry.data.fields.NumberField({required:true,nullable:false,initial:0,min:0});
 function componentFields(){const {StringField}=foundry.data.fields;return {type:new StringField({required:true,initial:'bludgeoning',choices:Object.keys(DAMAGE_TYPES)}),formula:new StringField({required:true,blank:false,initial:'0'})};}
 export class FUSItemData extends foundry.abstract.TypeDataModel {
-  static defineSchema(){return {weaponActions:createActionField(),actionLinks:createActionLinks(),quantity:new foundry.data.fields.NumberField({required:true,nullable:false,initial:1,min:0,integer:true}),description:text(),ammoType:text()};}
+  static defineSchema(){return {weaponActions:createActionField(),actionLinks:createActionLinks(),quantity:new foundry.data.fields.NumberField({required:true,nullable:false,initial:1,min:0,integer:true}),description:text(),ammoType:text(),consumeOnUse:new foundry.data.fields.BooleanField({initial:false}),deleteWhenEmpty:new foundry.data.fields.BooleanField({initial:false})};}
 }
 export class FUSWeaponData extends FUSItemData {
   static migrateData(source){

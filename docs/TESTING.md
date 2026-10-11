@@ -44,3 +44,9 @@ Before a beta is promoted, test in a licensed Foundry world as GM and player:
 Keep new rule regressions in `tests/*.test.mjs`, cross-file integrity checks in `tests/contracts/`, and user interactions in `tests/browser/`. Change coverage thresholds only with an explained review; do not exclude difficult production modules to make CI pass.
 
 Tactical examples include editable Grenade and Molotov shared area actions. Their sample damage values are presets, not additional mandatory rules. Defensive Reaction is supplied by Baseline and ends when its encounter advances to the next round or ends.
+
+Cover bonuses now use one nearest Soft/Hard Cover wall within 5 ft of the target point; remote crossed cover does not stack. Total Cover and native sight blockers still block the attack path. Geometry is cached in map coordinates and reprojected during pan/zoom. Melee uses edge-to-edge reach, ignores physical wall cover bonuses and retains defensive dodge. Base Attack DC remains 14.
+
+The configurable Range falloff rule defaults on: beyond optimal, add `ceil(6 × (distance − optimal)/(maximum − optimal))` DC, capped at +6. Turning it off restores the rulebook's fixed +2 beyond optimal. Beyond maximum remains a 0% attempt.
+
+Items can consume one parent quantity when used and optionally remove themselves at zero. Ammunition supplies and action-consumed parents are removed when exhausted after successful chat creation and automation; failed chat creation restores resources. Consumed-parent damage cards keep a damage snapshot. Existing weapon stacks with ammo or charges migrate into independent copies; further quantity increases create separate weapons.

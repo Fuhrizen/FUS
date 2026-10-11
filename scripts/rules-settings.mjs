@@ -1,6 +1,8 @@
+export function rangeFalloffEnabled(){try{return globalThis.game?.settings?.get('FUS','rangeFalloff')??true;}catch{return true;}}
 export function ammoTrackingEnabled(){try{return globalThis.game?.settings?.get('FUS','ammoTracking')??true;}catch{return true;}}
 export function pinAttackPenalty(){try{return Math.max(0,Number(globalThis.game?.settings?.get('FUS','pinAttackPenalty')??1));}catch{return 1;}}
 export function registerRulesSettings(){
+ game.settings.register('FUS','rangeFalloff',{name:'Range falloff',hint:'Increase attack DC gradually from +0 at optimal range to +6 at maximum range. Disable to use the core rulebook’s fixed +2 beyond optimal.',scope:'world',config:true,type:Boolean,default:true});
  game.settings.register('FUS','ammoTracking',{name:'Optional rule: ammunition tracking',hint:'Track weapon ammunition and consume compatible supplies when reloading. Disable for unlimited ranged ammunition. Charges and other required-item abilities still apply.',scope:'world',config:true,type:Boolean,default:true,onChange:()=>{for(const actor of game.actors??[]){if(actor.sheet?.rendered)actor.sheet.render({force:true});for(const item of actor.items??[])if(item.sheet?.rendered)item.sheet.render({force:true});}for(const item of game.items??[])if(item.sheet?.rendered)item.sheet.render({force:true});}});
  game.settings.register('FUS','pinAttackPenalty',{name:'Attack penalty per pin',hint:'Subtract this amount from melee and ranged attack rolls for each pin on the acting token. Set to 0 to keep pins cosmetic.',scope:'world',config:true,type:Number,default:1,range:{min:0,max:5,step:1}});
 }
