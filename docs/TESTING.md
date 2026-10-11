@@ -23,11 +23,11 @@ For a quick rules check, run `npm test`. Individual gates are `test:unit`, `chec
 
 Browser tests load production FUS modules, Handlebars templates and styles. The public harness supplies explicit Foundry host fixtures; it does not ship or run the licensed Foundry runtime. These tests detect application and layout regressions but cannot certify Foundry's renderer, permissions or document persistence.
 
-CI runs on main pushes, pull requests, manual dispatch and weekly. Independent jobs run in parallel. Failed browser tests retain traces, screenshots and videos; successful tests also attach screenshots. HTML coverage/browser reports, JUnit results and validated packages remain available as Actions artifacts for seven days. Open traces with `npx playwright show-trace <trace.zip>` and reports with `npx playwright show-report reports/browser`.
+CI runs only within the beta release workflow, after a completed collection of changes requests publication. Ordinary pushes, pull requests and schedules do not run CI. Independent jobs run in parallel. Failed browser tests retain traces, screenshots and videos; successful tests also attach screenshots. HTML coverage/browser reports, JUnit results and validated packages remain available as Actions artifacts for seven days. Open traces with `npx playwright show-trace <trace.zip>` and reports with `npx playwright show-report reports/browser`.
 
-The reusable quality workflow ends with **CI gate**, which fails if any job fails, is cancelled or is skipped. Make this check required in repository branch protection to enforce it on merges. That administrative setting is separate from these committed workflows.
+The reusable quality workflow ends with **CI gate**, which fails if any job fails, is cancelled or is skipped. Publication requires this gate to pass.
 
-Beta publication calls the same quality workflow before incrementing the version. It verifies that the tested revision is still main, validates the resulting release ZIP, and publishes a checksum alongside the package. Normal CI pushes do not request a release.
+Beta publication calls the same quality workflow before incrementing the version. It verifies that the tested revision is still main, validates the resulting release ZIP, and publishes a checksum alongside the package. Every completed collection is automatically released as minor (patch) or feature when appropriate. Major releases require user approval and a manual dispatch; automatic major requests are rejected.
 
 ## Foundry v14 smoke checks
 

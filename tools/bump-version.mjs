@@ -9,6 +9,11 @@ export function nextVersion(version, bump) {
   for (let i=index+1; i<3; i++) parts[i]=0;
   return parts.join('.');
 }
+export function releaseBump(event,override,request) {
+ const bump=event==='workflow_dispatch'?override:(override||request.bump||'minor');
+ if(event!=='workflow_dispatch'&&bump==='major')throw new Error('Major releases require explicit approval through manual workflow dispatch');
+ return bump;
+}
 export function bumpFiles(root, bump) {
   const read = name => JSON.parse(fs.readFileSync(`${root}/${name}`, 'utf8'));
   const manifest=read('system.json'), pkg=read('package.json'), lock=read('package-lock.json');
@@ -22,7 +27,7 @@ export function bumpFiles(root, bump) {
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const request=JSON.parse(fs.readFileSync('tools/beta-release-request.json','utf8'));
-  const bump=process.env.GITHUB_EVENT_NAME === 'workflow_dispatch' ? process.env.BUMP : (process.env.BUMP || request.bump);
+  const bump=releaseBump(process.env.GITHUB_EVENT_NAME,process.env.BUMP,request);
   const version=bumpFiles('.',bump);
   if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT,`version=${version}\n`);
   console.log(`FUS beta: ${bump} → ${version}`);

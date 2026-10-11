@@ -257,7 +257,10 @@
 .fus-target-preview circle{stroke-width:2;vector-effect:non-scaling-stroke;pointer-events:none}
 .fus-range-max{fill:#e8b54f0a;stroke:#e8b54f;stroke-dasharray:8 6}
 .fus-range-optimal{fill:#62c9950b;stroke:#62c995}
-.fus-range-line{stroke-width:2;stroke-dasharray:6 4}
+.fus-range-line{stroke-width:3;stroke-linecap:round}
+.fus-target-boundary{fill:#fff;stroke:#24242b;stroke-width:2}
+.fus-target-factor{fill:#fff;font:12px var(--font-primary, sans-serif);paint-order:stroke;stroke:#24242b;stroke-width:3;stroke-linejoin:round}
+.fus-cover-face{stroke-width:4;stroke-opacity:.95;stroke-linecap:round}
 .fus-chat-card button[aria-pressed="true"]{border-color:#62c995}
 
 .fus-action-details summary{display:flex;align-items:center;flex-wrap:wrap;gap:4px;list-style:none;min-width:0;overflow-wrap:anywhere;padding-left:3px}

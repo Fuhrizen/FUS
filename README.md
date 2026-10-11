@@ -15,7 +15,7 @@ To update, back up your world, replace the FUS system folder with the new releas
 
 ### Publishing a beta
 
-Open Actions → Publish beta release → Run workflow on `main`. Choose `major` (X+1.0.0), `feature` (X.Y+1.0), or `minor` (X.Y.Z+1). The workflow tests and packages the release, saves matching versions and download URLs to main, publishes a versioned prerelease, and updates the beta channel manifest. Normal source pushes do not publish. An explicit change to `tools/beta-release-request.json` is also a release request.
+Open Actions → Publish beta release → Run workflow on `main`. Choose `major` (X+1.0.0), `feature` (X.Y+1.0), or `minor` (X.Y.Z+1). The workflow tests and packages the release, saves matching versions and download URLs to main, publishes a versioned prerelease, and updates the beta channel manifest. Each completed collection automatically requests a minor (patch), or feature when appropriate, beta by updating `tools/beta-release-request.json`. CI runs only during release. Major releases require user approval and manual dispatch; automatic major requests are rejected.
 
 ### Walls, pins and reloads
 

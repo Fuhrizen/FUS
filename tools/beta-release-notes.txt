@@ -1,12 +1,8 @@
-FUS Beta for Foundry VTT v14.
+Cover previews and targeting feedback
 
-- Board-scale ranged weapon profiles and selected-token targeting with LOS checks.
-- Directional Region cover, adjacency and range configuration, and temporary cover cones while moving.
-- Pin counters and conditions, dead token overlays at zero HP, and Speed beneath HP.
-- Action icons, shared Action folders by setting and direct compendium links in Forms.
-- Fixed encounter HUD, token combat controls, clearer chat cards with distance and cover, and separate damage Undo controls.
-- Manual release dropdown: major, feature or minor; automatically increments and saves the version.
-
-Automated tests, project validation and packaging pass. Live Foundry UI validation remains outstanding.
-
-Beta manifest: https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.
+- Use Foundry v14 viewport coordinate conversion and preserve getter-based point coordinates in cover, targeting and area effects.
+- Make visible Soft/Hard Cover wall faces more prominent, retain LOS masking and closed-loop areas, and refresh previews when walls or the viewport change.
+- Split targeting lines at cover crossings, LOS blockers and range boundaries, label those points, and dash blocked portions. Total Cover stops the attack even when sight is allowed.
+- Remove the wall Cover description; explain each option with upward tooltips.
+- Run CI only during release. Automatically publish minor or feature collections; reject automatic major requests without manual approval.
+- Add regression checks for viewport placement, transparent Total Cover, option tooltips and release approval policy.

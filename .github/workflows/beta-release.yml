@@ -9,7 +9,7 @@ on:
         default: minor
         type: choice
         options: [major, feature, minor]
-  # Publishing requires an explicit release request; ordinary changes never trigger it.
+  # Each completed collection updates the release request; CI runs only for releases.
   push:
     branches: [main]
     paths: [tools/beta-release-request.json]

@@ -23,3 +23,5 @@ test('release bump synchronizes manifests, download URL and npm lock metadata',(
   assert.equal(read('system.json').download,`https://github.com/Fuhrizen/FUS/releases/download/v${version}/FUS-${version}.zip`);
  } finally {fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('automatic collection releases cannot request major without manual approval',async()=>{const {releaseBump}=await import('../tools/bump-version.mjs');assert.equal(releaseBump('push','',{bump:'minor'}),'minor');assert.equal(releaseBump('push','',{bump:'feature'}),'feature');assert.equal(releaseBump('push','',{}),'minor');assert.throws(()=>releaseBump('push','',{bump:'major'}),/approval/);assert.equal(releaseBump('workflow_dispatch','major',{}),'major');});
