@@ -1,3 +1,4 @@
+import {reactionCover} from './reactions.mjs';
 export const COVER_LEVELS={0:'No cover',2:'Soft Cover',4:'Hard Cover',99:'Total Cover'};
 const ftFactor=units=>/^(m|meters?|metres?)$/i.test(units??'')?3.280839895:1;
 export const pixelsPerFoot=()=>canvas.grid.size/(canvas.grid.distance*ftFactor(canvas.scene?.grid?.units??canvas.grid.units));
@@ -7,7 +8,7 @@ export function wallCoverLevel(wall){const doc=wall.document??wall;if(doc.door&&
 export function coverFor(origin,target,walls){let best={level:0,label:'No cover',name:''};for(const wall of walls){const level=wallCoverLevel(wall);if(level<=best.level||wallIntersection(origin,target,wall)===null)continue;const doc=wall.document??wall;const elevation=(origin.elevation??0)+((target.elevation??0)-(origin.elevation??0))*wallIntersection(origin,target,wall);const bounds=doc.elevation;if(bounds&&((bounds.bottom!=null&&elevation<bounds.bottom)||(bounds.top!=null&&elevation>bounds.top)))continue;best={level,label:COVER_LEVELS[level],name:'',wallId:doc.id};}return best;}
 export function hasLineOfSight(origin,target){const backend=globalThis.CONFIG?.Canvas?.polygonBackends?.sight;if(!backend)return true;return !backend.testCollision(origin,target,{type:'sight',mode:'any',level:canvas.level});}
 export function canAttackPoint(origin,target){return hasLineOfSight(origin,target)&&coverFor(origin,target,globalThis.canvas?.scene?.walls??[]).level!==99;}
-export function targetContext(origin,token){const a={...origin.center,elevation:origin.document?.elevation??0},b={...token.center,elevation:token.document?.elevation??0};const distance=canvas.grid.measurePath([a,b]).distance*ftFactor(canvas.scene?.grid?.units??canvas.grid.units);const cover=coverFor(a,b,canvas.scene.walls??[]);return {distance:Math.round(distance*10)/10,los:hasLineOfSight(a,b)&&cover.level!==99,cover};}
+export function targetContext(origin,token){const a={...origin.center,elevation:origin.document?.elevation??0},b={...token.center,elevation:token.document?.elevation??0};const distance=canvas.grid.measurePath([a,b]).distance*ftFactor(canvas.scene?.grid?.units??canvas.grid.units);const cover=reactionCover(coverFor(a,b,canvas.scene.walls??[]),token.actor?.statuses);return {distance:Math.round(distance*10)/10,los:hasLineOfSight(a,b)&&cover.level!==99,cover};}
 export async function resolveOriginToken(actor){
  const tokens=globalThis.canvas?.tokens;if(!tokens||!globalThis.canvas?.ready)return null;
  const controlled=(tokens.controlled??[]).filter(t=>t.actor?.isOwner);const same=t=>t.actor?.uuid===actor.uuid||(actor.id&&t.document?.actorId===actor.id);

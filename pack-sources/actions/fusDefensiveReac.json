@@ -1,0 +1,29 @@
+{
+  "_id": "fusDefensiveReac",
+  "name": "Defensive Reaction",
+  "type": "action",
+  "img": "systems/FUS/assets/actions/brace.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "none",
+      "skill": "meleeCombat",
+      "targetMode": "self",
+      "damage": false,
+      "defensiveReaction": true,
+      "description": "React defensively until the round ends. Gain one cover stage, capped at Hard Cover. Against melee attacks, dodge instead (+2 DC). Does not stack with itself."
+    }
+  },
+  "effects": [],
+  "folder": "c9fae0c3419fa34f",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!fusDefensiveReac"
+}

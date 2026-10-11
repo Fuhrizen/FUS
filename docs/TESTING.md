@@ -19,7 +19,7 @@ For a quick rules check, run `npm test`. Individual gates are `test:unit`, `chec
 | Project contracts | Version and manifest consistency, local imports/assets, template compilation, document IDs, folders, action references and icons |
 | Compendium round-trip | Checked-in LevelDB packs equal their JSON sources; a clean compile/extract preserves every document |
 | Release integrity | ZIP paths, CRC, manifest, complete runtime payload, byte-for-byte source equality and SHA-256 checksum |
-| Browser regressions | Chromium, Firefox and WebKit at three viewport sizes: sheet navigation, pin controls, tracker docking, combat lifecycle, drag cover previews, targeting odds and damage undo |
+| Browser regressions | Chromium, Firefox and WebKit at three viewport sizes: sheet navigation, pin controls, tracker docking, combat lifecycle, drag cover previews, targeting odds, closed cover masks, free area placement, selected-token combat controls and damage undo |
 
 Browser tests load production FUS modules, Handlebars templates and styles. The public harness supplies explicit Foundry host fixtures; it does not ship or run the licensed Foundry runtime. These tests detect application and layout regressions but cannot certify Foundry's renderer, permissions or document persistence.
 
@@ -42,3 +42,5 @@ Before a beta is promoted, test in a licensed Foundry world as GM and player:
 - Add selected tokens to combat, start/draw/end, collapse the sidebar and resize while the tracker is open.
 
 Keep new rule regressions in `tests/*.test.mjs`, cross-file integrity checks in `tests/contracts/`, and user interactions in `tests/browser/`. Change coverage thresholds only with an explained review; do not exclude difficult production modules to make CI pass.
+
+Tactical examples include editable Grenade and Molotov shared area actions. Their sample damage values are presets, not additional mandatory rules. Defensive Reaction is supplied by Baseline and ends when its encounter advances to the next round or ends.

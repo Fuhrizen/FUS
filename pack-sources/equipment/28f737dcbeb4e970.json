@@ -1,0 +1,32 @@
+{
+  "_id": "28f737dcbeb4e970",
+  "name": "Molotov",
+  "type": "item",
+  "img": "systems/FUS/assets/actions/burst.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One molotov. Uses a shared free-placement area action.",
+    "weaponActions": [],
+    "actionLinks": [
+      {
+        "id": "throw",
+        "uuid": "Compendium.FUS.actions.Item.3633bf345466b2be",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": ""
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "58d0ff61579c0035",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!28f737dcbeb4e970"
+}

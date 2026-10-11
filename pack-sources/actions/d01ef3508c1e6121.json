@@ -1,0 +1,39 @@
+{
+  "_id": "d01ef3508c1e6121",
+  "name": "Throw Grenade",
+  "type": "action",
+  "img": "systems/FUS/assets/actions/burst.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "none",
+      "skill": "rangedCombat",
+      "targetMode": "area",
+      "areaShape": "circle",
+      "areaSize": 10,
+      "rangeOptimal": 15,
+      "rangeMaximum": 30,
+      "consumeSource": true,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "bludgeoning",
+          "formula": "2d6"
+        }
+      ],
+      "description": "Place the blast freely on the map. Roll damage for affected visible tokens; a native measured template remains on the scene. Lasting fire effects are adjudicated separately."
+    }
+  },
+  "effects": [],
+  "folder": "c9fae0c3419fa34f",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!d01ef3508c1e6121"
+}

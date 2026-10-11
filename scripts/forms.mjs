@@ -9,7 +9,7 @@ export function migrateFormData(data){
   return data;
 }
 
-export function baselineForm(maxhp=6){return {name:'Baseline',type:'form',img:'icons/svg/mystery-man.svg',system:{maxhp:Number(maxhp)||6,move:15,description:'Standard baseline Form.',rules:'Standard movement is 15 ft.',weaponActions:[],actionLinks:[{id:'unarmedStrike',uuid:'Compendium.FUS.actions.Item.fusUnarmedStrike',focusId:'',focusName:'Unarmed',focusActorUuid:''}]}};}
+export function baselineForm(maxhp=6){return {name:'Baseline',type:'form',img:'icons/svg/mystery-man.svg',system:{maxhp:Number(maxhp)||6,move:15,description:'Standard baseline Form.',rules:'Standard movement is 15 ft.',weaponActions:[],actionLinks:[{id:'unarmedStrike',uuid:'Compendium.FUS.actions.Item.fusUnarmedStrike',focusId:'',focusName:'Unarmed',focusActorUuid:''},{id:'defensiveReaction',uuid:'Compendium.FUS.actions.Item.fusDefensiveReac',focusId:'',focusName:'',focusActorUuid:''}]}};}
 export async function ensureActorForm(actor){
  if(!actor.isOwner || appliedForm(actor))return;
  const before=characterStats(actor).maximum,current=Number(actor._source?.system.hp??actor.system.hp??0);

@@ -17,7 +17,7 @@
       "adjustResource": true,
       "resourceMode": "reset",
       "resourceAmount": 0,
-      "description": "Restore source ammunition or charges to maximum. With ammunition tracking enabled, compatible supplies are required and consumed for weapons with a configured ammo type."
+      "description": "Reload as many compatible rounds as available, up to capacity; charges reset to maximum. With ammunition tracking enabled, compatible supplies are required and consumed for weapons with a configured ammo type."
     }
   },
   "effects": [],

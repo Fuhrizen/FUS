@@ -1,0 +1,32 @@
+{
+  "_id": "6fc8670c3eeb30fa",
+  "name": "Grenade",
+  "type": "item",
+  "img": "systems/FUS/assets/actions/burst.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One grenade. Uses a shared free-placement area action.",
+    "weaponActions": [],
+    "actionLinks": [
+      {
+        "id": "throw",
+        "uuid": "Compendium.FUS.actions.Item.d01ef3508c1e6121",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": ""
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "58d0ff61579c0035",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!6fc8670c3eeb30fa"
+}

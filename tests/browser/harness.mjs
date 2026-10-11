@@ -7,7 +7,7 @@ class App{
  constructor({document}={}){this.document=document;this.id=this.constructor.DEFAULT_OPTIONS?.id??'test-sheet';this.isEditable=true;}
  async _prepareContext(){return {};}
  async _onRender(){}
- async render(){this.rendered=true;this.element??=Object.assign(document.createElement('div'),{id:this.id});this.element.className=(this.constructor.DEFAULT_OPTIONS?.classes??[]).join(' ');this.element.innerHTML='<header class="window-header">Tracker<button data-close>×</button></header><div class="window-content">'+await renderTemplate(this.constructor.PARTS.body.template,await this._prepareContext())+'</div>';document.body.append(this.element);this.element.addEventListener('click',event=>{const target=event.target.closest('[data-action]');if(target)this.constructor.DEFAULT_OPTIONS.actions[target.dataset.action]?.call(this,event,target);});this.element.querySelector('[data-close]').onclick=()=>this.close();await this._onRender();return this;}
+ async render(){this.rendered=true;this.element??=Object.assign(document.createElement('div'),{id:this.id});this.element.className=(this.constructor.DEFAULT_OPTIONS?.classes??[]).join(' ');this.element.style.position='absolute';if(!this.element.style.width)this.setPosition(this.constructor.DEFAULT_OPTIONS?.position??{left:100,top:60,width:320,height:340});this.element.innerHTML='<header class="window-header">Tracker<button data-close>×</button></header><div class="window-content">'+await renderTemplate(this.constructor.PARTS.body.template,await this._prepareContext())+'</div>';document.body.append(this.element);this.element.addEventListener('click',event=>{const target=event.target.closest('[data-action]');if(target)this.constructor.DEFAULT_OPTIONS.actions[target.dataset.action]?.call(this,event,target);});this.element.querySelector('[data-close]').onclick=()=>this.close();await this._onRender();return this;}
  setPosition(p){for(const key of ['left','top','width','height'])if(p[key]!=null)this.element.style[key]=p[key]+'px';}
  bringToFront(){}
  async close(){this.rendered=false;this.element?.remove();}
@@ -36,4 +36,4 @@ document.querySelector('#open-sheet').onclick=async()=>{const root=document.quer
 const {actionTargets}=await import('/scripts/targeting.mjs');
 document.querySelector('#target-action').onclick=async()=>{window.targetResult=await actionTargets(actor,{name:'Fire',mode:'test',skill:'rangedCombat',damage:true,targetMode:'required'},{type:'weapon',system:{combatMode:'ranged',optimal:30,maximum:60}});};
 const {damageContent}=await import('/scripts/damage-application.mjs');document.querySelector('#chat-host').innerHTML=await damageContent({label:'Damage',components:[{type:'piercing',formula:'2',total:2}],applied:true});
-window.fixture={call,token,doc,cover,sidebar};window.ready=true;
+window.fixture={call,token,doc,cover,sidebar,encounters,actor};window.ready=true;

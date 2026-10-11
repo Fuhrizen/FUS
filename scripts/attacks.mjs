@@ -1,3 +1,4 @@
+import {applyDefensiveReaction} from './reactions.mjs';
 import {ammoTrackingEnabled} from './rules-settings.mjs';
 import {attackBonuses,isAttackAction} from './hit-chance.mjs';
 import {linkedActions,loadSourceActions,executeActionAutomation} from './action-library.mjs';
@@ -22,14 +23,14 @@ export function hasWeaponResource(weapon){return weapon.type==='weapon' && (Numb
 export function resourceAfterUse(weapon,action){
  const current=Number(weapon.system.resourceCurrent??0),maximum=Number(weapon.system.resourceMax??0);
  if(!action.adjustResource || !hasWeaponResource(weapon)||weapon.system.combatMode==='ranged'&&!ammoTrackingEnabled())return current;
- if(action.resourceMode==='reset')return maximum;
+ if(action.resourceMode==='reset'){const uses=ammoRequirement(weapon,action);return weapon.system.ammoType&&weapon.system.combatMode==='ranged'?Math.min(maximum,current+uses.reduce((n,u)=>n+u.amount,0)):maximum;}
  const amount=Number(action.resourceAmount??0);
  if(!Number.isSafeInteger(amount))throw new Error('Enter a whole-number resource adjustment.');
  if(current+amount<0)throw new Error(`Not enough ${weapon.system.combatMode==='melee'?'Charges':'Ammo'}.`);
  return Math.min(maximum,current+amount);
 }
 export function actionAvailability(actor,weapon,action){
- if(action.missing)return {locked:true,reason:'The linked Action definition is unavailable.'};
+ if(action.consumeSource&&Number(weapon.system.quantity??1)<1)return {locked:true,reason:'No uses remaining.'};if(action.missing)return {locked:true,reason:'The linked Action definition is unavailable.'};
  if(action.requiresFocus && !matchingFocuses(actor,weapon,action).some(f=>f.rank>=1))return {locked:true,reason:'This action requires its selected Focus at +1 or higher.'};
  try{requiredActionItem(actor,action);ammoRequirement(weapon,action);resourceAfterUse(weapon,action);}catch(e){return {locked:true,reason:e.message};}
  return {locked:false,reason:''};
@@ -45,12 +46,12 @@ export function ammoRequirement(source,action){
  if(!ammoTrackingEnabled()||source.type!=='weapon'||source.system.combatMode!=='ranged'||!action.adjustResource||action.resourceMode!=='reset'||!source.system.ammoType)return [];
  const reference=String(source.system.ammoType),needed=Math.max(0,Number(source.system.resourceMax??0)-Number(source.system.resourceCurrent??0));if(!needed)return [];
  const items=Array.from(source.parent?.items??[]).filter(i=>i.type==='item'&&(i.system.ammoType===reference||i.uuid===reference||i._stats?.compendiumSource===reference||i.flags?.core?.sourceId===reference||i.name?.toLowerCase()===reference.toLowerCase()));
- let remaining=needed;const uses=[];for(const item of items){const count=Math.max(0,Number(item.system.quantity??0));const amount=Math.min(count,remaining);if(amount>0)uses.push({item,amount});remaining-=amount;if(remaining<=0)break;}if(remaining>0)throw new Error(`Reload requires ${needed} ${reference} rounds / charges (${needed-remaining} available).`);return uses;
+ let remaining=needed;const uses=[];for(const item of items){const count=Math.max(0,Number(item.system.quantity??0));const amount=Math.min(count,remaining);if(amount>0)uses.push({item,amount});remaining-=amount;if(remaining<=0)break;}if(!uses.length)throw new Error(`Reload requires compatible ${reference} ammunition.`);return uses;
 }
 async function postActionMessage(weapon,action,message){
  const previous=Number(weapon.system.resourceCurrent??0),next=resourceAfterUse(weapon,action),requirement=requiredActionItem(weapon.parent,action),ammo=ammoRequirement(weapon,action),spent=[];
  try{
-  const deductions=new Map();
+  const deductions=new Map();if(action.consumeSource)deductions.set(weapon,1);
   for(const {item,amount} of [...ammo,...(requirement&&action.consumeRequiredItem?[requirement]:[])]){if(item.id===weapon.id)throw new Error('A reload cannot consume its own source item.');deductions.set(item,(deductions.get(item)??0)+amount);}
   for(const [item,amount]of deductions){const before=Number(item.system.quantity??1);if(before<amount)throw new Error(`Not enough ${item.name}.`);}
   for(const [item,amount]of deductions){const before=Number(item.system.quantity??1);await item.update({'system.quantity':before-amount});spent.push([item,{'system.quantity':before}]);}
@@ -79,15 +80,15 @@ async function executeAction(actor,weapon,actionId,{focus=null,force=false,skipT
  action._focusBonus=Number(selected?.rank??0);action._attackSkill=skill;
  const targets=await actionTargets(actor,action,weapon,{skipTarget});if(targets===null)return;
  try{
- if(action.mode==='none')return await finishAction(actor,weapon,action,targets,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),content:await renderChatCard({title:action.name,img:action.img,cost:action.cost,subtitle:`${weapon.name} · ${force?'Forced use · ':''}${action.cost} action${action.cost===1?'':'s'}`,bodyHTML:escapeHTML(action.description).replace(/\n/g,'<br>'),rows:targetRows(targets),actions:action.damage&&action.damageComponents?.length?[{action:'weaponDamage',label:'Roll damage'}]:[]}),flags:{FUS:{kind:'weaponAction',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,targets,forced:force}}});
+ if(action.mode==='none')return await finishAction(actor,weapon,action,targets,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),content:await renderChatCard({title:action.name,img:action.img,cost:action.cost,subtitle:`${weapon.name} · ${force?'Forced use · ':''}${action.cost} action${action.cost===1?'':'s'}`,bodyHTML:escapeHTML(action.description).replace(/\n/g,'<br>'),rows:targetRows(targets),actions:action.damage&&action.damageComponents?.length?[{action:'weaponDamage',label:'Roll damage'}]:[]}),flags:{FUS:{kind:'weaponAction',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,area:targets.area??null,targets,forced:force}}});
  const base=Number(action.modifier??0);if(!Number.isFinite(base))throw new Error('Enter a valid action roll modifier.');
  const bonuses=attackBonuses(actor,weapon,action);const data={skill:Number(actor.system.skills[skill]??0),focus:Number(selected?.rank??0),modifier:isAttackAction(weapon,action)?(targets.find(t=>t.hitChance)?.hitChance.rollModifier??bonuses.modifier):base};
  const roll=new foundry.dice.Roll('2d10 + @skill + @focus + @modifier',data);await roll.evaluate();for(const target of targets)if(target.hitChance)target.hit=!target.hitChance.blocked&&roll.total>=target.hitChance.dc;
  const content=await renderChatCard({title:action.name,img:action.img,cost:action.cost,subtitle:`${weapon.name} · ${force?'Forced use · ':''}${action.cost} action${action.cost===1?'':'s'} · ${SKILLS[skill]}${selected?` · ${focusLabel(selected)}`:''}`,bodyHTML:escapeHTML(action.description).replace(/\n/g,'<br>'),rows:[...targetRows(targets),...targets.filter(t=>t.hitChance).map(t=>({label:`${t.name} · ${t.hit?'HIT':'MISS'}`,detail:t.hitChance.factors.join(' · ')+` · 2d10 + ${t.hitChance.bonus} vs DC ${t.hitChance.dc}`,value:`${t.hitChance.chance}%`})),{label:'Roll',detail:`2d10 + skill ${data.skill} + focus ${data.focus} + modifier ${data.modifier}`,value:roll.total}],actions:action.damage&&action.damageComponents?.length&&(!targets.some(t=>t.hitChance)||targets.some(t=>t.hit))?[{action:'weaponDamage',label:'Roll damage'}]:[]});
- return await finishAction(actor,weapon,action,targets,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),rolls:[roll],content,flags:{FUS:{kind:'attack',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,skill,focusId:selected?.id??'',modifier:data.modifier,total:roll.total,targets,forced:force}}});
- }finally{if(['required','self'].includes(action.targetMode))clearActionTargets();}
+ return await finishAction(actor,weapon,action,targets,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),rolls:[roll],content,flags:{FUS:{kind:'attack',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,skill,focusId:selected?.id??'',modifier:data.modifier,total:roll.total,area:targets.area??null,targets,forced:force}}});
+ }finally{if(['required','self','area'].includes(action.targetMode))clearActionTargets();}
 }
-async function finishAction(actor,source,action,targets,data){const message=await postActionMessage(source,action,data);try{await executeActionAutomation(actor,source,action,targets,message);}catch(error){console.error('FUS Action automation failed',error);ui.notifications.error(`Action used, but automation failed: ${error.message}`);}return message;}
+async function finishAction(actor,source,action,targets,data){const message=await postActionMessage(source,action,data);if(action.defensiveReaction)await applyDefensiveReaction(actor);if(targets.area){const {placeAreaTemplate}=await import('./area-targeting.mjs');await placeAreaTemplate(action,targets.area);}try{await executeActionAutomation(actor,source,action,targets,message);}catch(error){console.error('FUS Action automation failed',error);ui.notifications.error(`Action used, but automation failed: ${error.message}`);}return message;}
 export async function openSourceActions(actor,weapon,actionId=null,{force=false,skipTarget=false}={}){
  checkOwnership(actor,weapon);await loadSourceActions(weapon);const actions=sourceActions(weapon);
  const selected=actionId??await foundry.applications.api.DialogV2.wait({window:{title:`${weapon.name}: Actions`},content:'<p>Choose an action.</p>',buttons:[...actions.map(a=>({action:a.id,label:`${a.name} (${a.cost})`,callback:()=>a.id})),{action:'cancel',label:'Cancel'}],rejectClose:false});

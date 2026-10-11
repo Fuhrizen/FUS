@@ -16,6 +16,13 @@
         "focusId": "",
         "focusActorUuid": "",
         "focusName": ""
+      },
+      {
+        "id": "defensiveReaction",
+        "uuid": "Compendium.FUS.actions.Item.fusDefensiveReac",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": ""
       }
     ]
   },

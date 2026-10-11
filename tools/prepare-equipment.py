@@ -7,14 +7,14 @@ def write(p,d):p.write_text(json.dumps(d,indent=2)+'\n')
 def stable(s):return hashlib.sha256(s.encode()).hexdigest()[:16]
 def icon(name):
  n=name.lower()
- for words,key in [(['reload','recharge'],'reload'),(['aim'],'aim'),(['suppress'],'suppress'),(['burst'],'burst'),(['shot','fire'],'fire'),(['thrust'],'thrust'),(['heavy','crush','servo'],'heavy'),(['strike','swing'],'strike'),(['brace'],'brace'),(['scan','status'],'scan'),(['interface'],'interface'),(['psychic','empathic','pulse'],'psychic')]:
+ for words,key in [(['reload','recharge'],'reload'),(['aim'],'aim'),(['suppress'],'suppress'),(['burst','grenade','molotov'],'burst'),(['shot','fire'],'fire'),(['thrust'],'thrust'),(['heavy','crush','servo'],'heavy'),(['strike','swing'],'strike'),(['brace','defensive','dodge'],'brace'),(['scan','status'],'scan'),(['interface'],'interface'),(['psychic','empathic','pulse'],'psychic')]:
   if any(w in n for w in words):return f'systems/FUS/assets/actions/{key}.svg'
  return 'systems/FUS/assets/action.svg'
 for p in (root/'pack-sources/actions').glob('*.json'):
  d=read(p)
  if d.get('type')=='action':
   d['img']=icon(d['name'])
-  if d['name'] in ['Reload','Recharge']:d['system']['action']['description']='Restore source ammunition or charges to maximum. With ammunition tracking enabled, compatible supplies are required and consumed for weapons with a configured ammo type.'
+  if d['name'] in ['Reload','Recharge']:d['system']['action']['description']='Reload as many compatible rounds as available, up to capacity; charges reset to maximum. With ammunition tracking enabled, compatible supplies are required and consumed for weapons with a configured ammo type.'
   write(p,d)
 profiles={
  'Javelin':'Javelins','Throwing Knife':'Throwing Knives','Shortbow':'Arrows','Longbow':'Arrows','Light Crossbow':'Bolts','Heavy Crossbow':'Bolts','Sling':'Sling Stones',
