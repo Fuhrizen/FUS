@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "21366a6ccecc6788",
+  "folder": "324cf8a34bfc0267",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "medieval"
+      "setting": "medieval",
+      "categories": [
+        "Weapons/Arrows/Bows"
+      ]
     }
   },
   "ownership": {

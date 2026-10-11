@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "21366a6ccecc6788",
+  "folder": "2b8db4c230e631f5",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "medieval"
+      "setting": "medieval",
+      "categories": [
+        "Weapons/Melee/Axes"
+      ]
     }
   },
   "ownership": {

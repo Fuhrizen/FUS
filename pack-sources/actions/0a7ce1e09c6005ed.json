@@ -26,11 +26,15 @@
     }
   },
   "effects": [],
-  "folder": "c9fae0c3419fa34f",
+  "folder": "7e751cb9064c7511",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "universal"
+      "setting": "universal",
+      "categories": [
+        "Weapons/.50 BMG/Sniper Rifles",
+        "Weapons/Rail Slugs/Sniper Rifles"
+      ]
     }
   },
   "ownership": {

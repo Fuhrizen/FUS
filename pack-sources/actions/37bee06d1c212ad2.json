@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "a2dd8beaaccf9267",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/.357 Magnum/Sidearms"
+      ]
     }
   },
   "ownership": {

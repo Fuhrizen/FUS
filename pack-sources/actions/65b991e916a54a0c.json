@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "920fe2d3a762c2de",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Melee/Heavy Weapons"
+      ]
     }
   },
   "ownership": {

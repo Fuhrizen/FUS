@@ -21,11 +21,39 @@
     }
   },
   "effects": [],
-  "folder": "c9fae0c3419fa34f",
+  "folder": "7e751cb9064c7511",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "universal"
+      "setting": "universal",
+      "categories": [
+        "Weapons/.357 Magnum/Ranged",
+        "Weapons/.45 ACP/Ranged",
+        "Weapons/.50 BMG/Ranged",
+        "Weapons/12 gauge/Ranged",
+        "Weapons/5.56/Ranged",
+        "Weapons/7.62/Ranged",
+        "Weapons/7.62\u00d739/Ranged",
+        "Weapons/9\u00d719/Ranged",
+        "Weapons/Arrows/Ranged",
+        "Weapons/Bolts/Ranged",
+        "Weapons/Disruptor Charges/Ranged",
+        "Weapons/Flares/Ranged",
+        "Weapons/Gauss Rounds/Ranged",
+        "Weapons/Javelins/Ranged",
+        "Weapons/Laser Charges/Ranged",
+        "Weapons/Plasma Charges/Ranged",
+        "Weapons/Psi Charges/Ranged",
+        "Weapons/Pulse Charges/Ranged",
+        "Weapons/Radiation Charges/Ranged",
+        "Weapons/Rail Slugs/Ranged",
+        "Weapons/Scatter Charges/Ranged",
+        "Weapons/Sling Stones/Ranged",
+        "Weapons/Sonic Charges/Ranged",
+        "Weapons/Taser Cartridges/Ranged",
+        "Weapons/Throwing Knives/Ranged",
+        "Weapons/Toxin Darts/Ranged"
+      ]
     }
   },
   "ownership": {

@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "a63ebef3d920d8d3",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/7.62/Sniper Rifles"
+      ]
     }
   },
   "ownership": {

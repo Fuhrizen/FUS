@@ -8,24 +8,28 @@
       "cost": 2,
       "mode": "test",
       "targetMode": "required",
-      "skill": "",
+      "skill": "rangedCombat",
       "focusName": "Submachine Guns",
-      "requiresFocus": false,
+      "requiresFocus": true,
       "modifier": 0,
       "damage": false,
       "damageComponents": [],
       "adjustResource": true,
       "resourceMode": "adjust",
       "resourceAmount": -10,
-      "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually."
+      "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually.",
+      "trainedOnly": true
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "d07c3b616f5153ad",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/9\u00d719/Submachine Guns"
+      ]
     }
   },
   "ownership": {

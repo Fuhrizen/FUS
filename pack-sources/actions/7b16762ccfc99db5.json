@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "0bb0e2023c576459",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/.50 BMG/Sniper Rifles"
+      ]
     }
   },
   "ownership": {

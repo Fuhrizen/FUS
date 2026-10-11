@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "21366a6ccecc6788",
+  "folder": "72220f7664bb5836",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "medieval"
+      "setting": "medieval",
+      "categories": [
+        "Weapons/Javelins/Thrown Weapons"
+      ]
     }
   },
   "ownership": {

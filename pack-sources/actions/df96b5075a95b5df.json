@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "d869fd113c799987",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Laser Charges/Rifles"
+      ]
     }
   },
   "ownership": {

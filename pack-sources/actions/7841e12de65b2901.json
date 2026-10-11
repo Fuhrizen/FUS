@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "71a3e6198be3da16",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Pulse Charges/Rifles"
+      ]
     }
   },
   "ownership": {

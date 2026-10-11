@@ -1,12 +1,12 @@
-import {validCarry} from './equipment.mjs';
+import {validCarry,reconcileHands} from './equipment.mjs';
 import {splitWeaponStack,validWeaponQuantity} from './inventory.mjs';
-import {ensureBaselineReactions} from './reactions.mjs';
+import {migrateRefinedActions,ensureBaselineReactions} from './reactions.mjs';
 import {migrateStarterAmmo} from './starter-ammo.mjs';
 import {registerRulesSettings} from './rules-settings.mjs';
 import {migrateActionIcons,actionIcon} from './action-icons.mjs';
 import {mountCoverConfig} from './cover.mjs';
 import {registerCoverPreview} from './cover-preview.mjs';
-import {registerConditions,syncDeadStatus,changePins,registerSuppressionEffects} from './conditions.mjs';
+import {migrateSharedPins,registerConditions,syncDeadStatus,changePins,registerSuppressionEffects} from './conditions.mjs';
 import {migrateBoardRanges} from './board-ranges.mjs';
 import {FUSActionData} from './action-model.mjs';
 import {FUSActionSheet} from './action-sheet.mjs';
@@ -71,13 +71,13 @@ Hooks.on("preUpdateActor", (actor, changes) => {
 
 // Forms are replaceable but cannot be cleared or deleted while selected.
 Hooks.on('preDeleteItem',item=>preventFormRemoval(item));
-Hooks.on('preUpdateItem',(item,changes)=>{if(!validCarry(item,changes)){ui.notifications.warn('Only two hands are available. Stow another item first.');return false;}if(!validWeaponQuantity(item,changes)){ui.notifications.warn('Weapons with ammo or charges must be separate items.');return false;}if(item.type==='form'&&item.parent && (changes['system.maxhp']===null || changes['system.maxhp']==='' || changes.system?.maxhp===null))return false;});
-Hooks.on('preCreateItem',item=>{if(!validCarry(item,{})){ui.notifications.warn('Only two hands are available.');return false;}if(item.type==='action'&&['systems/FUS/assets/action.svg','icons/svg/item.svg','icons/svg/item-bag.svg'].includes(item.img))item.updateSource({img:actionIcon(item.name)});});
+Hooks.on('preUpdateItem',(item,changes)=>{if(!validCarry(item,changes)){ui.notifications.warn('The selected Form has insufficient free hands. Stow another item first.');return false;}if(!validWeaponQuantity(item,changes)){ui.notifications.warn('Weapons with ammo or charges must be separate items.');return false;}if(item.type==='form'&&item.parent && (changes['system.maxhp']===null || changes['system.maxhp']==='' || changes.system?.maxhp===null))return false;});
+Hooks.on('preCreateItem',item=>{if(!validCarry(item,{})){ui.notifications.warn('The selected Form has insufficient free hands.');return false;}if(item.type==='action'&&['systems/FUS/assets/action.svg','icons/svg/item.svg','icons/svg/item-bag.svg'].includes(item.img))item.updateSource({img:actionIcon(item.name)});});
 Hooks.on('createActor',async(actor,_options,userId)=>{if(userId===game.user.id){await ensureActorForm(actor);for(const item of actor.items)await loadSourceActions(item);}});
 for(const event of ['createItem','updateItem'])Hooks.on(event,async(item,_options,userId)=>{if(item.type==='action'){rememberAction(item);await refreshActionViews();}else {if(event==='createItem'&&userId===game.user.id)await splitWeaponStack(item);if(event==='createItem'&&game.user.isGM&&(!game.users.activeGM||game.users.activeGM.id===game.user.id))await migrateSourceActions(item);await loadSourceActions(item);}});
 Hooks.on('deleteItem',async item=>{if(item.type==='action'){forgetAction(item);await refreshActionViews();}});
 async function refreshActionViews(){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const doc of [...actors,...game.items,...actors.flatMap(a=>a.items.contents)])if(doc.sheet?.rendered)await doc.sheet.render({force:true});}
-Hooks.once('ready',async()=>{try{await migrateSingleEncounter();if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();await ensureBaselineReactions();await migrateBoardRanges();await migrateActionIcons();await migrateStarterAmmo();if(game.user.isGM&&game.users.activeGM?.id===game.user.id){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const actor of actors)for(const item of [...actor.items])await splitWeaponStack(item);}for(const actor of game.actors)if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(actor);for(const token of canvas.tokens?.placeables??[])if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(token.actor);}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
+Hooks.once('ready',async()=>{try{await migrateSharedPins();await migrateSingleEncounter();if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();await ensureBaselineReactions();await migrateRefinedActions();await migrateBoardRanges();await migrateActionIcons();await migrateStarterAmmo();if(game.user.isGM&&game.users.activeGM?.id===game.user.id){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const actor of actors)for(const item of [...actor.items])await splitWeaponStack(item);}for(const actor of game.actors)if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(actor);for(const token of canvas.tokens?.placeables??[])if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(token.actor);}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
 
 Hooks.on('renderChatMessageHTML',(message,html)=>{
   const reference=message.flags?.FUS;if(!['attack','weaponAction'].includes(reference?.kind))return;
@@ -120,6 +120,7 @@ for(const event of ['preUpdateItem','preCreateItem','preDeleteItem'])Hooks.on(ev
 for(const event of ['updateItem','createItem','deleteItem'])Hooks.on(event,async(item,...args)=>{
  const userId=args.at(-1),options=args.at(-2),actor=item.parent;
  if(userId!==game.user.id||!isFUSActor(actor)||!actor.isOwner)return;
+ if(event==='updateItem'&&item.type==='form'&&actor.system.formItemId===item.id&&(args[0]?.['system.hands']!==undefined||args[0]?.system?.hands!==undefined))await reconcileHands(actor);
  if(item.type!=='armour' && !(event==='updateItem'&&item.type==='form'&&actor.system.formItemId===item.id))return;
  const maximum=characterStats(actor).maximum,before=options?.fusPreviousMaximum??maximum;
  const hp=healthAfterCapacityChange(actor._source?.system.hp??actor.system.hp,before,maximum);
@@ -131,7 +132,9 @@ Hooks.on('preCreateActor',actorCreationDefaults);
 Hooks.on('preCreateScene',sceneCreationDefaults);
 
 Hooks.on('updateActor',async(actor,changes,_options,userId)=>{
- if(!isFUSActor(actor)|| !(Object.hasOwn(changes,'system.hp') || changes.system?.hp!==undefined))return;
+ if(!isFUSActor(actor))return;
+ if(userId===game.user.id&&(changes['system.formItemId']!==undefined||changes.system?.formItemId!==undefined))await reconcileHands(actor);
+ if(!(Object.hasOwn(changes,'system.hp') || changes.system?.hp!==undefined))return;
  if(userId===game.user.id&&actor.isOwner)await syncDeadStatus(actor);
  await updateEncounterHealth(actor);
 });

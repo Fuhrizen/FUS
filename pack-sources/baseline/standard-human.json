@@ -23,36 +23,9 @@
         "focusId": "",
         "focusName": "",
         "focusActorUuid": ""
-      },
-      {
-        "id": "fusMartialGrappl",
-        "uuid": "Compendium.FUS.actions.Item.fusMartialGrappl",
-        "focusId": "",
-        "focusName": "",
-        "focusActorUuid": ""
-      },
-      {
-        "id": "fusMartialEscape",
-        "uuid": "Compendium.FUS.actions.Item.fusMartialEscape",
-        "focusId": "",
-        "focusName": "",
-        "focusActorUuid": ""
-      },
-      {
-        "id": "fusMartialReleas",
-        "uuid": "Compendium.FUS.actions.Item.fusMartialReleas",
-        "focusId": "",
-        "focusName": "",
-        "focusActorUuid": ""
-      },
-      {
-        "id": "fusMartialIntera",
-        "uuid": "Compendium.FUS.actions.Item.fusMartialIntera",
-        "focusId": "",
-        "focusName": "",
-        "focusActorUuid": ""
       }
-    ]
+    ],
+    "hands": 2
   },
   "effects": [],
   "folder": null,

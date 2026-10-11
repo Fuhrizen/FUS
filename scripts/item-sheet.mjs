@@ -1,3 +1,4 @@
+import {resourceCostLabel} from './attacks.mjs';
 import {ammoTrackingEnabled} from './rules-settings.mjs';
 import {attachAction,loadSourceActions,loadAction,migrateSourceActions} from './action-library.mjs';
 import {sourceActions} from './attacks.mjs';
@@ -14,7 +15,7 @@ export class FUSItemSheet extends HandlebarsApplicationMixin(foundry.application
     await loadSourceActions(this.document);
     const weapon=this.document.type==='weapon',armour=this.document.type==='armour';
     const rows=(armour?this.document.system.adjustments:[])??[];
-    return {...await super._prepareContext(options),item:this.document,system:this.document.system,editable:this.isEditable,ammoEnabled:ammoTrackingEnabled(),showResource:this.document.system.combatMode==='melee'||ammoTrackingEnabled(),weapon,armour,misc:this.document.type==='item',melee:this.document.system.combatMode==='melee',weaponActions:sourceActions(this.document).map((a,index)=>({...a,index,costPips:costPips(a.cost),test:a.mode==='test'})),owned:!!this.document.parent,components:rows.map((row,index)=>({...row,index,damageLabel:DAMAGE_TYPES[row.type],damageStyle:DAMAGE_STYLES[row.type],types:Object.entries(DAMAGE_TYPES).map(([value,label])=>({value,label,selected:row.type===value})),resistance:row.kind==='resistance',weakness:row.kind==='weakness'}))};
+    return {...await super._prepareContext(options),item:this.document,system:this.document.system,editable:this.isEditable,ammoEnabled:ammoTrackingEnabled(),showResource:this.document.system.combatMode==='melee'||ammoTrackingEnabled(),weapon,armour,misc:this.document.type==='item',melee:this.document.system.combatMode==='melee',weaponActions:sourceActions(this.document).map((a,index)=>({...a,index,resourceCost:resourceCostLabel(this.document,a),costPips:costPips(a.cost),test:a.mode==='test'})),owned:!!this.document.parent,components:rows.map((row,index)=>({...row,index,damageLabel:DAMAGE_TYPES[row.type],damageStyle:DAMAGE_STYLES[row.type],types:Object.entries(DAMAGE_TYPES).map(([value,label])=>({value,label,selected:row.type===value})),resistance:row.kind==='resistance',weakness:row.kind==='weakness'}))};
   }
   _scrollPosition = 0;
   _componentBusy = false;

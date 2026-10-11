@@ -21,11 +21,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "a72d892c2fd8bf26",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Forms"
+      ]
     }
   },
   "ownership": {

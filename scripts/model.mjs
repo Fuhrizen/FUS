@@ -19,7 +19,7 @@ export class FUSCharacterData extends foundry.abstract.TypeDataModel {
     // Ranks remain unrestricted; current HP is capped by Max HP.
     const number = (initial = 0) => new NumberField({required: true, nullable: false, initial});
     return {
-      notes: text(),identity: text(),role: text(),affiliation: text(),appearance: text(),
+      notes: text(),role: text(),appearance: text(),
       formItemId: text(),
       focusCounter: number(),
       memories: new ArrayField(new SchemaField({id: text(), title: text(), content: text(), tags: text()})),

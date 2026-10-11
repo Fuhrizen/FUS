@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "8130dd04ef170e30",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/.45 ACP/Sidearms"
+      ]
     }
   },
   "ownership": {

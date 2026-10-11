@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "dc3dae7c10829364",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Melee/Tools"
+      ]
     }
   },
   "ownership": {

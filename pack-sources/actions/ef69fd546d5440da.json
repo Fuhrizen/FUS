@@ -30,11 +30,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "f65ef7f568875a41",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Scatter Charges/Shotguns"
+      ]
     }
   },
   "ownership": {

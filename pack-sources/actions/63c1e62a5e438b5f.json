@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "c9fae0c3419fa34f",
+  "folder": "2b8db4c230e631f5",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "universal"
+      "setting": "universal",
+      "categories": [
+        "Weapons/Melee/Axes"
+      ]
     }
   },
   "ownership": {

@@ -30,11 +30,14 @@
     }
   },
   "effects": [],
-  "folder": "31bbacd26b3eeca4",
+  "folder": "c1190aae3ccd0cea",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "sci-fi"
+      "setting": "sci-fi",
+      "categories": [
+        "Weapons/Toxin Darts/Sidearms"
+      ]
     }
   },
   "ownership": {

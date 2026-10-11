@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "21366a6ccecc6788",
+  "folder": "097265b6eb6542c2",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "medieval"
+      "setting": "medieval",
+      "categories": [
+        "Weapons/Melee/Blunt Weapons"
+      ]
     }
   },
   "ownership": {

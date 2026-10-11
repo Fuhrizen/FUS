@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "38b42f967861f8fe",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/7.62\u00d739/Rifles"
+      ]
     }
   },
   "ownership": {

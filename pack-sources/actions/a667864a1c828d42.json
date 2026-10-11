@@ -26,11 +26,14 @@
     }
   },
   "effects": [],
-  "folder": "21366a6ccecc6788",
+  "folder": "3320f4d3c422c6fc",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "medieval"
+      "setting": "medieval",
+      "categories": [
+        "Weapons/Melee/Polearms"
+      ]
     }
   },
   "ownership": {

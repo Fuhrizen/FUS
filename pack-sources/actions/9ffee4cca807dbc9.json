@@ -8,24 +8,31 @@
       "cost": 2,
       "mode": "test",
       "targetMode": "required",
-      "skill": "",
+      "skill": "rangedCombat",
       "focusName": "Rifles",
-      "requiresFocus": false,
+      "requiresFocus": true,
       "modifier": 0,
       "damage": false,
       "damageComponents": [],
       "adjustResource": true,
       "resourceMode": "adjust",
       "resourceAmount": -10,
-      "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually."
+      "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually.",
+      "trainedOnly": true
     }
   },
   "effects": [],
-  "folder": "c9fae0c3419fa34f",
+  "folder": "7e751cb9064c7511",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "universal"
+      "setting": "universal",
+      "categories": [
+        "Weapons/5.56/Rifles",
+        "Weapons/7.62\u00d739/Rifles",
+        "Weapons/Gauss Rounds/Rifles",
+        "Weapons/Pulse Charges/Rifles"
+      ]
     }
   },
   "ownership": {

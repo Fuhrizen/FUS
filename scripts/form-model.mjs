@@ -6,6 +6,6 @@ export class FUSFormData extends foundry.abstract.TypeDataModel {
     const {StringField,NumberField}=foundry.data.fields;
     const text=()=>new StringField({required:true,blank:true,initial:''});
     const number=(initial=null)=>new NumberField({required:true,nullable:true,initial,min:0});
-    return {weaponActions:createActionField(),actionLinks:createActionLinks(),description:text(),maxhp:number(),move:number(15),rules:text()};
+    return {hands:new NumberField({required:true,nullable:false,initial:2,min:0,integer:true}),weaponActions:createActionField(),actionLinks:createActionLinks(),description:text(),maxhp:number(),move:number(15),rules:text()};
   }
 }

@@ -25,11 +25,14 @@
     }
   },
   "effects": [],
-  "folder": "c9fae0c3419fa34f",
+  "folder": "0e400da52aa51d28",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "universal"
+      "setting": "universal",
+      "categories": [
+        "Items"
+      ]
     }
   },
   "ownership": {

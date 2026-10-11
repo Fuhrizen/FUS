@@ -30,11 +30,14 @@
     }
   },
   "effects": [],
-  "folder": "cd73844325302e5d",
+  "folder": "454c7cb670f99366",
   "sort": 0,
   "flags": {
     "FUS": {
-      "setting": "modern"
+      "setting": "modern",
+      "categories": [
+        "Weapons/12 gauge/Shotguns"
+      ]
     }
   },
   "ownership": {
