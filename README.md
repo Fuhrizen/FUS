@@ -45,12 +45,14 @@ Items can consume one parent unit when an action is used and optionally remove t
 
 ### Character readiness and setup
 
-The selected Form defines usable hands (default 2; zero and extra hands are supported). Inventory carry controls support stowed, worn, one-hand and two-hand states. Weapon actions enforce grip, free/occupied hands and any required equipped item. When a Form loses hands, excess held items are stowed. Copies and split stacks begin stowed.
+The default Form is **Basic** (formerly Baseline). Existing default Forms are renamed in place, preserving their links and configured stats. The selected Form defines usable hands (default 2; zero and extra hands are supported). Inventory carry controls support stowed, worn, one-hand and two-hand states. Weapon actions enforce grip, free/occupied hands and any required equipped item. When a Form loses hands, excess held items are stowed. Copies and split stacks begin stowed.
 
-Character setup is a tabbed wizard: Setup → Skills → Focuses → Review. Back and forward navigation retain the draft. Live counters show the 4 skill points (maximum starting rank 3) and 7 Focus points (maximum starting rank 2). Overspending blocks progress. No changes are saved before applying the final review. Reset asks for confirmation and preserves items, notes and memories.
+Character setup is a tabbed wizard: Setup → Skills → Focuses → Review. Back and forward navigation retain the draft. Live counters show the 4 skill points (maximum starting rank 3) and 7 Focus points (maximum starting rank 2). Use + to spend and − to refund points; rank limits and empty pools disable spending automatically. Rank dots and live pool counters show where points went. Clearing a Focus name refunds that row, and allocation buttons refund an entire pool. No changes are saved before applying the final review. Reset asks for confirmation and preserves items, notes and memories.
 
 Shared Action compendiums are organized by category, calibre and weapon training, such as Weapons / 5.56 / Rifles. Brace replaces Defensive Reaction. Suppress is a trained ranged action requiring a Focus; forcing use cannot bypass that training. Action lists and chat cards show the number of ammo or charges spent. The generated martial actions and their links are removed; user-created actions are preserved.
 
 Pins belong to the character and apply across copies of its token, including unlinked copies. The off-token suppression effect is blurred, grey and transparent, and may still be disabled per token prototype. Existing token-local pin counts migrate using the highest count, avoiding duplicate accumulation.
 
 There is one current encounter. Additional legacy encounters remain in stopped archived data. Cover previews use native sight polygons, cached geometry and spatial cover candidates. CI checks use host fixtures; a live Foundry v14 world still needs verification.
+
+The native status picker includes only the six rulebook conditions (Hindered, Exposed, Slowed, Restrained, Incapacitated and Suppressed), plus Dead, Pinned and Brace. Unrelated stock statuses are removed from the picker; existing active effects remain intact. Modules can add their own conditions after system initialization.

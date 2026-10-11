@@ -24,7 +24,7 @@ test('automation receives source and captured targets and refuses script executi
  let passed;globalThis.fromUuid=async()=>({documentName:'Macro',canExecute:true,execute:async context=>{passed=context;}});await executeActionAutomation(actor,source,{macroUuid:'Macro.test'},targets,message);assert.equal(passed.source,source);assert.equal(passed.targets,targets);
 });
 test('new actors always start with a selected Form and custom imported Forms are preserved',()=>{
- let saved;actorCreationDefaults({type:'character',updateSource:d=>saved=d},{});const form=saved.items[0];assert.equal(form.name,'Baseline');assert.equal(form.system.maxhp,6);assert.equal(saved['system.formItemId'],form._id);
+ let saved;actorCreationDefaults({type:'character',updateSource:d=>saved=d},{});const form=saved.items[0];assert.equal(form.name,'Basic');assert.equal(form.system.maxhp,6);assert.equal(saved['system.formItemId'],form._id);
  actorCreationDefaults({type:'npc',updateSource:d=>saved=d},{items:[{_id:'custom',type:'form',system:{maxhp:9}}],system:{formItemId:'custom'}});assert.equal(saved.items.length,1);assert.equal(saved['system.formItemId'],'custom');
 });
 test('Form removal and clearing are rejected, replacement remains valid, repair selects existing Form',async()=>{

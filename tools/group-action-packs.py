@@ -15,7 +15,10 @@ uses={}
 for setting in ['baseline','medieval','modern','sci-fi','equipment']:
  for p in (root/'pack-sources'/setting).glob('*.json'):
   doc=read(p);s=doc.get('system',{})
-  if doc.get('type')=='form':s.setdefault('hands',2);write(p,doc)
+  if doc.get('type')=='form':
+   s.setdefault('hands',2)
+   if doc['name']=='Baseline':doc['name']='Basic'
+   write(p,doc)
   for link in s.get('actionLinks',[]):uses.setdefault(link['uuid'].split('.')[-1],[]).append(doc)
 for p in list(out.glob('*.json')):
  if read(p).get('type')=='Item':p.unlink()

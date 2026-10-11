@@ -10,7 +10,7 @@ export function migrateFormData(data){
 }
 
 
-export function baselineForm(maxhp=6){return {name:'Baseline',type:'form',img:'icons/svg/mystery-man.svg',system:{hands:2,maxhp:Number(maxhp)||6,move:15,description:'Standard baseline Form.',rules:'Standard movement is 15 ft.',weaponActions:[],actionLinks:[{id:'unarmedStrike',uuid:'Compendium.FUS.actions.Item.fusUnarmedStrike',focusId:'',focusName:'Unarmed',focusActorUuid:''},{id:'defensiveReaction',uuid:'Compendium.FUS.actions.Item.fusDefensiveReac',focusId:'',focusName:'',focusActorUuid:''}]}};}
+export function baselineForm(maxhp=6){return {name:'Basic',type:'form',img:'icons/svg/mystery-man.svg',system:{hands:2,maxhp:Number(maxhp)||6,move:15,description:'Standard basic Form.',rules:'Standard movement is 15 ft.',weaponActions:[],actionLinks:[{id:'unarmedStrike',uuid:'Compendium.FUS.actions.Item.fusUnarmedStrike',focusId:'',focusName:'Unarmed',focusActorUuid:''},{id:'defensiveReaction',uuid:'Compendium.FUS.actions.Item.fusDefensiveReac',focusId:'',focusName:'',focusActorUuid:''}]}};}
 export async function ensureActorForm(actor){
  if(!actor.isOwner || appliedForm(actor))return;
  const before=characterStats(actor).maximum,current=Number(actor._source?.system.hp??actor.system.hp??0);
@@ -22,3 +22,5 @@ export async function ensureActorForm(actor){
 }
 export function preventFormRemoval(item){return !(item.type==='form' && item.parent?.system.formItemId===item.id);}
 export function validFormSelection(actor,changes){const id=changes['system.formItemId']??changes.system?.formItemId;return id===undefined || Array.from(actor.items??[]).some(i=>i.type==='form' && i.id===id);}
+
+export async function migrateBasicForms(){if(!game.user.isGM||game.users?.activeGM&&game.users.activeGM.id!==game.user.id)return;const actors=[...game.actors,...[...(game.scenes??[])].flatMap(s=>[...s.tokens].filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];const items=new Set([...game.items,...actors.flatMap(a=>[...a.items])]);for(const item of items)if(item.type==='form'&&item.name==='Baseline')await item.update({name:'Basic'});}
