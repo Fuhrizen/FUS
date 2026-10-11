@@ -1,7 +1,7 @@
 import {isFUSActor} from './actor-types.mjs';
 import {chooseActionDamage} from './action-damage.mjs';
 import {characterStats,healthAfterCapacityChange} from './health.mjs';
-import {openWeaponActions,availableActionGroups} from './attacks.mjs';
+import {openSourceActions,availableActionGroups} from './attacks.mjs';
 import {renderChatCard} from './chat-card.mjs';
 import {inventoryGroups,quantity} from './inventory.mjs';
 import {appliedForm, formMaximum, migrateFormData} from './forms.mjs';
@@ -506,10 +506,10 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       const system = this.document.system;
       if(action==='useSourceAction'){
         const weapon=[...(this.document.items??[])].find(i=>i.id===target.dataset.itemId && (['weapon','form'].includes(i.type)) && (i.system.quantity??1)>0);
-        if(weapon)await openWeaponActions(this.document,weapon,target.dataset.sourceActionId,{force:!!event.shiftKey});
+        if(weapon)await openSourceActions(this.document,weapon,target.dataset.sourceActionId,{force:!!event.shiftKey});
       } else if(action==='weaponActions'){
         const weapon=[...(this.document.items??[])].find(i=>i.id===target.dataset.itemId && i.type==='weapon');
-        if(weapon)await openWeaponActions(this.document,weapon);
+        if(weapon)await openSourceActions(this.document,weapon);
       } else if(action==='toggleArmourEquip'){
         const item=[...(this.document.items??[])].find(item=>item.id===target.dataset.itemId && item.type==='armour');
         if(item)await item.update({'system.equipped':!item.system.equipped});

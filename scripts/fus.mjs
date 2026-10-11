@@ -66,7 +66,7 @@ Hooks.on('renderChatMessageHTML',(message,html)=>{
   button?.addEventListener('click',async()=>{
     button.disabled=true;
     try{const weapon=await fromUuid(reference.weaponUuid);const actor=await fromUuid(reference.actorUuid);
-      if(!actor?.isOwner || weapon?.parent?.uuid!==actor.uuid || !['weapon','form'].includes(weapon.type))throw new Error('This weapon is unavailable or not owned.');
+      if(!actor?.isOwner || weapon?.parent?.uuid!==actor.uuid || !['weapon','armour','item','form'].includes(weapon.type))throw new Error('This weapon is unavailable or not owned.');
       await rollActionDamage(actor,weapon,reference.actionId,{targets:reference.targets??null});
     }catch(e){ui.notifications.error(e.message);}finally{button.disabled=false;}
   });

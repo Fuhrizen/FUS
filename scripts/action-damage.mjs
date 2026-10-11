@@ -1,14 +1,14 @@
 import {DAMAGE_TYPES,DAMAGE_STYLES,validateComponent,rollDamage} from './damage.mjs';
 import {escapeHTML} from './rolls.mjs';
-import {weaponActions} from './attacks.mjs';
+import {sourceActions} from './attacks.mjs';
 export const costPips=cost=>Array.from({length:Math.min(20,Math.max(0,Math.floor(Number(cost)||0)))},()=>true);
 export async function rollActionDamage(actor,source,actionId,{targets=null}={}){
  if(!actor?.isOwner || source?.parent?.uuid!==actor.uuid)throw new Error('Use an action owned by this character.');
- const action=weaponActions(source).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
+ const action=sourceActions(source).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
  return rollDamage(action.damageComponents??[],{actor,label:`${source.name}: ${action.name}`,targets});
 }
 export async function chooseActionDamage(actor,source){
- const actions=weaponActions(source).filter(a=>a.damageComponents?.length);
+ const actions=sourceActions(source).filter(a=>a.damageComponents?.length);
  if(!actions.length)throw new Error('Configure damage on a source action first.');
  const id=actions.length===1?actions[0].id:await foundry.applications.api.DialogV2.wait({window:{title:'Choose damage action'},content:'<p>Which action damage?</p>',buttons:[...actions.map(a=>({action:a.id,label:a.name,callback:()=>a.id})),{action:'cancel',label:'Cancel'}],rejectClose:false});
  if(actions.some(a=>a.id===id))return rollActionDamage(actor,source,id);

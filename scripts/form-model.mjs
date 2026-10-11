@@ -1,4 +1,4 @@
-import {FUSWeaponData} from './item-model.mjs';
+import {createActionField} from './action-model.mjs';
 import {migrateFormData} from './forms.mjs';
 export class FUSFormData extends foundry.abstract.TypeDataModel {
   static migrateData(source){migrateFormData(source);return super.migrateData(source);}
@@ -6,6 +6,6 @@ export class FUSFormData extends foundry.abstract.TypeDataModel {
     const {StringField,NumberField}=foundry.data.fields;
     const text=()=>new StringField({required:true,blank:true,initial:''});
     const number=(initial=null)=>new NumberField({required:true,nullable:true,initial,min:0});
-    return {weaponActions:FUSWeaponData.defineSchema().weaponActions,description:text(),maxhp:number(),move:number(15),rules:text()};
+    return {weaponActions:createActionField(),description:text(),maxhp:number(),move:number(15),rules:text()};
   }
 }

@@ -3,26 +3,26 @@ export function rangeProfile(source){const s=source?.system??{},melee=s.combatMo
 export function rangeBand(distance,profile){return !profile.maximum?'No range configured':distance<=profile.optimal?(profile.melee?'Within reach':'Optimal'):distance<=profile.maximum?'Extended':'Out of range';}
 export function sceneFeetFactor(units){return /^(m|meter|meters|metre|metres)$/i.test(String(units).trim())?3.280839895:1;}
 export function measureTargetRange(origin,point,grid){const factor=sceneFeetFactor(grid.units);return {direct:Math.hypot(point.x-origin.x,point.y-origin.y)/grid.size*grid.distance*factor,effective:grid.measurePath([origin,point]).distance*factor};}
-export function targetTokenFromClick(token,event){token.setTarget(true,{user:game.user,releaseOthers:!event.shiftKey});return !event.shiftKey;}
+export function targetTokenFromClick(token,event){const selected=game.user.targets?.has(token)??token.isTargeted??false;token.setTarget(event.shiftKey?!selected:true,{user:game.user,releaseOthers:!event.shiftKey});return !event.shiftKey;}
 let cancelActive=null;
 export function promptTargetSelection(actor,action,source,readTargets){
  cancelActive?.();
+ game.user.updateTokenTargets?.([]);
  return new Promise(resolve=>{
   const notice=document.createElement('div');notice.className='fus-target-notice';notice.setAttribute('role','status');
-  notice.innerHTML=`<strong>${escapeHTML(action.name)}</strong><span data-target-status>Left-click a token · hold Shift for multiple</span><small data-range-status></small><button type="button" data-target-use>Use targets</button><button type="button" data-target-cancel aria-label="Cancel targeting">×</button>`;
+  notice.innerHTML=`<strong>${escapeHTML(action.name)}</strong><span data-target-status>Left-click a token · hold Shift to add/remove</span><small data-range-status></small><button type="button" data-target-use>Use targets</button><button type="button" data-target-cancel aria-label="Cancel targeting">×</button>`;
   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('fus-target-preview');svg.setAttribute('aria-hidden','true');
   const shape=tag=>{const node=document.createElementNS(svg.namespaceURI,tag);svg.append(node);return node;};
   const outer=shape('circle'),inner=shape('circle'),line=shape('line');outer.setAttribute('class','fus-range-max');inner.setAttribute('class','fus-range-optimal');line.setAttribute('class','fus-range-line');
   const distanceLabel=document.createElement('small');distanceLabel.className='fus-target-distance';
   document.body.append(svg,notice,distanceLabel);
-  game.user.updateTokenTargets?.([]);
   const use=notice.querySelector('[data-target-use]'),status=notice.querySelector('[data-target-status]'),rangeStatus=notice.querySelector('[data-range-status]');
   const profile=rangeProfile(source);let frame,closed=false,mouse=null;
   const originToken=()=>{const c=globalThis.canvas;return actor.token?.object??c?.tokens?.controlled?.find(t=>t.actor?.uuid===actor.uuid)??c?.tokens?.placeables?.find(t=>t.actor?.uuid===actor.uuid&&t.visible);};
   const finish=value=>{if(closed)return;closed=true;cancelAnimationFrame(frame);document.removeEventListener('pointermove',move);document.removeEventListener('keydown',key);document.removeEventListener('keyup',keyUp);document.removeEventListener('pointerdown',pick,true);Hooks.off('targetToken',targetHook);Hooks.off('canvasTearDown',tearHook);notice.remove();svg.remove();distanceLabel.remove();game.user.updateTokenTargets?.([]);if(cancelActive===cancel)cancelActive=null;resolve(value);};
   const cancel=()=>finish(null);cancelActive=cancel;
   const confirm=()=>{const targets=readTargets();if(targets.length)finish(targets);};
-  const refresh=()=>{const targets=readTargets();use.disabled=!targets.length;status.textContent=targets.length?targets.map(t=>t.name).join(', '):'Left-click a token · hold Shift for multiple';};
+  const refresh=()=>{const targets=readTargets();use.disabled=!targets.length;status.textContent=targets.length?targets.map(t=>t.name).join(', '):'Left-click a token · hold Shift to add/remove';};
   const move=event=>{if(event.target.closest?.('.fus-target-notice'))return;mouse={x:event.clientX,y:event.clientY};};
   const pick=event=>{
    if(event.button!==0||!event.target.closest?.('#board'))return;

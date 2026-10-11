@@ -5,15 +5,16 @@ import {SKILLS,focusId,focusLabel} from './config.mjs';
 import {escapeHTML} from './rolls.mjs';
 import {renderChatCard} from './chat-card.mjs';
 export const DEFAULT_ATTACK={id:'attack',name:'Attack',cost:1,mode:'test',targetMode:'none',skill:'',focusId:'',focusName:'',focusActorUuid:'',adjustResource:false,resourceMode:'adjust',resourceAmount:-1,requiresFocus:false,modifier:0,damage:true,damageComponents:[],description:''};
-export function weaponActions(weapon){return weapon.system.weaponActions?.length?Array.from(weapon.system.weaponActions):weapon.type==='form'?[]:[DEFAULT_ATTACK];}
-export function attackSkill(weapon,action){const linked=(weapon.parent?.system.focuses??[]).find((f,i)=>focusId(f,i)===action.focusId);const key=linked?.skill||action.skill|| (weapon.type==='form'?'athletics':weapon.system.combatMode==='melee'?'meleeCombat':'rangedCombat');if(!Object.hasOwn(SKILLS,key))throw new Error('Unknown action skill.');return key;}
+export function sourceActions(source){return source.system.weaponActions?.length?Array.from(source.system.weaponActions):source.type==='weapon'?[DEFAULT_ATTACK]:[];}
+export const weaponActions=sourceActions;
+export function attackSkill(weapon,action){const linked=(weapon.parent?.system.focuses??[]).find((f,i)=>focusId(f,i)===action.focusId);const key=linked?.skill||action.skill|| (weapon.type!=='weapon'?'athletics':weapon.system.combatMode==='melee'?'meleeCombat':'rangedCombat');if(!Object.hasOwn(SKILLS,key))throw new Error('Unknown action skill.');return key;}
 export function matchingFocuses(actor,weapon,action){
  const skill=attackSkill(weapon,action),all=(actor.system.focuses??[]).map((f,i)=>({...f,id:focusId(f,i),label:focusLabel(f)})).filter(f=>f.skill===skill);
  if(action.focusId){const exact=all.find(f=>f.id===action.focusId);if(exact)return [exact];if(action.focusActorUuid===actor.uuid)return [];}
  if(action.focusName)return all.filter(f=>f.name.trim().toLocaleLowerCase()===action.focusName.trim().toLocaleLowerCase());
  return [];
 }
-export function hasWeaponResource(weapon){return weapon.type!=='form' && (Number(weapon.system.resourceCurrent??0)>0 || Number(weapon.system.resourceMax??0)>0);}
+export function hasWeaponResource(weapon){return weapon.type==='weapon' && (Number(weapon.system.resourceCurrent??0)>0 || Number(weapon.system.resourceMax??0)>0);}
 export function resourceAfterUse(weapon,action){
  const current=Number(weapon.system.resourceCurrent??0),maximum=Number(weapon.system.resourceMax??0);
  if(!action.adjustResource || !hasWeaponResource(weapon))return current;
@@ -34,13 +35,14 @@ async function postActionMessage(weapon,action,message){
  try{return await foundry.documents.ChatMessage.create(message);}catch(error){if(action.adjustResource && hasWeaponResource(weapon))await weapon.update({'system.resourceCurrent':previous});throw error;}
 }
 const actionQueues=new WeakMap();
-export function executeWeaponAction(actor,weapon,actionId,options={}){
+export function executeSourceAction(actor,weapon,actionId,options={}){
  const previous=actionQueues.get(weapon)??Promise.resolve();
  const next=previous.catch(()=>{}).then(()=>executeAction(actor,weapon,actionId,options));actionQueues.set(weapon,next);return next;
 }
-function checkOwnership(actor,weapon){if(!actor?.isOwner || !isFUSActor(actor) || !['weapon','form'].includes(weapon.type) || weapon.parent?.uuid!==actor.uuid)throw new Error('Use a weapon owned by this character.');}
+export const executeWeaponAction=executeSourceAction;
+function checkOwnership(actor,weapon){if(!actor?.isOwner || !isFUSActor(actor) || !['weapon','armour','item','form'].includes(weapon.type) || weapon.parent?.uuid!==actor.uuid)throw new Error('Use an action source owned by this character.');}
 async function executeAction(actor,weapon,actionId,{focus=null,force=false}={}){
- checkOwnership(actor,weapon);const action=weaponActions(weapon).find(a=>a.id===actionId);if(!action)throw new Error('This weapon action no longer exists.');
+ checkOwnership(actor,weapon);const action=sourceActions(weapon).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
  const availability=actionAvailability(actor,weapon,action);
  if(availability.locked && !force)throw new Error(availability.reason);
  const targets=await actionTargets(actor,action,weapon);if(targets===null)return;
@@ -57,14 +59,16 @@ async function executeAction(actor,weapon,actionId,{focus=null,force=false}={}){
  const content=await renderChatCard({title:`${weapon.name}: ${action.name}`,cost:action.cost,subtitle:`${force?'Forced use · ':''}${action.cost} action${action.cost===1?'':'s'} · ${SKILLS[skill]}${selected?` · ${focusLabel(selected)}`:''}`,bodyHTML:escapeHTML(action.description).replace(/\n/g,'<br>'),rows:[...targetRows(targets),{label:'Roll',detail:`2d10 + skill ${data.skill} + focus ${data.focus} + modifier ${data.modifier}`,value:roll.total}],actions:action.damage&&action.damageComponents?.length?[{action:'weaponDamage',label:'Roll damage'}]:[]});
  return postActionMessage(weapon,action,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),rolls:[roll],content,flags:{FUS:{kind:'attack',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,skill,focusId:selected?.id??'',modifier:data.modifier,total:roll.total,targets,forced:force}}});
 }
-export async function openWeaponActions(actor,weapon,actionId=null,{force=false}={}){
- checkOwnership(actor,weapon);const actions=weaponActions(weapon);
+export async function openSourceActions(actor,weapon,actionId=null,{force=false}={}){
+ checkOwnership(actor,weapon);const actions=sourceActions(weapon);
  const selected=actionId??await foundry.applications.api.DialogV2.wait({window:{title:`${weapon.name}: Actions`},content:'<p>Choose an action.</p>',buttons:[...actions.map(a=>({action:a.id,label:`${a.name} (${a.cost})`,callback:()=>a.id})),{action:'cancel',label:'Cancel'}],rejectClose:false});
  const action=actions.find(a=>a.id===selected);if(!action)return;
  const availability=actionAvailability(actor,weapon,action);if(availability.locked && !force)throw new Error(availability.reason);
- return executeWeaponAction(actor,weapon,action.id,{force});
+ return executeSourceAction(actor,weapon,action.id,{force});
 }
 
+export const openWeaponActions=openSourceActions;
+
 export function availableActionGroups(actor,{hideLocked=false}={}){
- return [...(actor.items??[])].filter(item=>(item.type==='weapon' && (item.system.quantity??1)>0 || item.type==='form' && item.id===actor.system.formItemId)).sort((a,b)=>a.name.localeCompare(b.name)).map(item=>({itemId:item.id,name:item.name,img:item.img,hasResource:(item.system.resourceCurrent??0)>0 || (item.system.resourceMax??0)>0,resourceLabel:item.system.combatMode==='melee'?'Charges':'Ammo',resourceCurrent:item.system.resourceCurrent??0,resourceMax:item.system.resourceMax??0,actions:weaponActions(item).map(action=>({id:action.id,name:action.name,cost:action.cost,costPips:costPips(action.cost),description:action.description,...actionAvailability(actor,item,action),test:action.mode==='test',skillLabel:action.mode==='test'?SKILLS[attackSkill(item,action)]:'No roll'})).filter(action=>!hideLocked || !action.locked)})).filter(group=>group.actions.length);
+ return [...(actor.items??[])].filter(item=>(['weapon','armour','item'].includes(item.type) && (item.system.quantity??1)>0 || item.type==='form' && item.id===actor.system.formItemId)).sort((a,b)=>a.name.localeCompare(b.name)).map(item=>({itemId:item.id,name:item.name,img:item.img,hasResource:(item.system.resourceCurrent??0)>0 || (item.system.resourceMax??0)>0,resourceLabel:item.system.combatMode==='melee'?'Charges':'Ammo',resourceCurrent:item.system.resourceCurrent??0,resourceMax:item.system.resourceMax??0,actions:sourceActions(item).map(action=>({id:action.id,name:action.name,cost:action.cost,costPips:costPips(action.cost),description:action.description,...actionAvailability(actor,item,action),test:action.mode==='test',skillLabel:action.mode==='test'?SKILLS[attackSkill(item,action)]:'No roll'})).filter(action=>!hideLocked || !action.locked)})).filter(group=>group.actions.length);
 }
