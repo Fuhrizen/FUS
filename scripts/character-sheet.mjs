@@ -1,3 +1,4 @@
+import {loadSourceActions} from './action-library.mjs';
 import {isFUSActor} from './actor-types.mjs';
 import {chooseActionDamage} from './action-damage.mjs';
 import {characterStats,healthAfterCapacityChange} from './health.mjs';
@@ -19,7 +20,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
     form: {submitOnChange: true, closeOnSubmit: false},
     actions: {
       toggleUnavailable:FUSCharacterSheet.toggleUnavailable,openSourceItem:FUSCharacterSheet.onAction,useSourceAction:FUSCharacterSheet.onAction,weaponActions:FUSCharacterSheet.onAction,toggleArmourEquip:FUSCharacterSheet.onAction,rollInventoryDamage:FUSCharacterSheet.onAction,
-      openForm: FUSCharacterSheet.onAction, removeForm:FUSCharacterSheet.onAction,
+      openForm: FUSCharacterSheet.onAction,
       adjustItemQuantity: FUSCharacterSheet.onAction,
       openInventoryItem: FUSCharacterSheet.onAction, removeInventoryItem: FUSCharacterSheet.onAction,
       toggleFocusControls: FUSCharacterSheet.toggleFocusControls,
@@ -34,7 +35,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
   static PARTS = {body: {template: "systems/FUS/templates/character-sheet.hbs", classes: ["fus-sheet"], scrollable: [".fus-panels", ".fus-sidebar"]}};
   _hideUnavailable=false;
   static async toggleUnavailable(){this._hideUnavailable=!this._hideUnavailable;await this.render({force:true});}
-  _activeSection = "skills";
+  _activeSection = "main";
   _search = "";
   _focusManagement = false;
   _memorySearch = "";
@@ -45,6 +46,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     const system = this.document.system;
+    await Promise.all(Array.from(this.document.items??[]).map(loadSourceActions));
     const selectedForm=appliedForm(this.document);
     const memories=memoryRows(system.memories, this._memorySearch, system.tagColours, this._openMemories);
     await Promise.all(memories.map(async entry=>{entry.contentHTML=await enrichMemory(entry.content,this.document);}));
@@ -52,6 +54,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       hideUnavailable:this._hideUnavailable,
       actionGroups:availableActionGroups(this.document,{hideLocked:this._hideUnavailable}),
       health:characterStats(this.document),
+      overview:{weapons:Array.from(this.document.items??[]).filter(i=>i.type==='weapon'&&(i.system.quantity??1)>0).map(i=>({name:i.name,resource:i.system.resourceMax>0?`${i.system.resourceCurrent}/${i.system.resourceMax}`:''})),armour:Array.from(this.document.items??[]).filter(i=>i.type==='armour'&&i.system.equipped&&(i.system.quantity??1)>0).map(i=>({name:i.name})),focuses:system.focuses.filter(f=>f.rank>0).sort((a,b)=>b.rank-a.rank).slice(0,6),memoryCount:(system.memories??[]).length,actionCount:availableActionGroups(this.document).reduce((n,g)=>n+g.actions.length,0)},
       skillGroups: this._skillGroups(),
       search: this._search,
       focusManagement: this._focusManagement,
@@ -121,6 +124,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       view.addEventListener('dragover',event=>{event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect='copy';});
       view.addEventListener('drop',event=>{event.preventDefault();event.stopPropagation();this._dropOnMemory(event,view.closest('[data-memory-id]').dataset.memoryId).catch(error=>ui.notifications.error(error.message));});
     }
+    for(const target of this.element.querySelectorAll('[data-action="useSourceAction"]'))target.addEventListener('dragstart',event=>{event.stopPropagation();event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('text/plain',JSON.stringify({type:'FUSAction',actorUuid:this.document.uuid,sourceId:target.dataset.itemId,actionId:target.dataset.sourceActionId}));});
     for (const target of this.element.querySelectorAll('[data-action="roll"]')) {
       target.addEventListener("dragstart", event => this._dragRoll(event, target));
     }
@@ -223,14 +227,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
     await this.submit();
     return this._assignForm(item);
   }
-  async _removeForm(){
-    if(!this.isEditable)return;
-    const item=appliedForm(this.document);if(!item)return;
-    const confirmed=await foundry.applications.api.DialogV2.confirm({window:{title:'Remove Form'},content:`<p>Remove ${escapeHTML(item.name)}? Current and maximum HP are retained and maximum HP becomes editable.</p>`,rejectClose:false});
-    if(!confirmed)return;
-    await this.document.update({'system.formItemId':'','system.maxhp':formMaximum(this.document)??this.document._source?.system.maxhp??this.document.system.maxhp});
-    await this.document.deleteEmbeddedDocuments('Item',[item.id]);
-  }
+  async _removeForm(){throw new Error('An actor must always have a Form. Replace it with another Form.');}
   async _assignForm(item){
     if(!this.isEditable || item?.type!=='form')return;
     let owned=[...(this.document.items??[])].find(owned=>owned.type==='form' && (owned.uuid===item.uuid || owned.getFlag?.('core','sourceId')===item.uuid));

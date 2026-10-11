@@ -1,0 +1,36 @@
+{
+  "_id": "acad4f6990b98c43",
+  "name": "Single shot",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Slings",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "bludgeoning",
+          "formula": "1"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -1,
+      "description": "One attack roll; damage is rolled separately. Requires a stone or sling bullet for each reload."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!acad4f6990b98c43"
+}

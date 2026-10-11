@@ -1,9 +1,11 @@
+import {loadSourceActions} from './action-library.mjs';
 import {DAMAGE_TYPES,DAMAGE_STYLES,validateComponent,rollDamage} from './damage.mjs';
 import {escapeHTML} from './rolls.mjs';
 import {sourceActions} from './attacks.mjs';
 export const costPips=cost=>Array.from({length:Math.min(20,Math.max(0,Math.floor(Number(cost)||0)))},()=>true);
 export async function rollActionDamage(actor,source,actionId,{targets=null}={}){
  if(!actor?.isOwner || source?.parent?.uuid!==actor.uuid)throw new Error('Use an action owned by this character.');
+ await loadSourceActions(source);
  const action=sourceActions(source).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
  return rollDamage(action.damageComponents??[],{actor,label:`${source.name}: ${action.name}`,targets});
 }

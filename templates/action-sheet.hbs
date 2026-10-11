@@ -1,0 +1,20 @@
+<section class="fus-definition-editor">
+ <fieldset {{#unless editable}}disabled{{/unless}}>
+ <header><h2>Action definition</h2><small>Shared by every linked source. Ammo and range come from the item using it.</small></header>
+ <label>Name<input name="name" value="{{item.name}}" required></label>
+ <div class="fus-definition-grid">
+ <label>Action cost<input type="number" min="1" step="1" name="system.action.cost" value="{{action.cost}}"></label>
+ <label>Resolution<select name="system.action.mode"><option value="test" {{#if rolled}}selected{{/if}}>Roll</option><option value="none" {{#unless rolled}}selected{{/unless}}>Use</option></select></label>
+ <label>Targets<select name="system.action.targetMode"><option value="none">No target</option><option value="required" {{#if targetRequired}}selected{{/if}}>Requires target</option><option value="self" {{#if targetSelf}}selected{{/if}}>Target self</option></select></label>
+ <label>Skill<select name="system.action.skill"><option value="">Source default</option>{{#each skills}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+ <label>Focus name<input name="system.action.focusName" value="{{action.focusName}}" placeholder="Exact name under the selected skill"></label>
+ <label class="fus-check"><input type="checkbox" name="system.action.requiresFocus" {{checked action.requiresFocus}}>Must have a Focus</label>
+ <label data-roll-only>Roll modifier<input type="number" name="system.action.modifier" value="{{action.modifier}}"></label>
+ </div>
+ <details class="fus-item-panel" open><summary>Damage</summary><div class="fus-item-panel-body"><label class="fus-check"><input type="checkbox" name="system.action.damage" {{checked action.damage}}>Offer damage in chat</label><input type="hidden" name="damageJSON" value="{{damageJSON}}"><div data-action-damage></div><button type="button" data-add-action-damage>Add damage component</button></div></details>
+ <details class="fus-item-panel" open><summary>Source resource</summary><div class="fus-item-panel-body"><label class="fus-check"><input type="checkbox" name="system.action.adjustResource" {{checked action.adjustResource}}>Adjust source ammo / charges when used</label><small>Sources at 0/0 are unlimited and ignore this setting.</small><label data-resource-only>Change<select name="system.action.resourceMode"><option value="adjust">Adjust</option><option value="reset" {{#if reset}}selected{{/if}}>Reset to maximum</option></select></label><label data-resource-amount>Amount (+ adds, − spends)<input type="number" step="1" name="system.action.resourceAmount" value="{{action.resourceAmount}}"></label></div></details>
+ <label>Rules and description<textarea name="system.action.description" rows="4">{{action.description}}</textarea></label>
+ <details class="fus-item-panel"><summary>Automation</summary><div class="fus-item-panel-body"><small>Runs once after successful action use. Context: actor, source, action, targets, message. Script permissions apply.</small><label>Macro UUID<input name="system.action.macroUuid" value="{{action.macroUuid}}" placeholder="Macro.… or Compendium.…"></label><label>Async JavaScript<textarea class="fus-script-input" name="system.action.script" rows="8" spellcheck="false">{{action.script}}</textarea></label></div></details>
+ <button type="button" data-action="saveDefinition">Save Action</button>
+ </fieldset>
+</section>

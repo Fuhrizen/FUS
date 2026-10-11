@@ -11,54 +11,21 @@
     "maximum": 5,
     "resourceCurrent": 0,
     "resourceMax": 0,
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "9055af39bbb1cd58",
-        "name": "Strike",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.f33a8b8e8b0a868c",
         "focusId": "",
-        "focusName": "Blades",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "cutting",
-            "formula": "1"
-          }
-        ],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "One attack roll; damage is rolled separately. One hand; fine cutting edge."
+        "focusName": ""
       },
       {
         "id": "2adc5b3a31059897",
-        "name": "Thrust",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.771bb52c5029ab1e",
         "focusId": "",
-        "focusName": "Blades",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "piercing",
-            "formula": "1"
-          }
-        ],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "Use the point instead of the edge. One hand; fine cutting edge."
+        "focusName": ""
       }
     ]
   },

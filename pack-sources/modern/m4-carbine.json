@@ -11,116 +11,42 @@
     "maximum": 300,
     "resourceCurrent": 30,
     "resourceMax": 30,
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "20ab915cd173bbbe",
-        "name": "Single shot",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.4707922d0a1c8ecd",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "piercing",
-            "formula": "2"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -1,
-        "description": "One attack roll; damage is rolled separately. Two hands; carbine."
+        "focusName": ""
       },
       {
         "id": "32b71fa849a783c9",
-        "name": "Aimed shot",
-        "cost": 2,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.a2f9c0f3a5217e73",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": true,
-        "modifier": 1,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "piercing",
-            "formula": "2"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -1,
-        "description": "Take time to line up one shot. Starter variant: +1 to the roll is already configured; no automatic DC or cover adjustment."
+        "focusName": ""
       },
       {
         "id": "d4cdbfa9b0a7b81f",
-        "name": "Burst fire",
-        "cost": 2,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.ebe4927ab9db889a",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "piercing",
-            "formula": "3"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -3,
-        "description": "Spend three rounds for one attack against one target. Starter variant: +1 damage is included; do not roll three attacks."
+        "focusName": ""
       },
       {
         "id": "5da590239d02fb43",
-        "name": "Suppress",
-        "cost": 2,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.9ffee4cca807dbc9",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -10,
-        "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually."
+        "focusName": ""
       },
       {
         "id": "23fd5c3a73c19c45",
-        "name": "Reload",
-        "cost": 1,
-        "mode": "none",
-        "targetMode": "self",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.651b833cab857a5d",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": true,
-        "resourceMode": "reset",
-        "resourceAmount": 0,
-        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+        "focusName": ""
       }
     ]
   },

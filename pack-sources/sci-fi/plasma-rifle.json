@@ -11,73 +11,28 @@
     "maximum": 240,
     "resourceCurrent": 8,
     "resourceMax": 8,
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "20ab915cd173bbbe",
-        "name": "Single shot",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.6e3972848792292b",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "heat",
-            "formula": "3"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -1,
-        "description": "One attack roll; damage is rolled separately. Two hands; high-output plasma; limited capacity."
+        "focusName": ""
       },
       {
         "id": "32b71fa849a783c9",
-        "name": "Aimed shot",
-        "cost": 2,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.38caecab891e59a1",
         "focusId": "",
-        "focusName": "Rifles",
         "focusActorUuid": "",
-        "requiresFocus": true,
-        "modifier": 1,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "heat",
-            "formula": "3"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -1,
-        "description": "Take time to line up one shot. Starter variant: +1 to the roll is already configured; no automatic DC or cover adjustment."
+        "focusName": ""
       },
       {
         "id": "23fd5c3a73c19c45",
-        "name": "Reload",
-        "cost": 1,
-        "mode": "none",
-        "targetMode": "self",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.651b833cab857a5d",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": true,
-        "resourceMode": "reset",
-        "resourceAmount": 0,
-        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+        "focusName": ""
       }
     ]
   },

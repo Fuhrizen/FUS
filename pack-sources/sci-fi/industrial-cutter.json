@@ -11,49 +11,21 @@
     "maximum": 5,
     "resourceCurrent": 8,
     "resourceMax": 8,
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "9055af39bbb1cd58",
-        "name": "Strike",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.210565d79d68133d",
         "focusId": "",
-        "focusName": "Tools",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "heat",
-            "formula": "1"
-          }
-        ],
-        "adjustResource": true,
-        "resourceMode": "adjust",
-        "resourceAmount": -1,
-        "description": "One attack roll; damage is rolled separately. Two hands; cutting tool; spends one charge per use."
+        "focusName": ""
       },
       {
         "id": "047836553b73cf61",
-        "name": "Recharge",
-        "cost": 1,
-        "mode": "none",
-        "targetMode": "self",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.40ed9bbd40c11a68",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": true,
-        "resourceMode": "reset",
-        "resourceAmount": 0,
-        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+        "focusName": ""
       }
     ]
   },

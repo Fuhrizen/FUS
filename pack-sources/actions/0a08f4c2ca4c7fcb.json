@@ -1,0 +1,40 @@
+{
+  "_id": "0a08f4c2ca4c7fcb",
+  "name": "Close shot",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Shotguns",
+      "requiresFocus": true,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "2"
+        },
+        {
+          "type": "bludgeoning",
+          "formula": "1"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -1,
+      "description": "Target within 10 ft. Once per turn; +1 to the first damage component is included. Range and frequency are checked manually."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!0a08f4c2ca4c7fcb"
+}

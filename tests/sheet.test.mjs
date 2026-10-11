@@ -458,11 +458,11 @@ test('quantity controls update owned items and reject invalid values',async()=>{
 test('dropping an item back on its source sheet does nothing',async()=>{
  const {s,item}=transferSetup(5);item.parent.uuid=s.document.uuid;foundry.applications.ux={TextEditor:{getDragEventData:()=>({type:'Item',uuid:item.uuid})}};foundry.documents.Item={fromDropData:async()=>item};await s._dropInventoryItem({});assert.equal(s.document.items.length,0);delete foundry.applications.ux;
 });
-test('Form removal cancels safely then deletes owned Form retaining HP',async()=>{
- const s=sheet();s.document.system={...s.document.system,hp:4,maxhp:10,formItemId:'old'};s.document.items=[{id:'old',type:'form',name:'Old',system:{maxhp:10}}];let deleted=[];s.document.deleteEmbeddedDocuments=async(type,ids)=>{deleted.push(...ids);s.document.items=s.document.items.filter(i=>!ids.includes(i.id));};
- foundry.applications.api.DialogV2={confirm:async()=>false};await s._removeForm();assert.equal(s.document.system.formItemId,'old');assert.deepEqual(deleted,[]);
- foundry.applications.api.DialogV2.confirm=async()=>true;await s._removeForm();assert.equal(s.document.system.formItemId,'');assert.equal(s.document.system.hp,4);assert.equal(s.document.system.maxhp,10);assert.deepEqual(deleted,['old']);
+test('selected Form cannot be removed and retains all health values',async()=>{
+ const s=sheet();s.document.items=[{id:'old',type:'form',name:'Old',system:{maxhp:10}}];s.document.system.formItemId='old';
+ await assert.rejects(()=>s._removeForm(),/always have a Form/);assert.equal(s.document.system.formItemId,'old');
 });
+
 test('Form replacement removes previous owned Form after applying new maximum',async()=>{
  const s=sheet();s.document.system={...s.document.system,hp:8,maxhp:10,formItemId:'old'};s.document.items=[{id:'old',type:'form',system:{maxhp:10}}];s.document.createEmbeddedDocuments=async(type,[source])=>{const item={...source,id:'new'};s.document.items.push(item);return [item];};s.document.deleteEmbeddedDocuments=async(type,ids)=>{assert.equal(s.document.system.formItemId,'new');s.document.items=s.document.items.filter(i=>!ids.includes(i.id));};
  await s._assignForm({type:'form',uuid:'Item.new',toObject:()=>({type:'form',system:{maxhp:5},flags:{}})});assert.deepEqual(s.document.items.map(i=>i.id),['new']);assert.equal(s.document.system.hp,5);

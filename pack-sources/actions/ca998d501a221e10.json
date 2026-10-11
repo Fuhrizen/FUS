@@ -1,0 +1,36 @@
+{
+  "_id": "ca998d501a221e10",
+  "name": "Heavy swing",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Heavy Weapons",
+      "requiresFocus": true,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "cutting",
+          "formula": "3"
+        }
+      ],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Two hands. Requires the named Focus; damage bonus is already included."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!ca998d501a221e10"
+}

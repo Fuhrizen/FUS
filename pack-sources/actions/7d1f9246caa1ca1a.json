@@ -1,0 +1,36 @@
+{
+  "_id": "7d1f9246caa1ca1a",
+  "name": "Psychic pulse",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "rangedCombat",
+      "focusName": "",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "psychic",
+          "formula": "1"
+        }
+      ],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Innate psychic attack within 30 ft. Range and line of sight are checked manually."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!7d1f9246caa1ca1a"
+}

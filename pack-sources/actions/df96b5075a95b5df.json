@@ -1,0 +1,36 @@
+{
+  "_id": "df96b5075a95b5df",
+  "name": "Single shot",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Rifles",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "heat",
+          "formula": "2"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -1,
+      "description": "One attack roll; damage is rolled separately. Two hands; standard energy carbine."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!df96b5075a95b5df"
+}

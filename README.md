@@ -11,4 +11,4 @@ The system is in beta. Features and interfaces are still being developed; every 
 3. Extract it so `FUS/system.json` sits in your Foundry user-data `systems/FUS` directory.
 4. Restart Foundry and select FUS when creating a world.
 
-To update, back up your world, replace the FUS system folder with the new release, then restart Foundry and reload connected clients. While this repository is private, sign in to GitHub to download and install builds manually.
+To update, back up your world, replace the FUS system folder with the new release, then restart Foundry and reload connected clients. For automatic beta updates, install using https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.

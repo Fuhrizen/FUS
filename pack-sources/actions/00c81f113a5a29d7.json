@@ -1,0 +1,36 @@
+{
+  "_id": "00c81f113a5a29d7",
+  "name": "Thrust",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Blades",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "2"
+        }
+      ],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Use the point instead of the edge. Two hands; vibrating edge. No ammo needed for this profile."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!00c81f113a5a29d7"
+}

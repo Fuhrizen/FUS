@@ -1,0 +1,36 @@
+{
+  "_id": "faed6c0933314826",
+  "name": "Thrust",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Blades",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "2"
+        }
+      ],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Use the point instead of the edge. Two hands for this damage profile."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!faed6c0933314826"
+}

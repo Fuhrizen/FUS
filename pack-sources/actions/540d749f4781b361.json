@@ -1,0 +1,31 @@
+{
+  "_id": "540d749f4781b361",
+  "name": "Empathic read",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "insight",
+      "focusName": "",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": false,
+      "damageComponents": [],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Read surface emotional cues from a visible target within 30 ft; result is manual."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!540d749f4781b361"
+}

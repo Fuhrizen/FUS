@@ -1,0 +1,36 @@
+{
+  "_id": "405a3f727af3b8cb",
+  "name": "Strike",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Blunt Weapons",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "bludgeoning",
+          "formula": "1"
+        }
+      ],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "One attack roll; damage is rolled separately. One hand. Nonlethal intent does not automatically prevent injury."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!405a3f727af3b8cb"
+}

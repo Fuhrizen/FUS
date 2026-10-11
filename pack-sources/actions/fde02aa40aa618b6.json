@@ -1,0 +1,31 @@
+{
+  "_id": "fde02aa40aa618b6",
+  "name": "Diagnostic scan",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "test",
+      "targetMode": "self",
+      "skill": "systems",
+      "focusName": "",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": false,
+      "damageComponents": [],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Report a self-diagnostic roll; GM determines faults and useful information."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!fde02aa40aa618b6"
+}

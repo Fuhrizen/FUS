@@ -8,49 +8,21 @@
     "move": 10,
     "description": "Broad, dense-bodied alien. Base HP 7, Move 10 ft; built for forceful close combat.",
     "rules": "6-HP campaign starter Form. Printed action effects are adjudicated manually; no automatic healing, conditions or DC checks.",
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "328ae598c3a69dcc",
-        "name": "Crushing strike",
-        "cost": 2,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "meleeCombat",
+        "uuid": "Compendium.FUS.actions.Item.36cb0296ce331700",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": true,
-        "damageComponents": [
-          {
-            "type": "bludgeoning",
-            "formula": "2"
-          }
-        ],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "Innate strike within 5 ft; requires two free limbs."
+        "focusName": ""
       },
       {
         "id": "ec626f9b407693c1",
-        "name": "Brace",
-        "cost": 1,
-        "mode": "none",
-        "targetMode": "self",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.2093ffcb6d926185",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "Plant your stance. Describe the position; GM adjudicates resistance to forced movement. No automatic armour bonus."
+        "focusName": ""
       }
     ]
   },

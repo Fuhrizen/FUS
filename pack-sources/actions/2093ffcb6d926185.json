@@ -1,0 +1,31 @@
+{
+  "_id": "2093ffcb6d926185",
+  "name": "Brace",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 1,
+      "mode": "none",
+      "targetMode": "self",
+      "skill": "",
+      "focusName": "",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": false,
+      "damageComponents": [],
+      "adjustResource": false,
+      "resourceMode": "adjust",
+      "resourceAmount": 0,
+      "description": "Plant your stance. Describe the position; GM adjudicates resistance to forced movement. No automatic armour bonus."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!2093ffcb6d926185"
+}

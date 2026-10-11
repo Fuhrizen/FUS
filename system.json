@@ -35,7 +35,8 @@
       "form": {},
       "item": {},
       "weapon": {},
-      "armour": {}
+      "armour": {},
+      "action": {}
     }
   },
   "packs": [
@@ -76,6 +77,17 @@
       "name": "sci-fi",
       "label": "Sci-Fi Starter Equipment",
       "path": "packs/sci-fi",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "actions",
+      "label": "Shared Actions",
+      "path": "packs/actions",
       "type": "Item",
       "system": "FUS",
       "ownership": {

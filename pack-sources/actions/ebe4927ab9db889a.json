@@ -1,0 +1,36 @@
+{
+  "_id": "ebe4927ab9db889a",
+  "name": "Burst Fire (5.56)",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "rangedCombat",
+      "focusName": "Rifles",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "3"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -3,
+      "description": "Fire a three-round burst with one attack roll. The damage bonus is included."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!ebe4927ab9db889a"
+}

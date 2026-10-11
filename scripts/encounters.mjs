@@ -35,10 +35,11 @@ async function action(event,target){
 }
 const actions=Object.fromEntries(['popout','openActor','createEncounter','selectEncounter','deleteEncounter','addTokens','start','stop','next','ignore','remove','setTurn'].map(key=>[key,action]));
 export class FUSEncountersPopup extends HandlebarsApplicationMixin(ApplicationV2){
- static DEFAULT_OPTIONS={id:'fus-encounters-popup',classes:['fus-encounters-window'],position:{width:320,height:340},window:{title:'FUS Encounters',resizable:true},actions};
+ static DEFAULT_OPTIONS={id:'fus-encounters-popup',classes:['fus-encounters-window'],position:{width:320,height:340},window:{title:'FUS Encounters',resizable:false},actions};
  static PARTS={body:{template:'systems/FUS/templates/encounters.hbs',scrollable:['.fus-encounters']}};
+ async close(options){window.removeEventListener('resize',this._dockResize);this._dockObserver?.disconnect();this._dockObserver=null;views.delete(this);return super.close(options);}
  async _prepareContext(){return context();}
- async _onRender(...args){await super._onRender(...args);views.add(this);const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
+ async _onRender(...args){await super._onRender(...args);views.add(this);if(this instanceof FUSEncountersPopup){dockEncounterPopup(this);this._dockResize??=()=>dockEncounterPopup(this);window.addEventListener('resize',this._dockResize);const sidebar=document.querySelector('#sidebar, #ui-right');if(sidebar&&globalThis.ResizeObserver&&!this._dockObserver){this._dockObserver=new ResizeObserver(this._dockResize);this._dockObserver.observe(sidebar);}}const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
 }
 export class FUSEncountersSidebar extends HandlebarsApplicationMixin(AbstractSidebarTab){
  static tabName='combat';
@@ -47,20 +48,21 @@ export class FUSEncountersSidebar extends HandlebarsApplicationMixin(AbstractSid
  async _prepareContext(){return context();}
  async _onRender(...args){await super._onRender(...args);views.add(this);const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
 }
-export async function openEncounters(){game.FUS.encountersPopup??=new FUSEncountersPopup();const popup=game.FUS.encountersPopup;const firstRender=!popup.rendered;await popup.render({force:true});if(firstRender){const chat=document.querySelector('#sidebar, #ui-right'),bounds=chat?.getBoundingClientRect(),width=320,height=Math.min(340,window.innerHeight-40);popup.setPosition({width,height,left:Math.max(10,(bounds?.left??window.innerWidth)-width-12),top:Math.max(10,window.innerHeight-height-24)});}popup.bringToFront();}
+export function dockEncounterPopup(popup){const bounds=document.querySelector('#sidebar, #ui-right')?.getBoundingClientRect(),right=Math.max(12,window.innerWidth-(bounds?.left??window.innerWidth)+12),width=Math.min(320,Math.max(180,window.innerWidth-right-12)),height=Math.min(340,window.innerHeight-40);popup.setPosition({width,height,left:Math.max(10,window.innerWidth-right-width),top:Math.max(10,window.innerHeight-height-24)});if(popup.element?.style)popup.element.style.setProperty('--fus-hud-right',`${right}px`);}
+export async function openEncounters(){game.FUS.encountersPopup??=new FUSEncountersPopup();const popup=game.FUS.encountersPopup;await popup.render({force:true});dockEncounterPopup(popup);popup.bringToFront();}
 export function registerEncounters(){
  game.settings.register('FUS','autoEncounterPopup',{name:'Show encounter tracker when combat starts',hint:'Automatically open the compact tracker when an encounter starts, including after joining an ongoing encounter.',scope:'client',config:true,type:Boolean,default:true});
  Hooks.once?.('ready',()=>syncEncounterPopup().catch(reportError));
  game.settings.register('FUS','encounters',{scope:'world',config:false,type:Object,default:{selectedId:'',encounters:[]},onChange:refresh});
  CONFIG.ui.combat=FUSEncountersSidebar;
  const tabs=CONFIG.ui.sidebar?.TABS??foundry.applications.sidebar.Sidebar.TABS;
- if(tabs?.combat)tabs.combat={...tabs.combat,icon:'fa-solid fa-dice',tooltip:'FUS Encounters'};
+ if(tabs?.combat)tabs.combat={...tabs.combat,icon:'fa-solid fa-swords',tooltip:'FUS Encounters'};
  Hooks.on('renderTokenHUD',(_app,html)=>{const root=html?.querySelector?html:html?.[0];root?.querySelectorAll('[data-action="toggleCombat"],[data-action="combat"],[data-control="combat"]').forEach(node=>node.remove());});
  Hooks.on('preCreateCombat',()=>{ui.notifications.info('Use the FUS Encounters tab.');return false;});
  Hooks.on('preCreateCombatant',()=>false);
  Hooks.on('preUpdateCombat',()=>false);
  Hooks.on('renderApplicationV2',(app)=>{if(app.constructor.name==='TokenHUD'){app.element?.querySelectorAll('[data-action="toggleCombat"],[data-action="combat"],[data-control="combat"]').forEach(node=>node.remove());}});
- Hooks.on('renderSidebar',()=>{const button=document.querySelector('[data-tab="combat"]');if(button){button.title='FUS Encounters';button.setAttribute('aria-label','FUS Encounters');const icon=button.querySelector('i');if(icon)icon.className='fa-solid fa-dice';}});
+ Hooks.on('renderSidebar',()=>{if(game.FUS?.encountersPopup?.rendered)dockEncounterPopup(game.FUS.encountersPopup);const button=document.querySelector('[data-tab="combat"]');if(button){button.title='FUS Encounters';button.setAttribute('aria-label','FUS Encounters');const icon=button.querySelector('i');if(icon)icon.className='fa-solid fa-swords';}});
 }
 
 export async function updateEncounterHealth(actor){

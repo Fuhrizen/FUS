@@ -53,8 +53,12 @@ export async function createRollMacro(data, slot) {
   return macro;
 }
 export function onHotbarDrop(hotbar, data, slot) {
+  if(data.type==='FUSAction'){createActionMacro(data,slot).catch(error=>ui.notifications.error(error.message));return false;}
   if (data.type !== "FUSRoll") return;
   // Hooks are synchronous; return false immediately rather than from an async callback.
   createRollMacro(data, slot).catch(error => ui.notifications.error(error.message));
   return false;
 }
+
+export async function actionMacro(reference){try{const actor=await fromUuid(reference.actorUuid),source=actor?.items?.get(reference.sourceId);if(!source)throw new Error('The source item is no longer available.');return await game.FUS.executeWeaponAction(actor,source,reference.actionId);}catch(error){ui.notifications.error(error.message);}}
+export async function createActionMacro(data,slot){const actor=await fromUuid(data.actorUuid),source=actor?.items?.get(data.sourceId);if(!actor?.isOwner || !source)throw new Error('You cannot use this Action source.');const {loadSourceActions}=await import('./action-library.mjs');await loadSourceActions(source);const {sourceActions}=await import('./attacks.mjs');const action=sourceActions(source).find(a=>a.id===data.actionId);if(!action||action.missing)throw new Error('Action is unavailable.');const reference={actorUuid:actor.uuid,sourceId:source.id,actionId:action.id};const command=`await game.FUS.actionMacro(${JSON.stringify(reference)});`;let macro=game.macros.find(m=>m.type==='script'&&m.command===command&&m.isOwner);macro??=await foundry.documents.Macro.create({name:`${source.name}: ${action.name}`,type:'script',img:source.img,command});await game.user.assignHotbarMacro(macro,slot);return macro;}

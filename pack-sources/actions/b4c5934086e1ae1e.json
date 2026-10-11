@@ -1,0 +1,36 @@
+{
+  "_id": "b4c5934086e1ae1e",
+  "name": "Three-round burst",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Rifles",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "3"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -3,
+      "description": "Spend three rounds for one attack against one target. Starter variant: +1 damage is already included."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!b4c5934086e1ae1e"
+}

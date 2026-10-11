@@ -1,0 +1,36 @@
+{
+  "_id": "58a0fcec61d32c07",
+  "name": "Aimed shot",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Rifles",
+      "requiresFocus": true,
+      "modifier": 1,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "heat",
+          "formula": "2"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -1,
+      "description": "Take time to line up one shot. Starter variant: +1 to the roll is already configured; no automatic DC or cover adjustment."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!58a0fcec61d32c07"
+}

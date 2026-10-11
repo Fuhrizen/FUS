@@ -9,3 +9,5 @@ export async function actionTargets(actor,action,source,{prompt=promptTargetSele
  return prompt(actor,action,source,selectedActionTargets);
 }
 export const targetRows=targets=>targets.length?[{label:'Target',detail:targets.map(t=>t.name).join(', '),value:''}]:[];
+
+export function clearActionTargets(){const user=globalThis.game?.user;if(user?.updateTokenTargets)user.updateTokenTargets([]);else for(const token of Array.from(user?.targets??[]))token.setTarget?.(false,{user,releaseOthers:false});}

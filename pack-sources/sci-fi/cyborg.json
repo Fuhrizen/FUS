@@ -8,44 +8,21 @@
     "move": 15,
     "description": "Augmented human. Reinforced body provides 7 base HP; other upgrades are equipment.",
     "rules": "6-HP campaign starter Form. Printed action effects are adjudicated manually; no automatic healing, conditions or DC checks.",
-    "weaponActions": [
+    "weaponActions": [],
+    "actionLinks": [
       {
         "id": "84dfa7fb5b61396e",
-        "name": "Interface",
-        "cost": 1,
-        "mode": "test",
-        "targetMode": "required",
-        "skill": "systems",
+        "uuid": "Compendium.FUS.actions.Item.e15555f39e21291d",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "Requires a compatible nearby device or synthetic target. GM resolves access manually."
+        "focusName": ""
       },
       {
         "id": "41eb3ace5d1a6e1e",
-        "name": "Internal status",
-        "cost": 1,
-        "mode": "none",
-        "targetMode": "self",
-        "skill": "",
+        "uuid": "Compendium.FUS.actions.Item.4b9d83293ac58cb5",
         "focusId": "",
-        "focusName": "",
         "focusActorUuid": "",
-        "requiresFocus": false,
-        "modifier": 0,
-        "damage": false,
-        "damageComponents": [],
-        "adjustResource": false,
-        "resourceMode": "adjust",
-        "resourceAmount": 0,
-        "description": "Review fitted augmentations and current condition; does not restore HP."
+        "focusName": ""
       }
     ]
   },

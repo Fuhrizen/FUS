@@ -1,3 +1,7 @@
+import {FUSActionData} from './action-model.mjs';
+import {FUSActionSheet} from './action-sheet.mjs';
+import {rememberAction,forgetAction,migrateActionLibrary,loadSourceActions,migrateSourceActions} from './action-library.mjs';
+import {ensureActorForm,preventFormRemoval,validFormSelection} from './forms.mjs';
 import {isFUSActor,actorCreationDefaults,sceneCreationDefaults} from './actor-types.mjs';
 import {registerEncounters,openEncounters,updateEncounterHealth} from './encounters.mjs';
 import {mountActionDamage,rollActionDamage} from './action-damage.mjs';
@@ -10,18 +14,20 @@ import {FUSItemSheet} from './item-sheet.mjs';
 import {formMaximum} from './forms.mjs';
 import {FUSCharacterData} from "./model.mjs";
 import {FUSCharacterSheet} from "./character-sheet.mjs";
-import {rollMacro, onHotbarDrop} from "./rolls.mjs";
+import {rollMacro, actionMacro, onHotbarDrop} from "./rolls.mjs";
 Hooks.on("hotbarDrop", onHotbarDrop);
 import {FUSFormData} from "./form-model.mjs";
 import {FUSFormSheet} from "./form-sheet.mjs";
 Hooks.once("init", () => {
   registerEncounters();
   CONFIG.Item.dataModels.form = FUSFormData;
+  CONFIG.Item.dataModels.action=FUSActionData;
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSActionSheet,{types:["action"],makeDefault:true,label:"FUS Action"});
   Object.assign(CONFIG.Item.dataModels,{item:FUSItemData,weapon:FUSWeaponData,armour:FUSArmourData});
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSItemSheet,{types:["item","weapon","armour"],makeDefault:true,label:"FUS Item"});
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSFormSheet,{types:["form"],makeDefault:true,label:"FUS Form"});
   CONFIG.FUS={...(CONFIG.FUS??{}),damageTypes:DAMAGE_TYPES};
-  game.FUS = {openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
+  game.FUS = {openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,actionMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
   registerDamageLinks();
   registerDamageChat();
   CONFIG.Actor.dataModels.character = FUSCharacterData;
@@ -34,6 +40,7 @@ Hooks.once("init", () => {
 // Apply the same HP ceiling to document updates, including lowering Max HP.
 Hooks.on("preUpdateActor", (actor, changes) => {
   if (!isFUSActor(actor)) return;
+  if(!validFormSelection(actor,changes))return false;
   const read = key => changes[`system.${key}`] ?? changes.system?.[key];
   if (read("hp") === undefined && read("maxhp") === undefined) return;
   const hp = Number(read("hp") ?? actor.system.hp);
@@ -52,11 +59,14 @@ Hooks.on("preUpdateActor", (actor, changes) => {
 // Persist the HP ceiling when an owned Form changes; never refill current HP.
 
 
-// An externally deleted Form must not leave a stale selection.
-Hooks.on('deleteItem',async(item,options,userId)=>{
-  if(userId===game.user.id && item.type==='form' && item.parent?.system.formItemId===item.id)
-    await item.parent.update({'system.formItemId':''});
-});
+// Forms are replaceable but cannot be cleared or deleted while selected.
+Hooks.on('preDeleteItem',item=>preventFormRemoval(item));
+Hooks.on('preUpdateItem',(item,changes)=>{if(item.type==='form'&&item.parent && (changes['system.maxhp']===null || changes['system.maxhp']==='' || changes.system?.maxhp===null))return false;});
+Hooks.on('createActor',async(actor,_options,userId)=>{if(userId===game.user.id){await ensureActorForm(actor);for(const item of actor.items)await loadSourceActions(item);}});
+for(const event of ['createItem','updateItem'])Hooks.on(event,async item=>{if(item.type==='action'){rememberAction(item);await refreshActionViews();}else {if(event==='createItem'&&game.user.isGM&&(!game.users.activeGM||game.users.activeGM.id===game.user.id))await migrateSourceActions(item);await loadSourceActions(item);}});
+Hooks.on('deleteItem',async item=>{if(item.type==='action'){forgetAction(item);await refreshActionViews();}});
+async function refreshActionViews(){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const doc of [...actors,...game.items,...actors.flatMap(a=>a.items.contents)])if(doc.sheet?.rendered)await doc.sheet.render({force:true});}
+Hooks.once('ready',async()=>{try{if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
 
 Hooks.on('renderChatMessageHTML',(message,html)=>{
   const reference=message.flags?.FUS;if(!['attack','weaponAction'].includes(reference?.kind))return;

@@ -1,0 +1,36 @@
+{
+  "_id": "a2f9c0f3a5217e73",
+  "name": "Aimed Fire (5.56)",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "rangedCombat",
+      "focusName": "Rifles",
+      "requiresFocus": true,
+      "modifier": 1,
+      "damage": true,
+      "damageComponents": [
+        {
+          "type": "piercing",
+          "formula": "2"
+        }
+      ],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -1,
+      "description": "Spend two actions aiming and firing one round. The +1 roll modifier is included."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!a2f9c0f3a5217e73"
+}

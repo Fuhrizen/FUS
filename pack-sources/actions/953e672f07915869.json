@@ -1,0 +1,31 @@
+{
+  "_id": "953e672f07915869",
+  "name": "Suppress",
+  "type": "action",
+  "img": "icons/svg/dice-target.svg",
+  "system": {
+    "action": {
+      "cost": 2,
+      "mode": "test",
+      "targetMode": "required",
+      "skill": "",
+      "focusName": "Light Machine Guns",
+      "requiresFocus": false,
+      "modifier": 0,
+      "damage": false,
+      "damageComponents": [],
+      "adjustResource": true,
+      "resourceMode": "adjust",
+      "resourceAmount": -10,
+      "description": "Spend ten rounds; nominate a 20-ft area and target the affected tokens. Post the roll without damage. GM resolves suppression and cover manually."
+    }
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!953e672f07915869"
+}

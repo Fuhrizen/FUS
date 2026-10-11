@@ -1,10 +1,10 @@
-import {createActionField} from './action-model.mjs';
+import {createActionField,createActionLinks} from './action-model.mjs';
 import {DAMAGE_TYPES} from './damage.mjs';
 const text=()=>new foundry.data.fields.StringField({required:true,blank:true,initial:''});
 const number=()=>new foundry.data.fields.NumberField({required:true,nullable:false,initial:0,min:0});
 function componentFields(){const {StringField}=foundry.data.fields;return {type:new StringField({required:true,initial:'bludgeoning',choices:Object.keys(DAMAGE_TYPES)}),formula:new StringField({required:true,blank:false,initial:'0'})};}
 export class FUSItemData extends foundry.abstract.TypeDataModel {
-  static defineSchema(){return {weaponActions:createActionField(),quantity:new foundry.data.fields.NumberField({required:true,nullable:false,initial:1,min:0,integer:true}),description:text()};}
+  static defineSchema(){return {weaponActions:createActionField(),actionLinks:createActionLinks(),quantity:new foundry.data.fields.NumberField({required:true,nullable:false,initial:1,min:0,integer:true}),description:text()};}
 }
 export class FUSWeaponData extends FUSItemData {
   static migrateData(source){

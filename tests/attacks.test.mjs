@@ -27,3 +27,11 @@ test('NPCs use the same action roll and live skill model as Players',async()=>{c
 
 test('Misc and Armour actions appear under their source and execute without a weapon resource',async()=>{for(const type of ['item','armour']){const {actor,weapon}=fixture();weapon.type=type;weapon.system.weaponActions=[{...DEFAULT_ATTACK,id:'use',mode:'none',damage:false,adjustResource:true,resourceAmount:-50}];const groups=availableActionGroups(actor);assert.equal(groups.length,1);assert.equal(groups[0].actions[0].locked,false);const msg=await executeWeaponAction(actor,weapon,'use');assert.ok(msg.content.includes(weapon.name));assert.equal(weapon.system.resourceCurrent,3);weapon.system.quantity=0;assert.equal(availableActionGroups(actor).length,0);}});
 test('empty non-weapon sources have no implicit attack; weapons preserve their default',()=>{for(const type of ['item','armour','form'])assert.deepEqual(sourceActions({type,system:{weaponActions:[]}}),[]);assert.equal(sourceActions({type:'weapon',system:{weaponActions:[]}})[0].id,'attack');});
+
+test('used self-target actions clear canvas targeting after rolled and no-roll execution',async()=>{
+ const {actor,weapon,action}=fixture();const previous=globalThis.game;let clears=0;globalThis.game={user:{updateTokenTargets:ids=>{assert.deepEqual(ids,[]);clears++;},can:()=>true}};
+ try{action.targetMode='self';await executeWeaponAction(actor,weapon,'attack');action.mode='none';await executeWeaponAction(actor,weapon,'attack');assert.equal(clears,2);}finally{globalThis.game=previous;}
+});
+test('failed targeted action clears targeting without keeping a stale selection',async()=>{
+ const {actor,weapon,action}=fixture();action.targetMode='self';const previous=globalThis.game;let clears=0;globalThis.game={user:{updateTokenTargets:()=>clears++}};const create=foundry.documents.ChatMessage.create;foundry.documents.ChatMessage.create=async()=>{throw new Error('chat failed');};try{await assert.rejects(()=>executeWeaponAction(actor,weapon,'attack'),/chat failed/);assert.equal(clears,1);}finally{globalThis.game=previous;foundry.documents.ChatMessage.create=create;}
+});
