@@ -28,13 +28,14 @@ async function action(event,target){
 const actions=Object.fromEntries(['openActor','createEncounter','selectEncounter','deleteEncounter','addTokens','start','stop','next','ignore','remove','setTurn'].map(key=>[key,action]));
 export class FUSEncountersSidebar extends HandlebarsApplicationMixin(AbstractSidebarTab){
  async renderPopout(){await openEncounters();return this;}
+ async detachWindow(){await openEncounters();return this;}
  static tabName='combat';
  static DEFAULT_OPTIONS={id:'combat',classes:['fus-encounters-tab'],actions};
  static PARTS={body:{template:'systems/FUS/templates/encounters.hbs',scrollable:['.fus-encounters']}};
  async _prepareContext(){return {...await context(),sidebar:true};}
  async _onRender(...args){await super._onRender(...args);views.add(this);const positions=new Map();for(const card of this.element.querySelectorAll('.fus-token-card')){const rect=card.getBoundingClientRect(),previous=this._tokenPositions?.get(card.dataset.participant);positions.set(card.dataset.participant,rect);if(previous&&!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches&&(previous.x!==rect.x||previous.y!==rect.y))card.animate?.([{transform:`translate(${previous.x-rect.x}px,${previous.y-rect.y}px)`},{transform:'translate(0,0)'}],{duration:400,easing:'ease-out'});}this._tokenPositions=positions;const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
 }
-export async function openEncounters(){await ui.sidebar?.activateTab?.('combat');if(ui.combat&&!ui.combat.rendered)await ui.combat.render({force:true});}
+export async function openEncounters(){if(ui.combat?.activate){await ui.combat.activate();await ui.sidebar?.expand?.();}else await ui.sidebar?.activateTab?.('combat');if(ui.combat&&!ui.combat.rendered)await ui.combat.render({force:true});}
 export function registerEncounters(){
  game.settings.register('FUS','encounters',{scope:'world',config:false,type:Object,default:{selectedId:'',encounters:[]},onChange:refresh});
  CONFIG.ui.combat=FUSEncountersSidebar;
