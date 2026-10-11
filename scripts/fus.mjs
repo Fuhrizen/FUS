@@ -1,6 +1,6 @@
-import {configureCover} from './cover.mjs';
+import {mountCoverConfig} from './cover.mjs';
 import {registerCoverPreview} from './cover-preview.mjs';
-import {registerConditions,syncDeadStatus,changePins} from './conditions.mjs';
+import {registerConditions,syncDeadStatus,changePins,registerSuppressionEffects} from './conditions.mjs';
 import {migrateBoardRanges} from './board-ranges.mjs';
 import {FUSActionData} from './action-model.mjs';
 import {FUSActionSheet} from './action-sheet.mjs';
@@ -23,7 +23,7 @@ Hooks.on("hotbarDrop", onHotbarDrop);
 import {FUSFormData} from "./form-model.mjs";
 import {FUSFormSheet} from "./form-sheet.mjs";
 Hooks.once("init", () => {
-  registerEncounters();registerConditions();registerCoverPreview();
+  registerEncounters();registerConditions();registerCoverPreview();registerSuppressionEffects();
   CONFIG.Item.dataModels.form = FUSFormData;
   CONFIG.Item.dataModels.action=FUSActionData;
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSActionSheet,{types:["action"],makeDefault:true,label:"FUS Action"});
@@ -31,7 +31,7 @@ Hooks.once("init", () => {
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSItemSheet,{types:["item","weapon","armour"],makeDefault:true,label:"FUS Item"});
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSFormSheet,{types:["form"],makeDefault:true,label:"FUS Form"});
   CONFIG.FUS={...(CONFIG.FUS??{}),damageTypes:DAMAGE_TYPES};
-  game.FUS = {configureCover,changePins,openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,actionMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
+  game.FUS = {changePins,openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,actionMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
   registerDamageLinks();
   registerDamageChat();
   CONFIG.Actor.dataModels.character = FUSCharacterData;
@@ -128,7 +128,7 @@ Hooks.on('updateActor',async(actor,changes,_options,userId)=>{
  await updateEncounterHealth(actor);
 });
 
-Hooks.on('renderApplicationV2',app=>{if(app.document?.documentName!=='Region'||!game.user.isGM||app.element.querySelector('[data-fus-cover-settings]'))return;const button=document.createElement('button');button.type='button';button.dataset.fusCoverSettings='';button.textContent='FUS Cover';button.addEventListener('click',()=>configureCover(app.document).catch(e=>ui.notifications.error(e.message)));app.element.querySelector('.window-content')?.prepend(button);});
+Hooks.on('renderApplicationV2',mountCoverConfig);
 Hooks.on('canvasReady',async()=>{if(game.user.isGM&&game.users.activeGM?.id===game.user.id)for(const token of canvas.tokens.placeables)await syncDeadStatus(token.actor);});
 
 Hooks.on('createToken',async(token,_options,userId)=>{if(userId===game.user.id)await syncDeadStatus(token.actor);});

@@ -29,27 +29,37 @@ export function resourceAfterUse(weapon,action){
 export function actionAvailability(actor,weapon,action){
  if(action.missing)return {locked:true,reason:'The linked Action definition is unavailable.'};
  if(action.requiresFocus && !matchingFocuses(actor,weapon,action).some(f=>f.rank>=1))return {locked:true,reason:'This action requires its selected Focus at +1 or higher.'};
- try{resourceAfterUse(weapon,action);}catch(e){return {locked:true,reason:e.message};}
+ try{requiredActionItem(actor,action);resourceAfterUse(weapon,action);}catch(e){return {locked:true,reason:e.message};}
  return {locked:false,reason:''};
 }
+export function requiredActionItem(actor,action){
+ const reference=String(action.requiredItem??'').trim();if(!reference)return null;
+ const amount=Number(action.requiredItemQuantity??1);if(!Number.isSafeInteger(amount)||amount<1)throw new Error('Required item quantity must be a positive whole number.');
+ const item=Array.from(actor.items??[]).find(i=>i.id===reference||i.uuid===reference||i._stats?.compendiumSource===reference||i.flags?.core?.sourceId===reference||i.name?.trim().toLocaleLowerCase()===reference.toLocaleLowerCase());
+ if(!item||Number(item.system.quantity??1)<amount)throw new Error(`Requires ${amount} × ${reference}.`);
+ return {item,amount};
+}
 async function postActionMessage(weapon,action,message){
- const previous=Number(weapon.system.resourceCurrent??0),next=resourceAfterUse(weapon,action);
- if(action.adjustResource && hasWeaponResource(weapon))await weapon.update({'system.resourceCurrent':next});
- try{return await foundry.documents.ChatMessage.create(message);}catch(error){if(action.adjustResource && hasWeaponResource(weapon))await weapon.update({'system.resourceCurrent':previous});throw error;}
+ const previous=Number(weapon.system.resourceCurrent??0),next=resourceAfterUse(weapon,action),requirement=requiredActionItem(weapon.parent,action),spent=[];
+ try{
+  if(requirement&&action.consumeRequiredItem){const item=requirement.item,before=Number(item.system.quantity??1);if(item.id===weapon.id)throw new Error('A reload cannot consume its own source item.');await item.update({'system.quantity':before-requirement.amount});spent.push([item,{'system.quantity':before}]);}
+  if(action.adjustResource&&hasWeaponResource(weapon)){await weapon.update({'system.resourceCurrent':next});spent.push([weapon,{'system.resourceCurrent':previous}]);}
+  return await foundry.documents.ChatMessage.create(message);
+ }catch(error){for(const [item,changes]of spent.reverse())await item.update(changes);throw error;}
 }
 const actionQueues=new WeakMap();
 export function executeSourceAction(actor,weapon,actionId,options={}){
- const previous=actionQueues.get(weapon)??Promise.resolve();
- const next=previous.catch(()=>{}).then(()=>executeAction(actor,weapon,actionId,options));actionQueues.set(weapon,next);return next;
+ const previous=actionQueues.get(actor)??Promise.resolve();
+ const next=previous.catch(()=>{}).then(()=>executeAction(actor,weapon,actionId,options));actionQueues.set(actor,next);return next;
 }
 export const executeWeaponAction=executeSourceAction;
 function checkOwnership(actor,weapon){if(!actor?.isOwner || !isFUSActor(actor) || !['weapon','armour','item','form'].includes(weapon.type) || weapon.parent?.uuid!==actor.uuid)throw new Error('Use an action source owned by this character.');}
-async function executeAction(actor,weapon,actionId,{focus=null,force=false}={}){
+async function executeAction(actor,weapon,actionId,{focus=null,force=false,skipTarget=false}={}){
  checkOwnership(actor,weapon);await loadSourceActions(weapon);const action=sourceActions(weapon).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
  const availability=actionAvailability(actor,weapon,action);
  if(availability.locked && !force)throw new Error(availability.reason);
  if(action.missing)throw new Error('The linked Action definition is unavailable.');
- const targets=await actionTargets(actor,action,weapon);if(targets===null)return;
+ const targets=await actionTargets(actor,action,weapon,{skipTarget});if(targets===null)return;
  try{
  if(action.mode==='none')return await finishAction(actor,weapon,action,targets,{speaker:foundry.documents.ChatMessage.getSpeaker({actor}),content:await renderChatCard({title:action.name,img:action.img,cost:action.cost,subtitle:`${weapon.name} · ${force?'Forced use · ':''}${action.cost} action${action.cost===1?'':'s'}`,bodyHTML:escapeHTML(action.description).replace(/\n/g,'<br>'),rows:targetRows(targets),actions:action.damage&&action.damageComponents?.length?[{action:'weaponDamage',label:'Roll damage'}]:[]}),flags:{FUS:{kind:'weaponAction',actorUuid:actor.uuid,weaponUuid:weapon.uuid,actionId,targets,forced:force}}});
  const skill=attackSkill(weapon,action),focuses=(actor.system.focuses??[]).map((f,i)=>({...f,id:focusId(f,i)}));
@@ -66,12 +76,12 @@ async function executeAction(actor,weapon,actionId,{focus=null,force=false}={}){
  }finally{if(['required','self'].includes(action.targetMode))clearActionTargets();}
 }
 async function finishAction(actor,source,action,targets,data){const message=await postActionMessage(source,action,data);try{await executeActionAutomation(actor,source,action,targets,message);}catch(error){console.error('FUS Action automation failed',error);ui.notifications.error(`Action used, but automation failed: ${error.message}`);}return message;}
-export async function openSourceActions(actor,weapon,actionId=null,{force=false}={}){
+export async function openSourceActions(actor,weapon,actionId=null,{force=false,skipTarget=false}={}){
  checkOwnership(actor,weapon);await loadSourceActions(weapon);const actions=sourceActions(weapon);
  const selected=actionId??await foundry.applications.api.DialogV2.wait({window:{title:`${weapon.name}: Actions`},content:'<p>Choose an action.</p>',buttons:[...actions.map(a=>({action:a.id,label:`${a.name} (${a.cost})`,callback:()=>a.id})),{action:'cancel',label:'Cancel'}],rejectClose:false});
  const action=actions.find(a=>a.id===selected);if(!action)return;
  const availability=actionAvailability(actor,weapon,action);if(availability.locked && !force)throw new Error(availability.reason);
- return executeSourceAction(actor,weapon,action.id,{force});
+ return executeSourceAction(actor,weapon,action.id,{force,skipTarget});
 }
 
 export const openWeaponActions=openSourceActions;

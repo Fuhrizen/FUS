@@ -503,7 +503,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       const system = this.document.system;
       if(action==='useSourceAction'){
         const weapon=[...(this.document.items??[])].find(i=>i.id===target.dataset.itemId && (['weapon','form'].includes(i.type)) && (i.system.quantity??1)>0);
-        if(weapon)await openSourceActions(this.document,weapon,target.dataset.sourceActionId,{force:!!event.shiftKey});
+        if(weapon)await openSourceActions(this.document,weapon,target.dataset.sourceActionId,{force:!!event.shiftKey,skipTarget:!!event.shiftKey});
       } else if(action==='weaponActions'){
         const weapon=[...(this.document.items??[])].find(i=>i.id===target.dataset.itemId && i.type==='weapon');
         if(weapon)await openSourceActions(this.document,weapon);

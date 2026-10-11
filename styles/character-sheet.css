@@ -279,7 +279,7 @@
 .fus-overview-grid section{border:1px solid var(--color-border-light-primary,#888);border-radius:5px;padding:9px;min-width:0}.fus-overview-grid h3{font-size:1em;margin:0 0 6px}.fus-overview-grid p{margin:4px 0;overflow-wrap:anywhere}.fus-muted{opacity:.65}
 .fus-form-selection{display:block!important}.fus-form-selection button{width:100%}
 [data-action-drop]{min-height:40px;border:1px dashed var(--color-border-light-primary,#888);padding:5px;border-radius:4px}
-#fus-encounters-popup{position:fixed!important;left:auto!important;top:auto!important;right:var(--fus-hud-right,332px)!important;bottom:24px!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
+#fus-encounters-popup{position:fixed!important;left:auto!important;top:60px!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
 #fus-encounters-popup .window-header{cursor:default}
 @media(max-width:550px){.fus-definition-grid,.fus-character-details,.fus-overview-grid{grid-template-columns:1fr}}
 .fus-sidebar-speed{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--color-border-light-primary,#888)}
@@ -288,6 +288,10 @@
 .fus-chat-card [data-fus-chat-action="applyDamage"][disabled]{text-decoration:line-through;opacity:.55}.fus-chat-card [data-fus-chat-action="undoDamage"]{flex:0 0 auto}
 .fus-cover-preview{position:fixed;inset:0;width:100vw;height:100vh;z-index:9997;pointer-events:none}
 .fus-action-dropbox{padding:12px;text-align:center;min-height:70px}.fus-action-dropbox p{margin:4px}.fus-action-dropbox .fus-weapon-action-row{text-align:left}
-#fus-encounters-popup{position:fixed!important;left:auto!important;top:auto!important;right:var(--fus-hud-right,332px)!important;bottom:24px!important;transform:none!important;resize:none!important}
+#fus-encounters-popup{position:fixed!important;left:auto!important;top:60px!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;transform:none!important;resize:none!important}
 #fus-encounters-popup .window-header{pointer-events:none}#fus-encounters-popup .window-header button{pointer-events:auto}
 #token-hud [data-fus-encounter]{display:flex!important}.fus-pin-controls{display:flex;align-items:center;gap:3px;padding:3px}.fus-pin-controls button{width:24px;height:24px;padding:0}
+
+.fus-suppression-overlay{position:fixed;pointer-events:none;z-index:9996;border:3px solid #e9b64f;border-radius:50%;box-shadow:0 0 12px #e9b64f;animation:fus-suppression .85s ease-in-out infinite alternate;display:grid;place-items:center;color:#ffe39e;font-weight:bold;text-shadow:0 1px 3px #000}
+@keyframes fus-suppression{from{opacity:.35;transform:scale(.94)}to{opacity:.8;transform:scale(1.06)}}
+@media(prefers-reduced-motion:reduce){.fus-suppression-overlay{animation:none}}
