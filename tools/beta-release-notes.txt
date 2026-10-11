@@ -1,12 +1,12 @@
-FUS v0.0.3 Beta for Foundry VTT v14.
+FUS Beta for Foundry VTT v14.
 
-- Actors always have a Form, using Baseline by default.
-- Shared Action items and a dedicated editor for rolls, targeting, damage, resources, scripts and Macros.
-- Existing embedded Actions migrate automatically; starter weapons share calibre profiles.
-- Actions drag to the hotbar and clear targeting after use.
-- Encounter HUD docks bottom-right beside chat and uses the swords icon.
-- Main shows identity, appearance, loadout and trained Focuses.
+- Board-scale ranged weapon profiles and selected-token targeting with LOS checks.
+- Directional Region cover, adjacency and range configuration, and temporary cover cones while moving.
+- Pin counters and conditions, dead token overlays at zero HP, and Speed beneath HP.
+- Action icons, shared Action folders by setting and direct compendium links in Forms.
+- Fixed encounter HUD, token combat controls, clearer chat cards with distance and cover, and separate damage Undo controls.
+- Manual release dropdown: major, feature or minor; automatically increments and saves the version.
 
-153 automated tests pass. Live Foundry UI validation remains outstanding.
+Automated tests, project validation and packaging pass. Live Foundry UI validation remains outstanding.
 
-The beta channel manifest is https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.
+Beta manifest: https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.
