@@ -1,0 +1,23 @@
+{
+  "_id": "28c4d405231854a3",
+  "name": "Bedroll",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Portable bedding; suitable shelter is still needed. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!28c4d405231854a3"
+}

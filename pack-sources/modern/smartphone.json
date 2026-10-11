@@ -1,0 +1,23 @@
+{
+  "_id": "f3fe2e96b81a7047",
+  "name": "Smartphone",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Local computing, camera and network access when available. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 4000000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!f3fe2e96b81a7047"
+}

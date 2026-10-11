@@ -1,0 +1,33 @@
+{
+  "_id": "a39578a2ccd35f43",
+  "name": "Sonic Dampening Suit",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": 0,
+    "adjustments": [
+      {
+        "type": "sonic",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Acoustic protection. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "45e157733134aa34",
+  "sort": 3300000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!a39578a2ccd35f43"
+}

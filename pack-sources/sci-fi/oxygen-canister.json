@@ -1,0 +1,23 @@
+{
+  "_id": "cb1118db9bc3f489",
+  "name": "Oxygen Canister",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One scene of breathable supply for a compatible sealed suit. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 4700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!cb1118db9bc3f489"
+}

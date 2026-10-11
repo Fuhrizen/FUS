@@ -1,0 +1,23 @@
+{
+  "_id": "7bc798e3c7c4c424",
+  "name": "Waterskin",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One day of drinking water under ordinary conditions. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4500000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!7bc798e3c7c4c424"
+}

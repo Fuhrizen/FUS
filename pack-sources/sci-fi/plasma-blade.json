@@ -1,0 +1,73 @@
+{
+  "_id": "b6bbe0cbed990274",
+  "name": "Plasma Blade",
+  "type": "weapon",
+  "img": "icons/svg/sword.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; spends one charge per strike; uses a spare cell to recharge.",
+    "combatMode": "melee",
+    "optimal": 5,
+    "maximum": 5,
+    "resourceCurrent": 10,
+    "resourceMax": 10,
+    "weaponActions": [
+      {
+        "id": "9055af39bbb1cd58",
+        "name": "Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Blades",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "heat",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. One hand; spends one charge per strike; uses a spare cell to recharge."
+      },
+      {
+        "id": "047836553b73cf61",
+        "name": "Recharge",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "febd18d6d6aa0978",
+  "sort": 600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!b6bbe0cbed990274"
+}

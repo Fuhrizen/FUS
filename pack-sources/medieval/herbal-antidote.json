@@ -1,0 +1,23 @@
+{
+  "_id": "d51413044b9d42c7",
+  "name": "Herbal Antidote",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One dose. Supports Medicine against an identified toxin; result is manual. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 3700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!d51413044b9d42c7"
+}

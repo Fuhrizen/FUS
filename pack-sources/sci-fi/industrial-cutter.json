@@ -1,0 +1,73 @@
+{
+  "_id": "de2b21535c225eac",
+  "name": "Industrial Cutter",
+  "type": "weapon",
+  "img": "icons/svg/sword.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; cutting tool; spends one charge per use.",
+    "combatMode": "melee",
+    "optimal": 5,
+    "maximum": 5,
+    "resourceCurrent": 8,
+    "resourceMax": 8,
+    "weaponActions": [
+      {
+        "id": "9055af39bbb1cd58",
+        "name": "Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Tools",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "heat",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. Two hands; cutting tool; spends one charge per use."
+      },
+      {
+        "id": "047836553b73cf61",
+        "name": "Recharge",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "febd18d6d6aa0978",
+  "sort": 2300000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!de2b21535c225eac"
+}

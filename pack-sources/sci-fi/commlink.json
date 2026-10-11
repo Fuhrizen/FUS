@@ -1,0 +1,23 @@
+{
+  "_id": "8a95f3214916d16e",
+  "name": "Commlink",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Local encrypted communications when compatible networks permit. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 4100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!8a95f3214916d16e"
+}

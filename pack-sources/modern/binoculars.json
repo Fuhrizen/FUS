@@ -1,0 +1,23 @@
+{
+  "_id": "9e3cc66501ce3f53",
+  "name": "Binoculars",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Magnifies distant visible subjects; no automatic roll bonus. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 4100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!9e3cc66501ce3f53"
+}

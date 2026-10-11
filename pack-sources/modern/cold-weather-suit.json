@@ -1,0 +1,33 @@
+{
+  "_id": "a8971930e65f17b2",
+  "name": "Cold-Weather Suit",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": 0,
+    "adjustments": [
+      {
+        "type": "cold",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Insulated environmental clothing. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "17a0c92b522e9299",
+  "sort": 3300000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!a8971930e65f17b2"
+}

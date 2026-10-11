@@ -1,0 +1,23 @@
+{
+  "_id": "a3034339b39f88a7",
+  "name": "Rifle Magazine",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One full 30-round spare magazine; compatible weapon required. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 3600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!a3034339b39f88a7"
+}

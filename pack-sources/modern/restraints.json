@@ -1,0 +1,23 @@
+{
+  "_id": "6bde54b32c73666e",
+  "name": "Restraints",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One pair; apply after a suitable opportunity or opposed test. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 5000000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!6bde54b32c73666e"
+}

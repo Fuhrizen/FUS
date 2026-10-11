@@ -1,0 +1,23 @@
+{
+  "_id": "75473bfb43e90ca7",
+  "name": "Handheld Radio",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Local voice communications; terrain and jamming affect reliability. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 3900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!75473bfb43e90ca7"
+}

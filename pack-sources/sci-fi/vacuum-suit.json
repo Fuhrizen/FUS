@@ -1,0 +1,38 @@
+{
+  "_id": "e90023c8763d34fa",
+  "name": "Vacuum Suit",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": -5,
+    "adjustments": [
+      {
+        "type": "cold",
+        "formula": "1",
+        "kind": "resistance"
+      },
+      {
+        "type": "radiation",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Sealed suit. Oxygen supply and vacuum exposure are manual. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "45e157733134aa34",
+  "sort": 2900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!e90023c8763d34fa"
+}

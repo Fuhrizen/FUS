@@ -1,0 +1,54 @@
+{
+  "_id": "0761798a3fcf4c32",
+  "name": "Lance",
+  "type": "weapon",
+  "img": "icons/svg/sword.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Designed for mounted use; no automatic charge bonus.",
+    "combatMode": "melee",
+    "optimal": 10,
+    "maximum": 10,
+    "resourceCurrent": 0,
+    "resourceMax": 0,
+    "weaponActions": [
+      {
+        "id": "9055af39bbb1cd58",
+        "name": "Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Polearms",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "One attack roll; damage is rolled separately. Designed for mounted use; no automatic charge bonus."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "ec5fcc05e9953f23",
+  "sort": 1700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!0761798a3fcf4c32"
+}

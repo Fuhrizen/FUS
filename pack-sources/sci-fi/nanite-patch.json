@@ -1,0 +1,23 @@
+{
+  "_id": "694735f83269ee98",
+  "name": "Nanite Patch",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One dose; assists equipment or tissue repair as the GM permits. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 3700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!694735f83269ee98"
+}

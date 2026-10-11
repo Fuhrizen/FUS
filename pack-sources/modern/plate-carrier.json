@@ -1,0 +1,33 @@
+{
+  "_id": "c4fad63ba61f87f4",
+  "name": "Plate Carrier",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": -5,
+    "adjustments": [
+      {
+        "type": "piercing",
+        "formula": "2",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Specialised bullet protection; no cutting resistance. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "17a0c92b522e9299",
+  "sort": 2700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!c4fad63ba61f87f4"
+}

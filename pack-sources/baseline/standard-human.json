@@ -1,0 +1,46 @@
+{
+  "_id": "fusHumanBaseline",
+  "name": "Baseline",
+  "type": "form",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "description": "Ordinary human using the standard campaign baseline. Customize this owned Form for your character.",
+    "maxhp": null,
+    "move": 15,
+    "rules": "No special Form exceptions. Standard movement is 15 ft. Set Max HP to suit your campaign, or leave it blank to copy the character\u2019s current maximum when applied.",
+    "weaponActions": [
+      {
+        "id": "unarmedStrike",
+        "name": "Unarmed Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "meleeCombat",
+        "focusId": "",
+        "focusName": "Unarmed",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "bludgeoning",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Strike a target within 5 ft using a free hand or limb. Roll Melee Combat plus an optional Unarmed Focus; damage is applied separately."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": null,
+  "sort": 0,
+  "flags": {},
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!fusHumanBaseline"
+}

@@ -1,0 +1,70 @@
+{
+  "_id": "9b45b04626e446bf",
+  "name": "Veyari",
+  "type": "form",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "maxhp": 6,
+    "move": 20,
+    "description": "Light-built telepathic alien. Move 20 ft; a focused psychic pulse is an innate attack.",
+    "rules": "6-HP campaign starter Form. Printed action effects are adjudicated manually; no automatic healing, conditions or DC checks.",
+    "weaponActions": [
+      {
+        "id": "98907fc02a878b65",
+        "name": "Psychic pulse",
+        "cost": 2,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "rangedCombat",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "psychic",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Innate psychic attack within 30 ft. Range and line of sight are checked manually."
+      },
+      {
+        "id": "f468dfb171eba59f",
+        "name": "Empathic read",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "insight",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Read surface emotional cues from a visible target within 30 ft; result is manual."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "c0a910ac7226d790",
+  "sort": 5600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!9b45b04626e446bf"
+}

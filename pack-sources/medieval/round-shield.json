@@ -1,0 +1,23 @@
+{
+  "_id": "6da93ff83053c708",
+  "name": "Round Shield",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One hand while ready. May provide cover when credibly positioned; GM adjudicates. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 3400000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!6da93ff83053c708"
+}

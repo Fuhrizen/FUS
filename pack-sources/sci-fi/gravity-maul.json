@@ -1,0 +1,78 @@
+{
+  "_id": "a350981796a80fbe",
+  "name": "Gravity Maul",
+  "type": "weapon",
+  "img": "icons/svg/sword.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; forceful.",
+    "combatMode": "melee",
+    "optimal": 5,
+    "maximum": 5,
+    "resourceCurrent": 0,
+    "resourceMax": 0,
+    "weaponActions": [
+      {
+        "id": "9055af39bbb1cd58",
+        "name": "Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Heavy Weapons",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "bludgeoning",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "One attack roll; damage is rolled separately. Two hands; forceful."
+      },
+      {
+        "id": "fbf3863daa2e6da5",
+        "name": "Heavy swing",
+        "cost": 2,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Heavy Weapons",
+        "focusActorUuid": "",
+        "requiresFocus": true,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "bludgeoning",
+            "formula": "3"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Two hands. Requires the named Focus; damage bonus is already included."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "febd18d6d6aa0978",
+  "sort": 800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!a350981796a80fbe"
+}

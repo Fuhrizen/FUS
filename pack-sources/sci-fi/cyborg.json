@@ -1,0 +1,65 @@
+{
+  "_id": "3e066b2e1a13c3d1",
+  "name": "Cyborg",
+  "type": "form",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "maxhp": 7,
+    "move": 15,
+    "description": "Augmented human. Reinforced body provides 7 base HP; other upgrades are equipment.",
+    "rules": "6-HP campaign starter Form. Printed action effects are adjudicated manually; no automatic healing, conditions or DC checks.",
+    "weaponActions": [
+      {
+        "id": "84dfa7fb5b61396e",
+        "name": "Interface",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "systems",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Requires a compatible nearby device or synthetic target. GM resolves access manually."
+      },
+      {
+        "id": "41eb3ace5d1a6e1e",
+        "name": "Internal status",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "Review fitted augmentations and current condition; does not restore HP."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "c0a910ac7226d790",
+  "sort": 5500000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!3e066b2e1a13c3d1"
+}

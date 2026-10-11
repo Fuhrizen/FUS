@@ -1,0 +1,23 @@
+{
+  "_id": "1f3ab41b2195e5df",
+  "name": "First Aid Pouch",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Three treatment uses for minor injuries and basic stabilisation. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 3500000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!1f3ab41b2195e5df"
+}

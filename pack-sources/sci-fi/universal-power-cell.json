@@ -1,0 +1,23 @@
+{
+  "_id": "6677c99e7700ce44",
+  "name": "Universal Power Cell",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One spare standard cell; compatible weapon or device required. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 3800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!6677c99e7700ce44"
+}

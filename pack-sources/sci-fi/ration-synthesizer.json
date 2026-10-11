@@ -1,0 +1,23 @@
+{
+  "_id": "e91ae6bbad0122b5",
+  "name": "Ration Synthesizer",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "With supplies and power, prepares one day of food for one character. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 5300000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!e91ae6bbad0122b5"
+}

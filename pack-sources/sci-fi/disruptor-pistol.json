@@ -1,0 +1,73 @@
+{
+  "_id": "b3957223dce11a77",
+  "name": "Disruptor Pistol",
+  "type": "weapon",
+  "img": "icons/svg/target.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; disrupts matter. No automatic armour bypass.",
+    "combatMode": "ranged",
+    "optimal": 30,
+    "maximum": 90,
+    "resourceCurrent": 6,
+    "resourceMax": 6,
+    "weaponActions": [
+      {
+        "id": "20ab915cd173bbbe",
+        "name": "Single shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Sidearms",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "disruption",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. One hand; disrupts matter. No automatic armour bypass."
+      },
+      {
+        "id": "23fd5c3a73c19c45",
+        "name": "Reload",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "febd18d6d6aa0978",
+  "sort": 1700000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!b3957223dce11a77"
+}

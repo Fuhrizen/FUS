@@ -1,0 +1,54 @@
+{
+  "_id": "2ef8d8dac60b6cca",
+  "name": "Mace",
+  "type": "weapon",
+  "img": "icons/svg/sword.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; solid striking head.",
+    "combatMode": "melee",
+    "optimal": 5,
+    "maximum": 5,
+    "resourceCurrent": 0,
+    "resourceMax": 0,
+    "weaponActions": [
+      {
+        "id": "9055af39bbb1cd58",
+        "name": "Strike",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Blunt Weapons",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "bludgeoning",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": false,
+        "resourceMode": "adjust",
+        "resourceAmount": 0,
+        "description": "One attack roll; damage is rolled separately. One hand; solid striking head."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "ec5fcc05e9953f23",
+  "sort": 1100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!2ef8d8dac60b6cca"
+}

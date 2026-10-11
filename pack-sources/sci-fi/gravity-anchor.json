@@ -1,0 +1,23 @@
+{
+  "_id": "cf8e6573a43deb32",
+  "name": "Gravity Anchor",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Portable anchor for climbing or tethering in low gravity. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 4900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!cf8e6573a43deb32"
+}

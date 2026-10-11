@@ -1,0 +1,23 @@
+{
+  "_id": "d3e926bb2af03484",
+  "name": "Mag Boots",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Adhere to suitable metal surfaces; mode and movement are manual. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 4600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!d3e926bb2af03484"
+}

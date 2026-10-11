@@ -1,0 +1,43 @@
+{
+  "_id": "0223f7a52b82bb73",
+  "name": "Half Plate",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": -5,
+    "adjustments": [
+      {
+        "type": "cutting",
+        "formula": "1",
+        "kind": "resistance"
+      },
+      {
+        "type": "piercing",
+        "formula": "1",
+        "kind": "resistance"
+      },
+      {
+        "type": "bludgeoning",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Rigid partial plate. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "5a52b5024c158fe6",
+  "sort": 3100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!0223f7a52b82bb73"
+}

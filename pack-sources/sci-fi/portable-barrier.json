@@ -1,0 +1,23 @@
+{
+  "_id": "b080e9007790c757",
+  "name": "Portable Barrier",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Deploy as one Interact action to create a 5-ft cover segment. Strength and cover are adjudicated manually. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 5200000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!b080e9007790c757"
+}

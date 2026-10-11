@@ -1,0 +1,73 @@
+{
+  "_id": "4b91ca8c20f76c17",
+  "name": "Beretta 92",
+  "type": "weapon",
+  "img": "icons/svg/target.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; service pistol.",
+    "combatMode": "ranged",
+    "optimal": 40,
+    "maximum": 100,
+    "resourceCurrent": 15,
+    "resourceMax": 15,
+    "weaponActions": [
+      {
+        "id": "20ab915cd173bbbe",
+        "name": "Single shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Sidearms",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. One hand; service pistol."
+      },
+      {
+        "id": "23fd5c3a73c19c45",
+        "name": "Reload",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "9f46c121a5c23bbf",
+  "sort": 800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!4b91ca8c20f76c17"
+}

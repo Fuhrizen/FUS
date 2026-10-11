@@ -1,0 +1,105 @@
+{
+  "_id": "e8ef497fc6922ee4",
+  "name": "Energy Scattergun",
+  "type": "weapon",
+  "img": "icons/svg/target.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; short-range scatter pattern.",
+    "combatMode": "ranged",
+    "optimal": 25,
+    "maximum": 80,
+    "resourceCurrent": 8,
+    "resourceMax": 8,
+    "weaponActions": [
+      {
+        "id": "20ab915cd173bbbe",
+        "name": "Single shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Shotguns",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "heat",
+            "formula": "1"
+          },
+          {
+            "type": "bludgeoning",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. Two hands; short-range scatter pattern."
+      },
+      {
+        "id": "d5a6c3403bf3776a",
+        "name": "Close shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Shotguns",
+        "focusActorUuid": "",
+        "requiresFocus": true,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "heat",
+            "formula": "2"
+          },
+          {
+            "type": "bludgeoning",
+            "formula": "1"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "Target within 10 ft. Once per turn; +1 to the first damage component is included. Range and frequency are checked manually."
+      },
+      {
+        "id": "23fd5c3a73c19c45",
+        "name": "Reload",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "febd18d6d6aa0978",
+  "sort": 2100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!e8ef497fc6922ee4"
+}

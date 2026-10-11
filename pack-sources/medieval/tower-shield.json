@@ -1,0 +1,23 @@
+{
+  "_id": "65b9032bbcaa44f8",
+  "name": "Tower Shield",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One hand; bulky. May provide substantial cover; reduce Move by 5 ft manually while ready. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 3500000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!65b9032bbcaa44f8"
+}

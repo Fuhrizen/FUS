@@ -1,0 +1,23 @@
+{
+  "_id": "dadd4076fa947224",
+  "name": "Spyglass",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Magnifies distant visible subjects; does not grant an automatic test bonus. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!dadd4076fa947224"
+}

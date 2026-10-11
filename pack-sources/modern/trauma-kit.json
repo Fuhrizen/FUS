@@ -1,0 +1,23 @@
+{
+  "_id": "b67f8ff32cc576d7",
+  "name": "Trauma Kit",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Ten treatment uses; supports Field Patch and Stabilise procedures. No automatic HP restoration. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 3400000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!b67f8ff32cc576d7"
+}

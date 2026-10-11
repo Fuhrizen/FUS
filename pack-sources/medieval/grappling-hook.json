@@ -1,0 +1,23 @@
+{
+  "_id": "aa4e0d97520299d1",
+  "name": "Grappling Hook",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Requires rope and a suitable anchor; supports climbing. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!aa4e0d97520299d1"
+}

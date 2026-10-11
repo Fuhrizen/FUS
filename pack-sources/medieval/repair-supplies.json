@@ -1,0 +1,23 @@
+{
+  "_id": "f0550c0aad9b84ef",
+  "name": "Repair Supplies",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Five uses for patching ordinary equipment; Craft outcomes are manual. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!f0550c0aad9b84ef"
+}

@@ -1,0 +1,97 @@
+{
+  "_id": "9e3ece4e11c88b79",
+  "name": "FN SCAR-H",
+  "type": "weapon",
+  "img": "icons/svg/target.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; battle rifle with strong recoil.",
+    "combatMode": "ranged",
+    "optimal": 120,
+    "maximum": 360,
+    "resourceCurrent": 20,
+    "resourceMax": 20,
+    "weaponActions": [
+      {
+        "id": "20ab915cd173bbbe",
+        "name": "Single shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Rifles",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "3"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. Two hands; battle rifle with strong recoil."
+      },
+      {
+        "id": "32b71fa849a783c9",
+        "name": "Aimed shot",
+        "cost": 2,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Rifles",
+        "focusActorUuid": "",
+        "requiresFocus": true,
+        "modifier": 1,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "3"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "Take time to line up one shot. Starter variant: +1 to the roll is already configured; no automatic DC or cover adjustment."
+      },
+      {
+        "id": "23fd5c3a73c19c45",
+        "name": "Reload",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "9f46c121a5c23bbf",
+  "sort": 1600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!9e3ece4e11c88b79"
+}

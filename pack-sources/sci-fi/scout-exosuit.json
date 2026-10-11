@@ -1,0 +1,38 @@
+{
+  "_id": "f8c270f8b4241cc5",
+  "name": "Scout Exosuit",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": 5,
+    "adjustments": [
+      {
+        "type": "piercing",
+        "formula": "1",
+        "kind": "resistance"
+      },
+      {
+        "type": "electrical",
+        "formula": "1",
+        "kind": "weakness"
+      }
+    ],
+    "description": "6-HP starter profile. Mobility frame; +5 ft Move. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "45e157733134aa34",
+  "sort": 2800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!f8c270f8b4241cc5"
+}

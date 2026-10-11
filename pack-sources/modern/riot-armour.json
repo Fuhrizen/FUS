@@ -1,0 +1,38 @@
+{
+  "_id": "e523f633b3e8b8cf",
+  "name": "Riot Armour",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": -5,
+    "adjustments": [
+      {
+        "type": "bludgeoning",
+        "formula": "1",
+        "kind": "resistance"
+      },
+      {
+        "type": "cutting",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Designed for impacts and blades. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "17a0c92b522e9299",
+  "sort": 2900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!e523f633b3e8b8cf"
+}

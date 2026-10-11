@@ -1,0 +1,23 @@
+{
+  "_id": "d9fc6887d12676e8",
+  "name": "Thermal Cloak",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Reduces visual thermal signature; no automatic invisibility or roll bonus. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 5100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!d9fc6887d12676e8"
+}

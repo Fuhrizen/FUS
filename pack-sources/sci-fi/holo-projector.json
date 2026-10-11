@@ -1,0 +1,23 @@
+{
+  "_id": "991efd2f8db10b56",
+  "name": "Holo Projector",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Projects a small visual decoy within 15 ft; no automatic deception result. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 4200000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!991efd2f8db10b56"
+}

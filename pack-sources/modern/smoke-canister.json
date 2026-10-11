@@ -1,0 +1,23 @@
+{
+  "_id": "b92a26ef38bde72c",
+  "name": "Smoke Canister",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One use; creates a roughly 20-ft obscured area for one scene in still air. Place effects manually. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 4900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!b92a26ef38bde72c"
+}

@@ -1,0 +1,38 @@
+{
+  "_id": "3b59b0d8aa86f4a1",
+  "name": "Heavy Assault Armour",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 1,
+    "speedBonus": -5,
+    "adjustments": [
+      {
+        "type": "piercing",
+        "formula": "2",
+        "kind": "resistance"
+      },
+      {
+        "type": "cutting",
+        "formula": "1",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Bulky armour; +1 maximum HP. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "17a0c92b522e9299",
+  "sort": 2800000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!3b59b0d8aa86f4a1"
+}

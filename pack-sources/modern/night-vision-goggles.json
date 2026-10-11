@@ -1,0 +1,23 @@
+{
+  "_id": "ff8d761b46464bc7",
+  "name": "Night-Vision Goggles",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Allows sight in low light while powered; ineffective in total darkness without illumination. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 4200000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!ff8d761b46464bc7"
+}

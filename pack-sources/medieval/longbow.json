@@ -1,0 +1,97 @@
+{
+  "_id": "4309ad0f262cf59a",
+  "name": "Longbow",
+  "type": "weapon",
+  "img": "icons/svg/target.svg",
+  "system": {
+    "quantity": 1,
+    "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands. Reload represents nocking an arrow.",
+    "combatMode": "ranged",
+    "optimal": 120,
+    "maximum": 360,
+    "resourceCurrent": 1,
+    "resourceMax": 1,
+    "weaponActions": [
+      {
+        "id": "20ab915cd173bbbe",
+        "name": "Single shot",
+        "cost": 1,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Bows",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "One attack roll; damage is rolled separately. Two hands. Reload represents nocking an arrow."
+      },
+      {
+        "id": "32b71fa849a783c9",
+        "name": "Aimed shot",
+        "cost": 2,
+        "mode": "test",
+        "targetMode": "required",
+        "skill": "",
+        "focusId": "",
+        "focusName": "Bows",
+        "focusActorUuid": "",
+        "requiresFocus": true,
+        "modifier": 1,
+        "damage": true,
+        "damageComponents": [
+          {
+            "type": "piercing",
+            "formula": "2"
+          }
+        ],
+        "adjustResource": true,
+        "resourceMode": "adjust",
+        "resourceAmount": -1,
+        "description": "Take time to line up one shot. Starter variant: +1 to the roll is already configured; no automatic DC or cover adjustment."
+      },
+      {
+        "id": "23fd5c3a73c19c45",
+        "name": "Reload",
+        "cost": 1,
+        "mode": "none",
+        "targetMode": "self",
+        "skill": "",
+        "focusId": "",
+        "focusName": "",
+        "focusActorUuid": "",
+        "requiresFocus": false,
+        "modifier": 0,
+        "damage": false,
+        "damageComponents": [],
+        "adjustResource": true,
+        "resourceMode": "reset",
+        "resourceAmount": 0,
+        "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      }
+    ]
+  },
+  "effects": [],
+  "folder": "ec5fcc05e9953f23",
+  "sort": 1900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!4309ad0f262cf59a"
+}

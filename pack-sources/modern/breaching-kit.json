@@ -1,0 +1,23 @@
+{
+  "_id": "52de4e769e268efa",
+  "name": "Breaching Kit",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Pry bar, cutters and wedges for doors and obstacles; tests are manual. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "31ada620e3528d4e",
+  "sort": 4600000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "modern",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!52de4e769e268efa"
+}

@@ -1,0 +1,23 @@
+{
+  "_id": "89c26a36bc6ffde7",
+  "name": "Gauss Magazine",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One full 20-round spare magazine; compatible gauss weapon required. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "3391de5bd0cb9626",
+  "sort": 3900000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!89c26a36bc6ffde7"
+}

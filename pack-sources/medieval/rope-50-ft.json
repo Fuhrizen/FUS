@@ -1,0 +1,23 @@
+{
+  "_id": "159e346ba50e9b7d",
+  "name": "Rope (50 ft)",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "50 ft of rope for climbing, hauling or restraint; anchors and tests are manual. Quantity, supplies and effects are managed manually."
+  },
+  "effects": [],
+  "folder": "0248d6a867316c2b",
+  "sort": 4000000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "medieval",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!159e346ba50e9b7d"
+}

@@ -1,0 +1,33 @@
+{
+  "_id": "669e3963c97c273f",
+  "name": "Faraday Suit",
+  "type": "armour",
+  "img": "icons/svg/shield.svg",
+  "system": {
+    "quantity": 1,
+    "equipped": false,
+    "healthBonus": 0,
+    "speedBonus": 0,
+    "adjustments": [
+      {
+        "type": "electrical",
+        "formula": "2",
+        "kind": "resistance"
+      }
+    ],
+    "description": "6-HP starter profile. Specialised electrical protection. Equip one body-armour profile at a time; the sheet stacks all equipped pieces, so manage overlapping layers manually."
+  },
+  "effects": [],
+  "folder": "45e157733134aa34",
+  "sort": 3100000,
+  "flags": {
+    "FUS": {
+      "starterSetting": "sci-fi",
+      "balanceHP": 6
+    }
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!669e3963c97c273f"
+}
