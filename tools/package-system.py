@@ -11,7 +11,7 @@ manifest_bytes=(json.dumps(manifest,indent=2)+'\n').encode()
 archive=output/f'FUS-{version}.zip'
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
  z.writestr('FUS/system.json',manifest_bytes)
- for filename in ['README.md','SETTING-CATALOGUE.md']:
+ for filename in ['README.md']:
   z.write(ROOT/filename,'FUS/'+filename)
  for dirname in ['scripts','templates','styles','lang','packs']:
   for p in sorted((ROOT/dirname).rglob('*')):
