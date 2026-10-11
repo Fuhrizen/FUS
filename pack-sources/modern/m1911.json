@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; heavy sidearm. Repeated attack penalties are handled manually.",
     "combatMode": "ranged",
-    "optimal": 30,
-    "maximum": 90,
+    "optimal": 10,
+    "maximum": 30,
     "resourceCurrent": 7,
     "resourceMax": 7,
     "weaponActions": [],
@@ -35,7 +35,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "modern",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands recommended; incapacitation is adjudicated manually.",
     "combatMode": "ranged",
-    "optimal": 10,
-    "maximum": 25,
+    "optimal": 5,
+    "maximum": 10,
     "resourceCurrent": 1,
     "resourceMax": 1,
     "weaponActions": [],
@@ -35,7 +35,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "modern",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

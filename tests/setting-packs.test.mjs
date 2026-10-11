@@ -9,5 +9,5 @@ test('5.56 weapons share calibre definitions while burst is linked per source',(
  const weapons=['m4-carbine','m16a4','l85a2'].map(name=>JSON.parse(fs.readFileSync(path.join(root,'pack-sources/modern',name+'.json'))));
  const lookup=link=>JSON.parse(fs.readFileSync(path.join(root,'pack-sources/actions',link.uuid.split('.').at(-1)+'.json')));
  const fire=weapons.map(w=>w.system.actionLinks.find(l=>lookup(l).name==='Fire (5.56)'));assert.ok(fire.every(Boolean));assert.equal(new Set(fire.map(l=>l.uuid)).size,1);
- const all=fs.readdirSync(path.join(root,'pack-sources/actions')).map(n=>JSON.parse(fs.readFileSync(path.join(root,'pack-sources/actions',n))));assert.ok(all.some(a=>a.name==='Burst Fire (5.56)'));assert.ok(all.every(a=>a.type==='action'));
+ const all=fs.readdirSync(path.join(root,'pack-sources/actions')).map(n=>JSON.parse(fs.readFileSync(path.join(root,'pack-sources/actions',n))));assert.ok(all.some(a=>a.name==='Burst Fire (5.56)'));assert.ok(all.filter(a=>a._key.startsWith('!items!')).every(a=>a.type==='action'));assert.equal(all.filter(a=>a._key.startsWith('!folders!')).length,4);
 });

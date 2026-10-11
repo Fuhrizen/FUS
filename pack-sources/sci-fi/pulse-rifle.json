@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; pulsed energy weapon.",
     "combatMode": "ranged",
-    "optimal": 100,
-    "maximum": 330,
+    "optimal": 35,
+    "maximum": 110,
     "resourceCurrent": 30,
     "resourceMax": 30,
     "weaponActions": [],
@@ -56,7 +56,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "sci-fi",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

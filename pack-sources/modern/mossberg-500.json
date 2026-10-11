@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; buckshot components resolve separately.",
     "combatMode": "ranged",
-    "optimal": 25,
-    "maximum": 80,
+    "optimal": 10,
+    "maximum": 25,
     "resourceCurrent": 6,
     "resourceMax": 6,
     "weaponActions": [],
@@ -42,7 +42,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "modern",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

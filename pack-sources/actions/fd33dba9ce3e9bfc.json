@@ -2,7 +2,7 @@
   "_id": "fd33dba9ce3e9bfc",
   "name": "Single shot",
   "type": "action",
-  "img": "icons/svg/dice-target.svg",
+  "img": "systems/FUS/assets/action.svg",
   "system": {
     "action": {
       "cost": 1,
@@ -26,9 +26,13 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "cd73844325302e5d",
   "sort": 0,
-  "flags": {},
+  "flags": {
+    "FUS": {
+      "setting": "modern"
+    }
+  },
   "ownership": {
     "default": 2
   },

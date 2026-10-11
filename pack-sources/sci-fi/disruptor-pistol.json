@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; disrupts matter. No automatic armour bypass.",
     "combatMode": "ranged",
-    "optimal": 30,
-    "maximum": 90,
+    "optimal": 10,
+    "maximum": 30,
     "resourceCurrent": 6,
     "resourceMax": 6,
     "weaponActions": [],
@@ -35,7 +35,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "sci-fi",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

@@ -2,7 +2,7 @@
   "_id": "b4c5934086e1ae1e",
   "name": "Three-round burst",
   "type": "action",
-  "img": "icons/svg/dice-target.svg",
+  "img": "systems/FUS/assets/action.svg",
   "system": {
     "action": {
       "cost": 2,
@@ -26,9 +26,13 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "cd73844325302e5d",
   "sort": 0,
-  "flags": {},
+  "flags": {
+    "FUS": {
+      "setting": "modern"
+    }
+  },
   "ownership": {
     "default": 2
   },

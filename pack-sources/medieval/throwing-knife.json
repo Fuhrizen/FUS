@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; reload requires another knife or recovery.",
     "combatMode": "ranged",
-    "optimal": 15,
-    "maximum": 45,
+    "optimal": 5,
+    "maximum": 15,
     "resourceCurrent": 1,
     "resourceMax": 1,
     "weaponActions": [],
@@ -35,7 +35,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "medieval",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

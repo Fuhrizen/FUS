@@ -1,3 +1,7 @@
+import {configureCover} from './cover.mjs';
+import {registerCoverPreview} from './cover-preview.mjs';
+import {registerConditions,syncDeadStatus,changePins} from './conditions.mjs';
+import {migrateBoardRanges} from './board-ranges.mjs';
 import {FUSActionData} from './action-model.mjs';
 import {FUSActionSheet} from './action-sheet.mjs';
 import {rememberAction,forgetAction,migrateActionLibrary,loadSourceActions,migrateSourceActions} from './action-library.mjs';
@@ -19,7 +23,7 @@ Hooks.on("hotbarDrop", onHotbarDrop);
 import {FUSFormData} from "./form-model.mjs";
 import {FUSFormSheet} from "./form-sheet.mjs";
 Hooks.once("init", () => {
-  registerEncounters();
+  registerEncounters();registerConditions();registerCoverPreview();
   CONFIG.Item.dataModels.form = FUSFormData;
   CONFIG.Item.dataModels.action=FUSActionData;
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSActionSheet,{types:["action"],makeDefault:true,label:"FUS Action"});
@@ -27,7 +31,7 @@ Hooks.once("init", () => {
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSItemSheet,{types:["item","weapon","armour"],makeDefault:true,label:"FUS Item"});
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item,"FUS",FUSFormSheet,{types:["form"],makeDefault:true,label:"FUS Form"});
   CONFIG.FUS={...(CONFIG.FUS??{}),damageTypes:DAMAGE_TYPES};
-  game.FUS = {openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,actionMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
+  game.FUS = {configureCover,changePins,openEncounters,rollActionDamage,openWeaponActions,executeWeaponAction,renderChatCard,rollMacro,actionMacro,damageTypes:DAMAGE_TYPES,rollDamage,resolveDamage};
   registerDamageLinks();
   registerDamageChat();
   CONFIG.Actor.dataModels.character = FUSCharacterData;
@@ -66,7 +70,7 @@ Hooks.on('createActor',async(actor,_options,userId)=>{if(userId===game.user.id){
 for(const event of ['createItem','updateItem'])Hooks.on(event,async item=>{if(item.type==='action'){rememberAction(item);await refreshActionViews();}else {if(event==='createItem'&&game.user.isGM&&(!game.users.activeGM||game.users.activeGM.id===game.user.id))await migrateSourceActions(item);await loadSourceActions(item);}});
 Hooks.on('deleteItem',async item=>{if(item.type==='action'){forgetAction(item);await refreshActionViews();}});
 async function refreshActionViews(){const actors=[...game.actors,...game.scenes.contents.flatMap(s=>s.tokens.contents.filter(t=>!t.actorLink).map(t=>t.actor).filter(Boolean))];for(const doc of [...actors,...game.items,...actors.flatMap(a=>a.items.contents)])if(doc.sheet?.rendered)await doc.sheet.render({force:true});}
-Hooks.once('ready',async()=>{try{if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
+Hooks.once('ready',async()=>{try{if(!game.users.activeGM || game.users.activeGM.id===game.user.id){for(const actor of game.actors)await ensureActorForm(actor);for(const scene of game.scenes)for(const token of scene.tokens)if(!token.actorLink&&token.actor)await ensureActorForm(token.actor);}await migrateActionLibrary();await migrateBoardRanges();for(const actor of game.actors)if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(actor);for(const token of canvas.tokens?.placeables??[])if(game.user.isGM&&game.users.activeGM?.id===game.user.id)await syncDeadStatus(token.actor);}catch(error){console.error('FUS migration failed',error);ui.notifications.error(error.message);}});
 
 Hooks.on('renderChatMessageHTML',(message,html)=>{
   const reference=message.flags?.FUS;if(!['attack','weaponAction'].includes(reference?.kind))return;
@@ -120,6 +124,11 @@ Hooks.on('preCreateScene',sceneCreationDefaults);
 
 Hooks.on('updateActor',async(actor,changes,_options,userId)=>{
  if(!isFUSActor(actor)|| !(Object.hasOwn(changes,'system.hp') || changes.system?.hp!==undefined))return;
- if(userId===game.user.id&&actor.isOwner)await actor.toggleStatusEffect('dead',{active:actor.system.hp<=0,overlay:true});
+ if(userId===game.user.id&&actor.isOwner)await syncDeadStatus(actor);
  await updateEncounterHealth(actor);
 });
+
+Hooks.on('renderApplicationV2',app=>{if(app.document?.documentName!=='Region'||!game.user.isGM||app.element.querySelector('[data-fus-cover-settings]'))return;const button=document.createElement('button');button.type='button';button.dataset.fusCoverSettings='';button.textContent='FUS Cover';button.addEventListener('click',()=>configureCover(app.document).catch(e=>ui.notifications.error(e.message)));app.element.querySelector('.window-content')?.prepend(button);});
+Hooks.on('canvasReady',async()=>{if(game.user.isGM&&game.users.activeGM?.id===game.user.id)for(const token of canvas.tokens.placeables)await syncDeadStatus(token.actor);});
+
+Hooks.on('createToken',async(token,_options,userId)=>{if(userId===game.user.id)await syncDeadStatus(token.actor);});

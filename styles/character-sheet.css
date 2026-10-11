@@ -282,3 +282,12 @@
 #fus-encounters-popup{position:fixed!important;left:auto!important;top:auto!important;right:var(--fus-hud-right,332px)!important;bottom:24px!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
 #fus-encounters-popup .window-header{cursor:default}
 @media(max-width:550px){.fus-definition-grid,.fus-character-details,.fus-overview-grid{grid-template-columns:1fr}}
+.fus-sidebar-speed{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--color-border-light-primary,#888)}
+.fus-action-icon,.fus-chat-icon{width:26px;height:26px;object-fit:contain;border:0;vertical-align:middle;margin-right:5px}
+.fus-chat-card table{table-layout:fixed;width:100%;font-size:12px}.fus-chat-card th{width:20%;padding:5px}.fus-chat-card td{padding:5px;overflow-wrap:anywhere}.fus-chat-card td:last-child{width:36px;text-align:right}.fus-chat-card>header>p{margin:4px 0;opacity:.8}
+.fus-chat-card [data-fus-chat-action="applyDamage"][disabled]{text-decoration:line-through;opacity:.55}.fus-chat-card [data-fus-chat-action="undoDamage"]{flex:0 0 auto}
+.fus-cover-preview{position:fixed;inset:0;width:100vw;height:100vh;z-index:9997;pointer-events:none}
+.fus-action-dropbox{padding:12px;text-align:center;min-height:70px}.fus-action-dropbox p{margin:4px}.fus-action-dropbox .fus-weapon-action-row{text-align:left}
+#fus-encounters-popup{position:fixed!important;left:auto!important;top:auto!important;right:var(--fus-hud-right,332px)!important;bottom:24px!important;transform:none!important;resize:none!important}
+#fus-encounters-popup .window-header{pointer-events:none}#fus-encounters-popup .window-header button{pointer-events:auto}
+#token-hud [data-fus-encounter]{display:flex!important}.fus-pin-controls{display:flex;align-items:center;gap:3px;padding:3px}.fus-pin-controls button{width:24px;height:24px;padding:0}

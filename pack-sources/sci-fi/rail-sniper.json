@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; scoped, slow; ready carry reduces Move by 5 ft manually.",
     "combatMode": "ranged",
-    "optimal": 200,
-    "maximum": 650,
+    "optimal": 60,
+    "maximum": 120,
     "resourceCurrent": 5,
     "resourceMax": 5,
     "weaponActions": [],
@@ -42,7 +42,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "sci-fi",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

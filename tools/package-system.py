@@ -13,7 +13,7 @@ with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
  z.writestr('FUS/system.json',manifest_bytes)
  for filename in ['README.md']:
   z.write(ROOT/filename,'FUS/'+filename)
- for dirname in ['scripts','templates','styles','lang','packs']:
+ for dirname in ['scripts','templates','styles','lang','packs','assets']:
   for p in sorted((ROOT/dirname).rglob('*')):
    if p.is_file() and p.name not in ['LOCK','LOG','LOG.old']:
     z.write(p,'FUS/'+p.relative_to(ROOT).as_posix())

@@ -2,7 +2,7 @@
   "_id": "63c1e62a5e438b5f",
   "name": "Heavy swing",
   "type": "action",
-  "img": "icons/svg/dice-target.svg",
+  "img": "systems/FUS/assets/action.svg",
   "system": {
     "action": {
       "cost": 2,
@@ -26,9 +26,13 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "c9fae0c3419fa34f",
   "sort": 0,
-  "flags": {},
+  "flags": {
+    "FUS": {
+      "setting": "universal"
+    }
+  },
   "ownership": {
     "default": 2
   },

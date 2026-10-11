@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; compact automatic weapon.",
     "combatMode": "ranged",
-    "optimal": 40,
-    "maximum": 120,
+    "optimal": 15,
+    "maximum": 40,
     "resourceCurrent": 25,
     "resourceMax": 25,
     "weaponActions": [],
@@ -56,7 +56,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "modern",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

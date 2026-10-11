@@ -8,7 +8,7 @@ export function linkedActions(source){return (source.system.actionLinks??[]).map
  const item=cache.get(link.uuid)??globalThis.game?.items?.find(i=>i.uuid===link.uuid);
  if(!item)return {id:link.id,name:'Unavailable Action',cost:1,mode:'none',missing:true,description:link.uuid};
  const action=item.system.action?.toObject?.()??item.system.action;
- return {...action,id:link.id,name:item.name,actionUuid:item.uuid,focusId:link.focusId||action.focusId,focusActorUuid:link.focusActorUuid||action.focusActorUuid,focusName:link.focusName||action.focusName};
+ return {...action,id:link.id,name:item.name,actionUuid:item.uuid,img:item.img,focusId:link.focusId||action.focusId,focusActorUuid:link.focusActorUuid||action.focusActorUuid,focusName:link.focusName||action.focusName};
 });}
 export async function attachAction(source,item){
  if(!source.isOwner || item?.type!=='action')throw new Error('Drop an Action item on an editable source.');
@@ -23,7 +23,7 @@ export async function migrateSourceActions(source,definitions=new Map()){
   if(links.some(l=>l.id===row.id))continue;
   const {id,name,focusId,focusActorUuid,...action}=row;
   const signature=JSON.stringify({name,action});let definition=definitions.get(signature)??game.items.find(i=>i.type==='action'&&i.flags?.FUS?.migrationSignature===signature);
-  if(!definition){definition=await foundry.documents.Item.create({name:name||'Action',type:'action',system:{action},ownership:{default:2},flags:{FUS:{migrationSignature:signature}}});}
+  if(!definition){definition=await foundry.documents.Item.create({name:name||'Action',type:'action',img:'systems/FUS/assets/action.svg',system:{action},ownership:{default:2},flags:{FUS:{migrationSignature:signature}}});}
   definitions.set(signature,definition);rememberAction(definition);
   links.push({id:id||foundry.utils.randomID(),uuid:definition.uuid,focusId:focusId??'',focusName:row.focusName??'',focusActorUuid:focusActorUuid??''});
  }

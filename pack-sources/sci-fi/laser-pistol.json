@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. One hand; rechargeable cell.",
     "combatMode": "ranged",
-    "optimal": 40,
-    "maximum": 120,
+    "optimal": 15,
+    "maximum": 40,
     "resourceCurrent": 12,
     "resourceMax": 12,
     "weaponActions": [],
@@ -42,7 +42,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "sci-fi",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

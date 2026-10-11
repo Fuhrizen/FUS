@@ -2,7 +2,7 @@
   "_id": "6dfc7c0f4d7e826c",
   "name": "Thrust",
   "type": "action",
-  "img": "icons/svg/dice-target.svg",
+  "img": "systems/FUS/assets/action.svg",
   "system": {
     "action": {
       "cost": 1,
@@ -26,9 +26,13 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "21366a6ccecc6788",
   "sort": 0,
-  "flags": {},
+  "flags": {
+    "FUS": {
+      "setting": "medieval"
+    }
+  },
   "ownership": {
     "default": 2
   },

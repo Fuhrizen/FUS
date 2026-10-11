@@ -1,6 +1,6 @@
 <section class="fus-definition-editor">
  <fieldset {{#unless editable}}disabled{{/unless}}>
- <header><h2>Action definition</h2><small>Shared by every linked source. Ammo and range come from the item using it.</small></header>
+ <header><button type="button" data-action="chooseIcon" title="Choose Action icon"><img class="fus-action-icon" src="{{item.img}}" alt=""></button><h2>Action definition</h2><small>Shared by every linked source. Ammo and range come from the item using it.</small></header>
  <label>Name<input name="name" value="{{item.name}}" required></label>
  <div class="fus-definition-grid">
  <label>Action cost<input type="number" min="1" step="1" name="system.action.cost" value="{{action.cost}}"></label>

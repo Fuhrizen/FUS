@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; standard energy carbine.",
     "combatMode": "ranged",
-    "optimal": 90,
-    "maximum": 300,
+    "optimal": 30,
+    "maximum": 100,
     "resourceCurrent": 24,
     "resourceMax": 24,
     "weaponActions": [],
@@ -42,7 +42,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "sci-fi",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {

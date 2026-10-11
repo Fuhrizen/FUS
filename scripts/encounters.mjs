@@ -57,11 +57,11 @@ export function registerEncounters(){
  CONFIG.ui.combat=FUSEncountersSidebar;
  const tabs=CONFIG.ui.sidebar?.TABS??foundry.applications.sidebar.Sidebar.TABS;
  if(tabs?.combat)tabs.combat={...tabs.combat,icon:'fa-solid fa-swords',tooltip:'FUS Encounters'};
- Hooks.on('renderTokenHUD',(_app,html)=>{const root=html?.querySelector?html:html?.[0];root?.querySelectorAll('[data-action="toggleCombat"],[data-action="combat"],[data-control="combat"]').forEach(node=>node.remove());});
+ Hooks.on('renderTokenHUD',(app,html)=>mountEncounterHUD(app,html?.querySelector?html:html?.[0]));
  Hooks.on('preCreateCombat',()=>{ui.notifications.info('Use the FUS Encounters tab.');return false;});
  Hooks.on('preCreateCombatant',()=>false);
  Hooks.on('preUpdateCombat',()=>false);
- Hooks.on('renderApplicationV2',(app)=>{if(app.constructor.name==='TokenHUD'){app.element?.querySelectorAll('[data-action="toggleCombat"],[data-action="combat"],[data-control="combat"]').forEach(node=>node.remove());}});
+ Hooks.on('renderApplicationV2',app=>{if(app.constructor.name==='TokenHUD')mountEncounterHUD(app,app.element);});
  Hooks.on('renderSidebar',()=>{if(game.FUS?.encountersPopup?.rendered)dockEncounterPopup(game.FUS.encountersPopup);const button=document.querySelector('[data-tab="combat"]');if(button){button.title='FUS Encounters';button.setAttribute('aria-label','FUS Encounters');const icon=button.querySelector('i');if(icon)icon.className='fa-solid fa-swords';}});
 }
 
@@ -76,4 +76,10 @@ export async function updateEncounterHealth(actor){
   }
   data.encounters[i]=e;
  }});
+}
+
+export async function toggleEncounterToken(token){if(!game.user.isGM)throw new Error('The GM manages encounter tokens.');await write(data=>{let i=data.encounters.findIndex(e=>e.id===data.selectedId);if(i<0){const e=newEncounter(foundry.utils.randomID());data.encounters.push(e);data.selectedId=e.id;i=data.encounters.length-1;}const e=normalizeEncounter(data.encounters[i]),existing=e.participants.find(p=>p.tokenUuid===token.uuid);if(existing){data.encounters[i]=transitionEncounter(e,'remove',{id:existing.id});return;}if(!token.actor)throw new Error('This token has no actor.');e.participants.push({id:foundry.utils.randomID(),name:token.name,img:token.texture.src,actorUuid:token.actor.uuid,tokenUuid:token.uuid,hidden:token.hidden,incapacitated:token.actor.system.hp<=0,ignored:false});if(e.round&&token.actor.system.hp>0)e.pool.push(e.participants.at(-1).id);data.encounters[i]=e;});await openEncounters();}
+function mountEncounterHUD(app,root){if(!root?.querySelector)return;root.querySelectorAll('[data-action="toggleCombat"],[data-action="combat"],[data-control="combat"]').forEach(node=>node.remove());const token=app?.document??app?.object?.document;if(!token||root.querySelector('[data-fus-encounter]'))return;const column=root.querySelector('.col.right')??root;
+ if(game.user.isGM){const button=document.createElement('button');button.type='button';button.className='control-icon';button.dataset.fusEncounter='';button.title='Add / remove from FUS encounter';button.innerHTML='<i class="fa-solid fa-swords" aria-hidden="true"></i>';button.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();toggleEncounterToken(token).catch(reportError);},true);column.append(button);}
+ if(token.isOwner){const row=document.createElement('div');row.className='fus-pin-controls';row.innerHTML='<button type="button" aria-label="Remove pin">−</button><span></span><button type="button" aria-label="Add pin">+</button>';const display=row.querySelector('span');display.textContent=`Pins ${token.flags?.FUS?.pins??0}`;row.querySelectorAll('button').forEach((button,index)=>button.addEventListener('click',async e=>{e.preventDefault();e.stopImmediatePropagation();try{const count=await game.FUS.changePins(token,index?1:-1);display.textContent=`Pins ${count}`;}catch(error){reportError(error);}},true));column.append(row);}
 }

@@ -2,7 +2,7 @@
   "_id": "38caecab891e59a1",
   "name": "Aimed shot",
   "type": "action",
-  "img": "icons/svg/dice-target.svg",
+  "img": "systems/FUS/assets/action.svg",
   "system": {
     "action": {
       "cost": 2,
@@ -26,9 +26,13 @@
     }
   },
   "effects": [],
-  "folder": null,
+  "folder": "31bbacd26b3eeca4",
   "sort": 0,
-  "flags": {},
+  "flags": {
+    "FUS": {
+      "setting": "sci-fi"
+    }
+  },
   "ownership": {
     "default": 2
   },

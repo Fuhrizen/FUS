@@ -57,9 +57,10 @@ export function registerDamageChat(){
     const container=html.querySelector('.message-content');
     restoreActionChatCard(container,message.content);
     if(damage.kind!=='damage')return;
-    const button=html.querySelector('[data-fus-chat-action="applyDamage"], [data-fus-chat-action="resolveDamage"]');
-    if(!button)return;
-    button.textContent='Apply Damage';button.title=damage.applied?'Undo damage applied by this message':'Apply damage after equipped armour';button.setAttribute('aria-pressed',String(!!damage.applied));
-    button.addEventListener('click',async()=>{button.disabled=true;try{await toggleDamageApplication(message);}catch(error){ui.notifications.error(error.message);}finally{button.disabled=false;}});
+    for(const button of html.querySelectorAll('[data-fus-chat-action="applyDamage"], [data-fus-chat-action="undoDamage"]')){
+      const undo=button.dataset.fusChatAction==='undoDamage';button.disabled=!undo&&!!damage.applied;
+      button.title=undo?'Restore only HP removed by this message':'Apply damage after equipped armour';
+      button.addEventListener('click',async()=>{button.disabled=true;try{await toggleDamageApplication(message,{undo});}catch(error){ui.notifications.error(error.message);}finally{button.disabled=!undo&&!!message.flags.FUS.applied;}});
+    }
   });
 }

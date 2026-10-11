@@ -8,7 +8,8 @@
       "form": "Form",
       "item": "Item",
       "weapon": "Weapon",
-      "armour": "Armour"
+      "armour": "Armour",
+      "action": "Action"
     }
   }
 }

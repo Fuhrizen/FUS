@@ -4,6 +4,7 @@ export function characterStats(actor,{baseHP=null}={}){
  const armour=[...(actor.items??[])].filter(i=>i.type==='armour' && i.system.equipped && (i.system.quantity??1)>0);
  const hpSources=[{name:form?.name??'Base health',value:base}],speedSources=[{name:form?.name??'Base speed',value:speed}];
  for(const item of armour){if(item.system.healthBonus)hpSources.push({name:item.name,value:Number(item.system.healthBonus)});if(item.system.speedBonus)speedSources.push({name:item.name,value:Number(item.system.speedBonus)});}
+ const statuses=actor.statuses??new Set();if(statuses.has('fus-restrained'))speedSources.push({name:'Restrained',value:-speedSources.reduce((n,s)=>n+s.value,0)});else if(statuses.has('fus-slowed'))speedSources.push({name:'Slowed',value:-Math.min(5,Math.max(0,speedSources.reduce((n,s)=>n+s.value,0)-5))});
  const maximum=Math.max(0,hpSources.reduce((n,s)=>n+s.value,0)),move=Math.max(0,speedSources.reduce((n,s)=>n+s.value,0));
  const describe=sources=>sources.map(s=>`${s.name}: ${s.value>=0?'+':''}${s.value}`).join('\n');
  return {maximum,move,baseHP:base,hpTooltip:describe(hpSources),speedTooltip:describe(speedSources),hpSources,speedSources,modified:hpSources.length>1};

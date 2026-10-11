@@ -77,7 +77,7 @@ export class FUSItemSheet extends HandlebarsApplicationMixin(foundry.application
     const definitions=game.items.filter(i=>i.type==='action').sort((a,b)=>a.name.localeCompare(b.name));
     const selected=await foundry.applications.api.DialogV2.wait({window:{title:'Link an Action'},content:`<label>Shared Action<select name="uuid">${definitions.map(i=>`<option value="${escapeHTML(i.uuid)}">${escapeHTML(i.name)}</option>`).join('')}</select></label><p>You can also drag an Action from a compendium onto this section.</p>`,buttons:[{action:'link',label:'Link',callback:(_e,b)=>b.form.elements.uuid.value},{action:'new',label:'Create Action',callback:()=> 'new'},{action:'cancel',label:'Cancel'}],rejectClose:false});
     if(!selected||selected==='cancel')return;
-    const item=selected==='new'?await foundry.documents.Item.create({name:'New Action',type:'action',system:{action:{...DEFAULT_ATTACK,skill:'',focusId:'',focusActorUuid:''}}}):await loadAction(selected);
+    const item=selected==='new'?await foundry.documents.Item.create({name:'New Action',type:'action',img:'systems/FUS/assets/action.svg',system:{action:{...DEFAULT_ATTACK,skill:'',focusId:'',focusActorUuid:''}}}):await loadAction(selected);
     await attachAction(this.document,item);if(selected==='new')await item.sheet.render({force:true});
   }
   static async rollDamage(){if(!this.isEditable)return;try{await this.submit();await chooseActionDamage(this.document.parent,this.document);}catch(e){ui.notifications.error(e.message);}}

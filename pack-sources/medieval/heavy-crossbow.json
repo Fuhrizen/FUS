@@ -7,8 +7,8 @@
     "quantity": 1,
     "description": "6-HP starter profile; ranges are game distances in feet, not real-world specifications. Two hands; slow, at most one shot per turn.",
     "combatMode": "ranged",
-    "optimal": 120,
-    "maximum": 360,
+    "optimal": 40,
+    "maximum": 120,
     "resourceCurrent": 1,
     "resourceMax": 1,
     "weaponActions": [],
@@ -42,7 +42,8 @@
   "flags": {
     "FUS": {
       "starterSetting": "medieval",
-      "balanceHP": 6
+      "balanceHP": 6,
+      "boardRanges": 1
     }
   },
   "ownership": {
