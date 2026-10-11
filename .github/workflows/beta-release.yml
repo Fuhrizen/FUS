@@ -2,6 +2,10 @@ name: Publish beta release
 
 on:
   workflow_dispatch:
+  # Publishing requires an explicit release request; ordinary changes never trigger it.
+  push:
+    branches: [main]
+    paths: [tools/beta-release-request.json]
 
 permissions:
   contents: write

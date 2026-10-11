@@ -1,9 +1,12 @@
-FUS v0.0.2 Beta for Foundry VTT v14.
+FUS v0.0.3 Beta for Foundry VTT v14.
 
-- Shared actions on Misc items, Armour, Weapons and Forms.
-- Shift-click toggles targets; entering targeting clears previous targets.
-- Simplified public documentation and shared action schema.
+- Actors always have a Form, using Baseline by default.
+- Shared Action items and a dedicated editor for rolls, targeting, damage, resources, scripts and Macros.
+- Existing embedded Actions migrate automatically; starter weapons share calibre profiles.
+- Actions drag to the hotbar and clear targeting after use.
+- Encounter HUD docks bottom-right beside chat and uses the swords icon.
+- Main shows identity, appearance, loadout and trained Focuses.
 
-Automated tests and package checks passed. Live Foundry UI validation remains necessary.
+153 automated tests pass. Live Foundry UI validation remains outstanding.
 
 The beta channel manifest is https://github.com/Fuhrizen/FUS/releases/download/beta/system.json.
