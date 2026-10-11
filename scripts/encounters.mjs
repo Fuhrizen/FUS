@@ -1,25 +1,16 @@
 import {expireDefensiveReactions} from './reactions.mjs';
-import {newEncounter,transitionEncounter,normalizeEncounter} from './encounter-model.mjs';
-const {HandlebarsApplicationMixin,ApplicationV2}=foundry.applications.api;
+import {newEncounter,transitionEncounter,normalizeEncounter,encounterGroups} from './encounter-model.mjs';
+const {HandlebarsApplicationMixin}=foundry.applications.api;
 const {AbstractSidebarTab}=foundry.applications.sidebar;
 let queue=Promise.resolve();const views=new Set();
 function reportError(error){console.error('FUS Encounters:',error);try{ui.notifications.error(error.message);}catch(notificationError){console.error('FUS notification failed:',notificationError);}}
 const state=()=>game.settings.get('FUS','encounters');
-let popupEncounter=null;
-export async function syncEncounterPopup(data=state()){
- const encounter=data.encounters.find(e=>e.id===data.selectedId),key=encounter?.round>0?encounter.id:null;
- const changed=key!==popupEncounter;popupEncounter=key;
- if(!changed)return;
- if(key && game.settings.get('FUS','autoEncounterPopup')!==false){if(!game.FUS?.encountersPopup?.rendered)await openEncounters();}
- else if(!key && game.FUS?.encountersPopup?.rendered)await game.FUS.encountersPopup.close();
-}
-const refresh=async data=>{try{await expireDefensiveReactions(data);for(const view of views)if(view.rendered)await view.render({force:true});await syncEncounterPopup(data);}catch(error){reportError(error);}};
+const refresh=async data=>{try{await expireDefensiveReactions(data);for(const view of views)if(view.rendered)await view.render({force:true});}catch(error){reportError(error);}};
 async function write(change){const task=queue.catch(()=>{}).then(async()=>{if(!game.user.isGM)throw new Error('The GM manages the encounter.');const data=structuredClone(state());await change(data);await game.settings.set('FUS','encounters',data);});queue=task;return task;}
-async function context(){const data=state(),raw=data.encounters.find(e=>e.id===data.selectedId),encounter=raw?normalizeEncounter(raw):null;return {gm:game.user.isGM,encounter,encounters:data.encounters.map(e=>({...e,selected:e.id===data.selectedId})),remaining:encounter?.pool.length??0,participants:(encounter?.participants??[]).filter(p=>game.user.isGM||!p.hidden).map(p=>({...p,active:encounter.active.includes(p.id),drawn:encounter.drawn.includes(p.id)}))};}
+async function context(){const data=state(),raw=data.encounters.find(e=>e.id===data.selectedId),encounter=raw?normalizeEncounter(raw):null;return {gm:game.user.isGM,encounter,encounters:data.encounters.map(e=>({...e,selected:e.id===data.selectedId})),remaining:encounter?.pool.length??0,groups:encounterGroups(encounter,{gm:game.user.isGM})};}
 async function action(event,target){
  const name=target.dataset.action,id=target.dataset.participant;
  try{
-  if(name==='popout'){await openEncounters({docked:false});return;}
   if(name==='openActor'){const p=state().encounters.find(e=>e.id===state().selectedId)?.participants.find(p=>p.id===id);const token=p?.tokenUuid?await fromUuid(p.tokenUuid):null;const actor=token?.actor??await fromUuid(p.actorUuid);if(actor?.isOwner)await actor.sheet.render({force:true});return;}
   if(name==='createEncounter'){const label=await foundry.applications.api.DialogV2.prompt({window:{title:'New encounter'},content:'<label>Name <input name="name" value="Encounter" required></label>',ok:{label:'Create',callback:(_e,b)=>b.form.elements.name.value.trim()},rejectClose:false});if(!label)return;await write(data=>{const e=newEncounter(foundry.utils.randomID(),label);data.encounters.push(e);data.selectedId=e.id;});return;}
   if(name==='selectEncounter'){await write(data=>{data.selectedId=target.dataset.encounter;});return;}
@@ -27,36 +18,24 @@ async function action(event,target){
   await write(async data=>{
    let index=data.encounters.findIndex(e=>e.id===data.selectedId);if(index<0 && name==='addTokens'){const e=newEncounter(foundry.utils.randomID());data.encounters.push(e);data.selectedId=e.id;index=data.encounters.length-1;}if(index<0)throw new Error('Add selected tokens to begin.');
    data.encounters[index]=normalizeEncounter(data.encounters[index]);
-   if(name==='addTokens'){const selected=canvas.tokens?.controlled??[];if(!selected.length)throw new Error('Select tokens on the canvas first.');for(const token of selected){if(!token.actor || data.encounters[index].participants.some(p=>p.tokenUuid===token.document.uuid))continue;data.encounters[index].participants.push({id:foundry.utils.randomID(),name:token.name,img:token.document.texture.src,actorUuid:token.actor.uuid,tokenUuid:token.document.uuid,hidden:token.document.hidden,incapacitated:token.actor.system.hp<=0,ignored:false});}return;}
+   if(name==='addTokens'){const selected=canvas.tokens?.controlled??[];if(!selected.length)throw new Error('Select tokens on the canvas first.');for(const token of selected){if(!token.actor || data.encounters[index].participants.some(p=>p.tokenUuid===token.document.uuid))continue;data.encounters[index].participants.push({id:foundry.utils.randomID(),name:token.name,img:token.document.texture.src,actorUuid:token.actor.uuid,tokenUuid:token.document.uuid,hidden:token.document.hidden,incapacitated:token.actor.system.hp<=0,ignored:false});const added=data.encounters[index].participants.at(-1);if(data.encounters[index].round&&!added.incapacitated)data.encounters[index].pool.push(added.id);}return;}
    if(['start','next','setTurn'].includes(name))for(const p of data.encounters[index].participants){const token=p.tokenUuid?await fromUuid(p.tokenUuid):null;const actor=token?.actor??(p.actorUuid?await fromUuid(p.actorUuid):null);if(actor)p.incapacitated=actor.system.hp<=0;}
    data.encounters[index]=transitionEncounter(data.encounters[index],name,{id});
   });
-  if(name==='addTokens')await openEncounters({docked:true});
+  if(name==='addTokens')await openEncounters();
  }catch(error){reportError(error);}
 }
-const actions=Object.fromEntries(['popout','openActor','createEncounter','selectEncounter','deleteEncounter','addTokens','start','stop','next','ignore','remove','setTurn'].map(key=>[key,action]));
-export class FUSEncountersPopup extends HandlebarsApplicationMixin(ApplicationV2){
- static DEFAULT_OPTIONS={id:'fus-encounters-popup',classes:['fus-encounters-window'],position:{width:320,height:340},window:{title:'FUS Encounters',resizable:true},actions};
- static PARTS={body:{template:'systems/FUS/templates/encounters.hbs',scrollable:['.fus-encounters']}};
- async close(options){window.removeEventListener('resize',this._dockResize);this._dockObserver?.disconnect();this._dockObserver=null;this._dockMutation?.disconnect();this._dockMutation=null;views.delete(this);return super.close(options);}
- async _prepareContext(){return {...await context(),sidebar:false};}
- async _onRender(...args){await super._onRender(...args);views.add(this);if(this instanceof FUSEncountersPopup)this.element.classList.toggle('fus-encounters-docked',this.docked!==false);if(this instanceof FUSEncountersPopup&&this.docked){dockEncounterPopup(this);this._dockResize??=()=>dockEncounterPopup(this);window.addEventListener('resize',this._dockResize);if(globalThis.ResizeObserver&&!this._dockObserver){this._dockObserver=new ResizeObserver(this._dockResize);for(const sidebar of document.querySelectorAll('#sidebar,#ui-right'))this._dockObserver.observe(sidebar);}if(globalThis.MutationObserver&&!this._dockMutation){this._dockMutation=new MutationObserver(this._dockResize);for(const sidebar of document.querySelectorAll('#sidebar,#ui-right'))this._dockMutation.observe(sidebar,{attributes:true,attributeFilter:['class','style']});}}const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
-}
+const actions=Object.fromEntries(['openActor','createEncounter','selectEncounter','deleteEncounter','addTokens','start','stop','next','ignore','remove','setTurn'].map(key=>[key,action]));
 export class FUSEncountersSidebar extends HandlebarsApplicationMixin(AbstractSidebarTab){
- async renderPopout(){await openEncounters({docked:false});return game.FUS.encountersPopup;}
+ async renderPopout(){await openEncounters();return this;}
  static tabName='combat';
  static DEFAULT_OPTIONS={id:'combat',classes:['fus-encounters-tab'],actions};
  static PARTS={body:{template:'systems/FUS/templates/encounters.hbs',scrollable:['.fus-encounters']}};
  async _prepareContext(){return {...await context(),sidebar:true};}
- async _onRender(...args){await super._onRender(...args);views.add(this);const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
+ async _onRender(...args){await super._onRender(...args);views.add(this);const positions=new Map();for(const card of this.element.querySelectorAll('.fus-token-card')){const rect=card.getBoundingClientRect(),previous=this._tokenPositions?.get(card.dataset.participant);positions.set(card.dataset.participant,rect);if(previous&&!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches&&(previous.x!==rect.x||previous.y!==rect.y))card.animate?.([{transform:`translate(${previous.x-rect.x}px,${previous.y-rect.y}px)`},{transform:'translate(0,0)'}],{duration:400,easing:'ease-out'});}this._tokenPositions=positions;const select=this.element.querySelector('[data-encounter-select]');select?.addEventListener('change',async()=>{try{await write(data=>{data.selectedId=select.value;});}catch(error){reportError(error);}});}
 }
-export function encounterDockBounds(viewport,sidebar){const gap=12,top=60;let available=viewport.width-gap;if(sidebar&&sidebar.width>0&&sidebar.left<viewport.width&&sidebar.right>0)available=Math.min(available,Math.max(gap,sidebar.left-gap));const width=Math.max(120,Math.min(320,available-gap)),left=Math.max(gap,available-width),height=Math.max(120,Math.min(340,viewport.height-top-gap));return {width,height,left,top,right:Math.max(gap,viewport.width-left-width)};}
-export function dockEncounterPopup(popup){if(popup.docked===false)return;const candidates=['#sidebar','#ui-right'].map(selector=>document.querySelector(selector)).filter(e=>e&&e.getClientRects?.().length!==0&&globalThis.getComputedStyle?.(e)?.visibility!=='hidden').map(e=>{const b=e.getBoundingClientRect();return {left:b.left,right:b.right??window.innerWidth,width:b.width??window.innerWidth-b.left};}).filter(b=>b.width>0&&b.right>0&&b.left<window.innerWidth),bounds=candidates.sort((a,b)=>a.left-b.left)[0],position=encounterDockBounds({width:window.innerWidth,height:window.innerHeight},bounds);const {right,...appPosition}=position;popup.setPosition(appPosition);if(popup.element?.style){popup.element.style.setProperty('--fus-hud-right',`${position.right}px`);popup.element.style.setProperty('--fus-hud-top',`${position.top}px`);}}
-
-export async function openEncounters({docked=true}={}){game.FUS.encountersPopup??=new FUSEncountersPopup();const popup=game.FUS.encountersPopup;if(popup.rendered&&popup.docked!==docked)await popup.close();popup.docked=docked;await popup.render({force:true});popup.element?.classList.toggle('fus-encounters-docked',docked);if(docked)dockEncounterPopup(popup);popup.bringToFront();}
+export async function openEncounters(){await ui.sidebar?.activateTab?.('combat');if(ui.combat&&!ui.combat.rendered)await ui.combat.render({force:true});}
 export function registerEncounters(){
- game.settings.register('FUS','autoEncounterPopup',{name:'Show encounter tracker when combat starts',hint:'Automatically open the compact tracker when an encounter starts, including after joining an ongoing encounter.',scope:'client',config:true,type:Boolean,default:true});
- Hooks.once?.('ready',()=>syncEncounterPopup().catch(reportError));
  game.settings.register('FUS','encounters',{scope:'world',config:false,type:Object,default:{selectedId:'',encounters:[]},onChange:refresh});
  CONFIG.ui.combat=FUSEncountersSidebar;
  const tabs=CONFIG.ui.sidebar?.TABS??foundry.applications.sidebar.Sidebar.TABS;
@@ -66,7 +45,7 @@ export function registerEncounters(){
  Hooks.on('preCreateCombatant',()=>false);
  Hooks.on('preUpdateCombat',()=>false);
  Hooks.on('renderApplicationV2',app=>{if(app.constructor.name==='TokenHUD')mountEncounterHUD(app,app.element);});
- Hooks.on('renderSidebar',()=>{if(game.FUS?.encountersPopup?.rendered)dockEncounterPopup(game.FUS.encountersPopup);const button=document.querySelector('[data-tab="combat"]');if(button){button.title='FUS Encounters';button.setAttribute('aria-label','FUS Encounters');const icon=button.querySelector('i');if(icon)icon.className='fa-solid fa-swords';}});
+ Hooks.on('renderSidebar',()=>{const button=document.querySelector('[data-tab="combat"]');if(button){button.title='FUS Encounters';button.setAttribute('aria-label','FUS Encounters');const icon=button.querySelector('i');if(icon)icon.className='fa-solid fa-swords';}});
 }
 
 export async function updateEncounterHealth(actor){

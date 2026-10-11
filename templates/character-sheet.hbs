@@ -282,8 +282,6 @@
 .fus-overview-grid section{border:1px solid var(--color-border-light-primary,#888);border-radius:5px;padding:9px;min-width:0}.fus-overview-grid h3{font-size:1em;margin:0 0 6px}.fus-overview-grid p{margin:4px 0;overflow-wrap:anywhere}.fus-muted{opacity:.65}
 .fus-form-selection{display:block!important}.fus-form-selection button{width:100%}
 [data-action-drop]{min-height:40px;border:1px dashed var(--color-border-light-primary,#888);padding:5px;border-radius:4px}
-#fus-encounters-popup.fus-encounters-docked{position:fixed!important;left:auto!important;top:var(--fus-hud-top,60px)!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
-#fus-encounters-popup.fus-encounters-docked .window-header{cursor:default}
 @media(max-width:550px){.fus-definition-grid,.fus-character-details,.fus-overview-grid{grid-template-columns:1fr}}
 .fus-sidebar-speed{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--color-border-light-primary,#888)}
 .fus-action-icon,.fus-chat-icon{width:26px;height:26px;object-fit:contain;border:0;vertical-align:middle;margin-right:5px}
@@ -291,8 +289,6 @@
 .fus-chat-card [data-fus-chat-action="applyDamage"][disabled]{text-decoration:line-through;opacity:.55}.fus-chat-card [data-fus-chat-action="undoDamage"]{flex:0 0 auto}
 .fus-cover-preview{position:fixed;inset:0;width:100vw;height:100vh;z-index:9997;pointer-events:none}
 .fus-action-dropbox{padding:12px;text-align:center;min-height:70px}.fus-action-dropbox p{margin:4px}.fus-action-dropbox .fus-weapon-action-row{text-align:left}
-#fus-encounters-popup.fus-encounters-docked{position:fixed!important;left:auto!important;top:var(--fus-hud-top,60px)!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;transform:none!important;resize:none!important}
-#fus-encounters-popup.fus-encounters-docked .window-header{pointer-events:none}#fus-encounters-popup.fus-encounters-docked .window-header button{pointer-events:auto}
 #token-hud [data-fus-encounter]{display:flex!important}.fus-pin-controls{display:flex;align-items:center;gap:3px;padding:3px}.fus-pin-controls button{width:24px;height:24px;padding:0}
 
 .fus-suppression-overlay{position:fixed;pointer-events:none;z-index:9996;border:3px solid #e9b64f;border-radius:50%;box-shadow:0 0 12px #e9b64f;animation:fus-suppression .85s ease-in-out infinite alternate;display:grid;place-items:center;color:#ffe39e;font-weight:bold;text-shadow:0 1px 3px #000}
@@ -300,7 +296,7 @@
 @media(prefers-reduced-motion:reduce){.fus-suppression-overlay{animation:none}}
 
 .fus-pin-marker{position:fixed;transform:translate(-50%,-100%);z-index:9996;pointer-events:none;background:#211d16e6;color:#ffe39e;border:1px solid #cfa85b;border-radius:5px;padding:2px 6px;font-size:12px;white-space:nowrap}
-#token-hud .fus-pin-controls{position:absolute;left:50%;top:-36px;transform:translateX(-50%);width:max-content;pointer-events:auto;z-index:20;background:#211d16f2;border:1px solid #cfa85b;border-radius:5px;padding:3px}
+#token-hud .fus-pin-controls{position:absolute;left:50%;top:-50px;transform:translateX(-50%);width:max-content;pointer-events:auto;z-index:20;background:#211d16f2;border:1px solid #cfa85b;border-radius:5px;padding:3px}
 .fus-target-distance{max-width:340px;white-space:normal;font-weight:bold;background:#121b22ee;border:1px solid #62c995;padding:6px 10px;border-radius:5px}
 
 /* Follow the host HUD palette and typography. */
@@ -309,8 +305,8 @@
 #token-hud .fus-pin-controls .badge{font-weight:bold;min-width:18px;text-align:center}
 .fus-suppression-overlay{border:0;border-radius:0;box-shadow:none;animation:fus-suppression .85s ease-in-out infinite alternate}
 .fus-suppression-overlay svg{width:100%;height:100%;fill:#e9b64f;stroke:#30291d;stroke-width:1.5;filter:drop-shadow(0 0 3px #000)}
-.fus-shrapnel{transform-origin:50% 60%;animation:fus-shrapnel .6s ease-out infinite alternate}
-@keyframes fus-shrapnel{from{opacity:.35;transform:scale(.84)}to{opacity:1;transform:scale(1.04)}}
+.fus-shrapnel{transform-origin:50% 50%;animation:fus-shrapnel .6s ease-out infinite alternate}
+@keyframes fus-shrapnel{from{opacity:.35;transform:scale(1)}to{opacity:1;transform:scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.fus-shrapnel{animation:none}}
 .fus-area-preview{fill:#e8b54f33;stroke:#e8b54f;stroke-width:2;stroke-dasharray:6 3}
 .fus-form-selection{text-align:center}.fus-form-selection button{display:flex;align-items:center;justify-content:center;gap:6px}
@@ -319,6 +315,20 @@
 .fus-pin-marker{background:var(--control-bg-color,#252830);color:var(--control-icon-color,#eee);border-color:var(--control-border-color,#555)}
 
 .fus-starter .fus-form-selection,.fus-sheet .fus-form-selection{display:block!important;grid-template-columns:1fr!important}
+.fus-suppression-overlay{animation:none}.fus-suppression-overlay svg{filter:none}
+.fus-initiative-group{padding:10px 0;border-top:1px solid var(--color-border-light-primary,#555)}
+.fus-initiative-group h3{display:flex;align-items:center;gap:8px;font-size:14px;margin:0 0 8px}.fus-initiative-group h3 span{margin-left:auto;border-radius:12px;padding:2px 8px;background:#ffffff16;font-size:12px}
+.fus-token-row{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity}
+.fus-encounters .fus-token-card{display:flex;flex:0 0 78px;flex-direction:column;align-items:center;gap:4px;padding:7px;border:1px solid var(--color-border-light-primary,#555);border-radius:8px;scroll-snap-align:start;background:var(--color-cool-5,#252830);min-width:0}
+.fus-encounters .fus-token-card strong{width:100%;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.fus-encounters .fus-token-portrait{width:56px;height:56px;min-height:0;padding:0;border:0;background:transparent;border-radius:50%;overflow:hidden}
+.fus-encounters .fus-token-portrait img{width:100%;height:100%;object-fit:cover;border:0}
+.fus-encounters .fus-token-card small{font-size:10px}.fus-encounters .fus-token-card .fus-person-controls{display:flex;gap:2px}.fus-encounters .fus-person-controls button{width:20px;min-height:20px;height:20px;padding:0;font-size:10px}
+.fus-initiative-group[data-initiative-group=acting] .fus-token-card{border-color:#ddb65b;background:#ddb65b18;animation:fus-draw-reveal .35s ease-out}
+.fus-initiative-group[data-initiative-group=finished] .fus-token-card{opacity:.65}
+.fus-stage-empty{font-size:12px;opacity:.6;margin:4px}.fus-encounter-toolbar{flex-wrap:wrap}.fus-encounter-toolbar .fus-draw-button{flex:1 0 100%}
+@keyframes fus-draw-reveal{from{transform:translateY(-8px) scale(.9);opacity:.2}to{transform:translateY(0) scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.fus-initiative-group[data-initiative-group=acting] .fus-token-card{animation:none}}
 
 </style>
   <aside class="fus-sidebar">

@@ -2,7 +2,7 @@ import {closedCoverLoops,coverAngles,visibleRay} from './cover-geometry.mjs';
 import {wallIntersection,wallEndpoints,wallCoverLevel,hasLineOfSight} from './cover.mjs';
 let overlay,timer,scheduled,pending,drag,maskId=0;
 export function clearCoverPreview(){clearTimeout(timer);overlay?.remove();overlay=null;}
-export function showCoverPreview(token,point=token.center,{persistent=false}={}){clearCoverPreview();if(!canvas.ready||!token.actor?.isOwner)return;const walls=Array.from(canvas.scene.walls??[]),soft=walls.filter(w=>[2,4].includes(wallCoverLevel(w)));if(!soft.length)return;
+export function showCoverPreview(token,point=token.center,{persistent=false}={}){clearCoverPreview();if(!canvas.ready||!token||token.visible===false)return;const walls=Array.from(canvas.scene.walls??[]),soft=walls.filter(w=>[2,4].includes(wallCoverLevel(w)));if(!soft.length)return;
  const center={...point,elevation:token.document?.elevation??0},length=Math.hypot(canvas.dimensions.width,canvas.dimensions.height),board=document.querySelector('#board')?.getBoundingClientRect()??{left:0,top:0};const screen=p=>{const s=canvas.stage.toGlobal(p);return {x:s.x+board.left,y:s.y+board.top};};
  overlay=document.createElementNS('http://www.w3.org/2000/svg','svg');overlay.classList.add('fus-cover-preview');overlay.setAttribute('aria-hidden','true');
  const loops=closedCoverLoops(walls),loopWalls=new Set(loops.flatMap(loop=>loop.walls)),angles=coverAngles(center,walls),rays=angles.map(angle=>visibleRay(center,angle,length,walls));rays.push(rays[0]);
@@ -19,11 +19,13 @@ export function showCoverPreview(token,point=token.center,{persistent=false}={})
 }
 export function requestCoverPreview(token,point=token.center){pending={token,point};if(scheduled)return;scheduled=setTimeout(()=>{scheduled=null;const next=pending;pending=null;if(next&&globalThis.canvas?.ready)showCoverPreview(next.token,next.point);},80);}
 export function registerCoverPreview(){
- Hooks.on('refreshToken',token=>{if(token.actor?.isOwner&&(token.controlled||token.isDragged||token.isPreview&&token.previewType==='dragging'))requestCoverPreview(drag?.token??token,drag?.point??token.center);});
+ const positions=new WeakMap();
+ Hooks.on('refreshToken',token=>{const previous=positions.get(token),point=token.center;positions.set(token,{...point});if(token.visible!==false&&(token.controlled||token.isDragged||token.isPreview&&token.previewType==='dragging'||previous&&(previous.x!==point.x||previous.y!==point.y)))requestCoverPreview(drag?.token??token,drag?.point??point);});
+ Hooks.on('updateToken',(doc,changes)=>{if(!['x','y'].some(key=>Object.hasOwn(changes,key)))return;const token=doc.object;if(token?.visible!==false&&token?.center)requestCoverPreview(token);});
  Hooks.on('controlToken',(token,controlled)=>{if(controlled)requestCoverPreview(token);else if(!drag)clearCoverPreview();});
  Hooks.on('canvasPan',()=>{if(drag)requestCoverPreview(drag.token,drag.point);});
  Hooks.on('canvasTearDown',()=>{clearTimeout(scheduled);scheduled=pending=drag=null;clearCoverPreview();});
- document.addEventListener('pointerdown',event=>{if(event.button!==0||!event.target.closest?.('#board')||!canvas.ready)return;const rect=document.querySelector('#board').getBoundingClientRect(),p=canvas.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top}),token=canvas.tokens.controlled.find(t=>t.actor?.isOwner&&t.bounds?.contains(p.x,p.y));if(token)drag={token,offset:{x:token.center.x-p.x,y:token.center.y-p.y},start:p,point:token.center};});
+ document.addEventListener('pointerdown',event=>{if(event.button!==0||!event.target.closest?.('#board')||!canvas.ready)return;const rect=document.querySelector('#board').getBoundingClientRect(),p=canvas.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top}),token=canvas.tokens.controlled.find(t=>t.visible!==false&&t.bounds?.contains(p.x,p.y));if(token)drag={token,offset:{x:token.center.x-p.x,y:token.center.y-p.y},start:p,point:token.center};});
  document.addEventListener('pointermove',event=>{if(!drag||!(event.buttons&1)||!canvas.ready)return;const rect=document.querySelector('#board').getBoundingClientRect(),p=canvas.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top});if(Math.hypot(p.x-drag.start.x,p.y-drag.start.y)<3)return;drag.point={x:p.x+drag.offset.x,y:p.y+drag.offset.y};requestCoverPreview(drag.token,drag.point);},{passive:true});
  const finish=()=>{if(drag)requestCoverPreview(drag.token,drag.point);drag=null;if(overlay){clearTimeout(timer);timer=setTimeout(clearCoverPreview,1500);}};document.addEventListener('pointerup',finish,{passive:true});document.addEventListener('pointercancel',finish,{passive:true});
 }

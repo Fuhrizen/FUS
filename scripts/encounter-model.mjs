@@ -20,3 +20,9 @@ export function transitionEncounter(source,operation,{id=null,random=Math.random
   e.participants=e.participants.filter(p=>p.id!==id);e.pool=e.pool.filter(x=>x!==id);e.active=e.active.filter(x=>x!==id);e.drawn=e.drawn.filter(x=>x!==id);
  }else throw new Error('Unknown encounter operation.');return e;
 }
+
+export function encounterGroups(encounter,{gm=false}={}){
+ const rows=(encounter?.participants??[]).filter(p=>gm||!p.hidden).map(p=>({...p,active:encounter.active.includes(p.id),drawn:encounter.drawn.includes(p.id)}));
+ const groups=[{id:'ready',label:'Ready',icon:'fa-solid fa-layer-group',hint:'Waiting for a random draw'},{id:'acting',label:'Acting',icon:'fa-solid fa-play',hint:'Current turn'},{id:'finished',label:'Finished',icon:'fa-solid fa-check',hint:'Turn completed this round'},{id:'unavailable',label:'Sitting out',icon:'fa-solid fa-pause',hint:'Skipped or at 0 HP'}];
+ return groups.map(group=>({...group,participants:rows.filter(p=>(p.incapacitated||p.ignored?'unavailable':p.active?'acting':p.drawn?'finished':'ready')===group.id).map(p=>({...p,status:p.incapacitated?'Dead':p.ignored?'Skipped':group.label})),gm})).filter(g=>g.id!=='unavailable'||g.participants.length);
+}
