@@ -5,3 +5,8 @@ dist/
 packs/**/LOCK
 packs/**/LOG
 packs/**/LOG.old
+
+reports/
+coverage/
+playwright-report/
+test-results/

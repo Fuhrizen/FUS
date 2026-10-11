@@ -36,3 +36,7 @@ Universal Equipment & Ammunition contains tools and supplies for any setting, pl
 Targeting previews show the exact chance for 2d10 + Skill + chosen Focus + modifiers to meet the rulebook Attack DC 14. Soft Cover adds 2 DC, Hard Cover adds 4, and extended range adds 2. Total Cover, blocked LOS, and out-of-range targets cannot be attacked normally. Hindered/suppressed attackers take −2 once; Exposed targets reduce DC by 2. Pins subtract 1 per pin by default, configurable using Attack penalty per pin (0 disables that penalty). These previews do not automatically assume Assault, repeated attacks, reactions or unrecorded visibility circumstances; use Action modifiers/conditions for additional adjustments. Chat displays the percentage, DC factors and actual HIT/MISS. Damage is offered only for targets hit by that roll.
 
 Moving previews follow drag clones and token animation updates; visible cover faces are highlighted even when the cover wall also blocks sight. The sidebar has a popout button, and right-clicking its combat tab opens the same docked tracker. Its position follows both sidebar panels and the tab rail. Pin controls stop pointerdown as well as click events; counts sit centered above tokens.
+
+## Development checks
+
+See [Testing FUS](docs/TESTING.md) for the unit, coverage, compendium, package and browser gates, local commands, and Foundry smoke checks.

@@ -22,18 +22,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  quality:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/quality.yml
+    permissions:
+      contents: read
   publish:
+    needs: quality
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+      - name: Require the tested revision to remain current
+        run: test "$(git ls-remote origin refs/heads/main | cut -f1)" = "$GITHUB_SHA"
       - name: Increment release version
         id: version
         env:
@@ -47,6 +56,8 @@ jobs:
           npm run check
       - name: Package checked-in runtime and compendiums
         run: npm run build
+      - name: Validate release archive
+        run: npm run validate:package
       - name: Save release version
         id: commit
         env:
@@ -72,7 +83,7 @@ jobs:
             echo "Release $tag already exists; refusing to replace it."
             exit 1
           fi
-          gh release create "$tag" "$archive" dist/system.json --target "$RELEASE_SHA" --title "$tag Beta" --notes-file tools/beta-release-notes.txt --prerelease --draft
+          gh release create "$tag" "$archive" dist/system.json dist/SHA256SUMS --target "$RELEASE_SHA" --title "$tag Beta" --notes-file tools/beta-release-notes.txt --prerelease --draft
           gh release edit "$tag" --draft=false --prerelease --latest=false
           if ! gh release view beta >/dev/null 2>&1; then
             gh release create beta --target "$RELEASE_SHA" --title "FUS Beta Channel" --notes "Install using the system.json asset to receive beta updates." --prerelease --latest=false
