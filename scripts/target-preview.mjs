@@ -30,7 +30,7 @@ export function promptTargetSelection(actor,action,source,readTargets,{origin=nu
   const refresh=()=>{const targets=readTargets();use.disabled=isArea?!area:!targets.length;status.textContent=targets.length?targets.map(t=>`${t.name}${t.hitChance?` · ${t.hitChance.chance}% hit`:''}`).join(', '):'Left-click a token · hold Shift to add/remove';};
   const move=event=>{if(!event.target.closest?.('#board'))return;mouse={x:event.clientX,y:event.clientY};};
   const pick=event=>{
-   if(!event.target.closest?.('#board'))return;if(event.button===2){event.preventDefault();event.stopImmediatePropagation();cancel();return;}if(event.button!==0)return;
+   if(!event.target.closest?.('#board'))return;if(event.button===2){event.preventDefault();event.stopImmediatePropagation();cancel();const swallow=e=>{e.preventDefault();e.stopImmediatePropagation();};document.addEventListener('contextmenu',swallow,{capture:true,once:true});setTimeout(()=>document.removeEventListener('contextmenu',swallow,true),500);return;}if(event.button!==0)return;
    const c=globalThis.canvas;if(!c?.ready)return;
    const rect=document.querySelector('#board').getBoundingClientRect(),point=c.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top});
    if(isArea){const acting=originToken();const center=acting?.center??point;if(acting&&!canAttackPoint({...center,elevation:acting.document?.elevation??0},{...point,elevation:acting.document?.elevation??0})){status.textContent='This area has no line of attack.';event.preventDefault();event.stopImmediatePropagation();return;}area=areaProfile(action,point,Math.atan2(point.y-center.y,point.x-center.x)*180/Math.PI);event.preventDefault();event.stopImmediatePropagation();confirm();return;}

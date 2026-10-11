@@ -317,6 +317,8 @@
 .fus-sheet .fus-form-selection .fus-form-name{display:flex;align-items:center;justify-content:center;text-align:center;width:100%}
 .fus-pin-marker{background:var(--control-bg-color,#252830);color:var(--control-icon-color,#eee);border-color:var(--control-border-color,#555)}
 
+.fus-starter .fus-form-selection,.fus-sheet .fus-form-selection{display:block!important;grid-template-columns:1fr!important}
+
 </style>
   <header><strong>FUS Encounters</strong>{{#if sidebar}}<button type="button" data-action="popout" title="Open encounter tracker" aria-label="Open encounter tracker"><i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i></button>{{/if}}{{#if gm}}<details class="fus-encounter-manage"><summary title="Manage encounters" aria-label="Manage encounters"><i class="fa-solid fa-gear" aria-hidden="true"></i></summary><div><button type="button" data-action="createEncounter">New encounter</button>{{#if encounter}}<button type="button" data-action="start">Restart pool</button>{{#if encounter.round}}<button type="button" data-action="stop">End combat</button>{{/if}}<button type="button" data-action="deleteEncounter">Delete encounter</button>{{/if}}</div></details>{{/if}}</header>
   {{#if encounter}}<div class="fus-encounter-status"><select data-encounter-select aria-label="Encounter" {{#unless gm}}disabled{{/unless}}>{{#each encounters}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select><small>Round {{encounter.round}} · {{remaining}} left</small></div>{{/if}}
