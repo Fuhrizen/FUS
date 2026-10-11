@@ -1,0 +1,25 @@
+{
+  "_id": "db91572b69b2b10e",
+  "name": "Waterskin",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One day of drinking water in ordinary conditions.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!db91572b69b2b10e"
+}

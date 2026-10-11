@@ -2,7 +2,7 @@
   "_id": "eb9fe35a6c99d2fe",
   "name": "Aimed shot",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/aim.svg",
   "system": {
     "action": {
       "cost": 2,

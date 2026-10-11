@@ -2,7 +2,7 @@
   "_id": "4b9d83293ac58cb5",
   "name": "Internal status",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/scan.svg",
   "system": {
     "action": {
       "cost": 1,

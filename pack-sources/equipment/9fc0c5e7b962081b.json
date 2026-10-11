@@ -1,0 +1,25 @@
+{
+  "_id": "9fc0c5e7b962081b",
+  "name": "Shovel",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "A general digging tool.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!9fc0c5e7b962081b"
+}

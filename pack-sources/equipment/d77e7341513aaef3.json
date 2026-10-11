@@ -1,0 +1,25 @@
+{
+  "_id": "d77e7341513aaef3",
+  "name": "Hammer",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "A reusable tool for construction or repair.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!d77e7341513aaef3"
+}

@@ -7,6 +7,7 @@ export async function rollActionDamage(actor,source,actionId,{targets=null}={}){
  if(!actor?.isOwner || source?.parent?.uuid!==actor.uuid)throw new Error('Use an action owned by this character.');
  await loadSourceActions(source);
  const action=sourceActions(source).find(a=>a.id===actionId);if(!action)throw new Error('This action no longer exists.');
+ if(targets?.some(t=>t.hit===false)){targets=targets.filter(t=>t.hit!==false);if(!targets.length)throw new Error('No targets were hit by this attack.');}
  return rollDamage(action.damageComponents??[],{actor,label:`${source.name}: ${action.name}`,targets});
 }
 export async function chooseActionDamage(actor,source){

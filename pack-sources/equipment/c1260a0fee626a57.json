@@ -1,0 +1,25 @@
+{
+  "_id": "c1260a0fee626a57",
+  "name": "Flint and Steel",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Start a fire with dry tinder, suitable conditions and time.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!c1260a0fee626a57"
+}

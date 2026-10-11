@@ -4,8 +4,9 @@
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
-    "quantity": 1,
-    "description": "One full 20-round spare magazine; compatible gauss weapon required. Quantity, supplies and effects are managed manually."
+    "quantity": 20,
+    "description": "Compatible ammunition: Gauss Rounds. Quantity counts individual rounds or charges; reload consumes only those needed to refill a compatible weapon.",
+    "ammoType": "Gauss Rounds"
   },
   "effects": [],
   "folder": "3391de5bd0cb9626",

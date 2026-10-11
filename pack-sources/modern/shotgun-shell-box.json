@@ -4,8 +4,9 @@
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
-    "quantity": 1,
-    "description": "Ten shells; load into a compatible shotgun manually. Quantity, supplies and effects are managed manually."
+    "quantity": 10,
+    "description": "Compatible ammunition: 12 gauge. Quantity counts individual rounds or charges; reload consumes only those needed to refill a compatible weapon.",
+    "ammoType": "12 gauge"
   },
   "effects": [],
   "folder": "31ada620e3528d4e",

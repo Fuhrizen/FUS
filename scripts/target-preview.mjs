@@ -1,7 +1,8 @@
+import {targetHitChance,sourceAttackProfile} from './hit-chance.mjs';
 import {targetContext,canAttackPoint} from './cover.mjs';
 import {showCoverPreview,clearCoverPreview} from './cover-preview.mjs';
 import {escapeHTML} from './rolls.mjs';
-export function rangeProfile(source){const s=source?.system??{},melee=s.combatMode==='melee';const optimal=Math.max(0,Number(s.optimal)||0),maximum=melee?optimal:Math.max(optimal,Number(s.maximum)||0);return {melee,optimal,maximum};}
+export function rangeProfile(source,action={}){const p=sourceAttackProfile(source,action);return {melee:p.combatMode==='melee',optimal:p.optimal,maximum:p.maximum};}
 export function rangeBand(distance,profile){return !profile.maximum?'No range configured':distance<=profile.optimal?(profile.melee?'Within reach':'Optimal'):distance<=profile.maximum?'Extended':'Out of range';}
 export function sceneFeetFactor(units){return /^(m|meter|meters|metre|metres)$/i.test(String(units).trim())?3.280839895:1;}
 export function measureTargetRange(origin,point,grid){const factor=sceneFeetFactor(grid.units);return {direct:Math.hypot(point.x-origin.x,point.y-origin.y)/grid.size*grid.distance*factor,effective:grid.measurePath([origin,point]).distance*factor};}
@@ -19,19 +20,19 @@ export function promptTargetSelection(actor,action,source,readTargets,{origin=nu
   const distanceLabel=document.createElement('small');distanceLabel.className='fus-target-distance';
   document.body.append(svg,notice,distanceLabel);
   const use=notice.querySelector('[data-target-use]'),status=notice.querySelector('[data-target-status]'),rangeStatus=notice.querySelector('[data-range-status]');
-  const profile=rangeProfile(source);let frame,closed=false,mouse=null,lastCover=0;
+  const profile=rangeProfile(source,action);let frame,closed=false,mouse=null,lastCover=0,lastCoverKey='';
   const originToken=()=>origin??actor.token?.object??globalThis.canvas?.tokens?.controlled?.find(t=>t.actor?.uuid===actor.uuid);
   const finish=value=>{if(closed)return;closed=true;cancelAnimationFrame(frame);document.removeEventListener('pointermove',move);document.removeEventListener('keydown',key);document.removeEventListener('keyup',keyUp);document.removeEventListener('pointerdown',pick,true);Hooks.off('targetToken',targetHook);Hooks.off('canvasTearDown',tearHook);clearCoverPreview();notice.remove();svg.remove();distanceLabel.remove();game.user.updateTokenTargets?.([]);if(cancelActive===cancel)cancelActive=null;resolve(value);};
   const cancel=()=>finish(null);cancelActive=cancel;
-  const confirm=()=>{const targets=readTargets();if(targets.some(t=>t.los===false||t.cover?.level===99)){status.textContent='No line of attack to one or more selected targets.';return;}if(targets.length)finish(targets);};
-  const refresh=()=>{const targets=readTargets();use.disabled=!targets.length;status.textContent=targets.length?targets.map(t=>t.name).join(', '):'Left-click a token · hold Shift to add/remove';};
-  const move=event=>{if(event.target.closest?.('.fus-target-notice'))return;mouse={x:event.clientX,y:event.clientY};};
+  const confirm=()=>{const targets=readTargets();if(targets.some(t=>t.los===false||t.cover?.level===99||t.hitChance?.blocked||profile.maximum>0&&t.distance>profile.maximum)){status.textContent='A selected target is blocked or out of range.';return;}if(targets.length)finish(targets);};
+  const refresh=()=>{const targets=readTargets();use.disabled=!targets.length;status.textContent=targets.length?targets.map(t=>`${t.name}${t.hitChance?` · ${t.hitChance.chance}% hit`:''}`).join(', '):'Left-click a token · hold Shift to add/remove';};
+  const move=event=>{if(!event.target.closest?.('#board'))return;mouse={x:event.clientX,y:event.clientY};};
   const pick=event=>{
    if(event.button!==0||!event.target.closest?.('#board'))return;
    const c=globalThis.canvas;if(!c?.ready)return;
    const rect=document.querySelector('#board').getBoundingClientRect(),point=c.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top});
    const token=[...(c.tokens?.placeables??[])].reverse().find(t=>t.visible&&(t.bounds?.contains(point.x,point.y)??(point.x>=t.x&&point.x<=t.x+t.w&&point.y>=t.y&&point.y<=t.y+t.h)));
-   if(!token)return;const acting=originToken();if(acting){const context=targetContext(acting,token);if(!context.los||context.cover.level===99){status.textContent='No line of attack to this target.';event.preventDefault();event.stopImmediatePropagation();return;}}event.preventDefault();event.stopImmediatePropagation();
+   if(!token)return;const acting=originToken();if(acting){const context=targetContext(acting,token);if(!context.los||context.cover.level===99||profile.maximum>0&&context.distance>profile.maximum){status.textContent='This target is blocked or out of range.';event.preventDefault();event.stopImmediatePropagation();return;}}event.preventDefault();event.stopImmediatePropagation();
    const complete=targetTokenFromClick(token,event);refresh();if(complete)confirm();
   };
   const keyUp=event=>{if(event.key==='Shift')confirm();};
@@ -43,15 +44,15 @@ export function promptTargetSelection(actor,action,source,readTargets,{origin=nu
    if(token && c?.ready && mouse){
     const board=document.querySelector('#board'),rect=board?.getBoundingClientRect()??{left:0,top:0},origin=token.center;
     const screen=c.stage.toGlobal(origin),point=c.stage.toLocal({x:mouse.x-rect.left,y:mouse.y-rect.top}),grid=c.grid;
-    if(performance.now()-lastCover>100){showCoverPreview(token,point);lastCover=performance.now();}
+    const coverKey=`${Math.round(point.x)}:${Math.round(point.y)}:${c.stage.worldTransform.a}:${c.stage.worldTransform.tx}:${c.stage.worldTransform.ty}`;if(coverKey!==lastCoverKey&&performance.now()-lastCover>100){showCoverPreview(token,point,{persistent:true});lastCover=performance.now();lastCoverKey=coverKey;}
     const measured=measureTargetRange(origin,point,grid),band=rangeBand(measured.effective,profile);
     const x=screen.x+rect.left,y=screen.y+rect.top,scale=Math.abs(c.stage.worldTransform.a),px=grid.size/(grid.distance*sceneFeetFactor(grid.units))*scale;
     svg.style.display='block';
     for(const [circle,distance] of [[outer,profile.maximum],[inner,profile.optimal]]){circle.setAttribute('cx',x);circle.setAttribute('cy',y);circle.setAttribute('r',distance*px);circle.style.display=distance>0?'':'none';}
     
     line.setAttribute('x1',x);line.setAttribute('y1',y);line.setAttribute('x2',mouse.x);line.setAttribute('y2',mouse.y);const visible=canAttackPoint({...origin,elevation:token.document?.elevation??0},{...point,elevation:token.document?.elevation??0});line.setAttribute('stroke',!visible?'#e46868':band==='Out of range'?'#e46868':band==='Extended'?'#e8b54f':'#62c995');
-    distanceLabel.style.display='block';distanceLabel.style.left=`${mouse.x+12}px`;distanceLabel.style.top=`${mouse.y+12}px`;distanceLabel.textContent=`${measured.effective.toFixed(1)} ft${visible?'':' · blocked'}`;
-    rangeStatus.textContent=`Direct ${measured.direct.toFixed(1)} ft · Grid ${measured.effective.toFixed(1)} ft · ${band}${profile.maximum?` (${profile.melee?'Reach '+profile.optimal:'Optimal '+profile.optimal+' / Max '+profile.maximum} ft)`:''}`;
+    distanceLabel.style.display='block';distanceLabel.style.left=`${mouse.x+12}px`;distanceLabel.style.top=`${mouse.y+12}px`;const hovered=[...(c.tokens?.placeables??[])].reverse().find(t=>t.visible&&t.bounds?.contains(point.x,point.y));const context=hovered?targetContext(token,hovered):null;const prediction=context?targetHitChance(actor,source,action,token,hovered,context):null;distanceLabel.textContent=prediction?`${hovered.name} · ${context.distance} ft · ${prediction.chance}% HIT`:`${measured.effective.toFixed(1)} ft${visible?'':' · blocked'}`;distanceLabel.style.setProperty?.('--fus-hit-chance',`${prediction?.chance??0}%`);distanceLabel.title=prediction?[prediction.reason,...prediction.factors,`2d10 + ${prediction.bonus} vs DC ${prediction.dc}`].filter(Boolean).join(' · '):'';
+    rangeStatus.textContent=`Direct ${measured.direct.toFixed(1)} ft · Grid ${measured.effective.toFixed(1)} ft · ${band}${profile.maximum?` (${profile.melee?'Reach '+profile.optimal:'Optimal '+profile.optimal+' / Max '+profile.maximum} ft)`:''}${prediction?` · ${prediction.factors.join(' · ')} · 2d10 + ${prediction.bonus}`:''}`;
    }else{svg.style.display='none';distanceLabel.style.display='none';rangeStatus.textContent=token?'Move the pointer onto the map to preview range.':'No actor token on this scene; range preview unavailable.';}
    frame=requestAnimationFrame(draw);
   };

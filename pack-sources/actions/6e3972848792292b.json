@@ -2,7 +2,7 @@
   "_id": "6e3972848792292b",
   "name": "Single shot",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/fire.svg",
   "system": {
     "action": {
       "cost": 1,

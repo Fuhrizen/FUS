@@ -2,7 +2,7 @@
   "_id": "fusUnarmedStrike",
   "name": "Unarmed Strike",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/strike.svg",
   "system": {
     "action": {
       "cost": 1,

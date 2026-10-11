@@ -1,0 +1,25 @@
+{
+  "_id": "7d876966f1a33fdf",
+  "name": "Compass",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "A simple directional navigation tool.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!7d876966f1a33fdf"
+}

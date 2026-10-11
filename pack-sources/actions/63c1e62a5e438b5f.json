@@ -2,7 +2,7 @@
   "_id": "63c1e62a5e438b5f",
   "name": "Heavy swing",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/heavy.svg",
   "system": {
     "action": {
       "cost": 2,

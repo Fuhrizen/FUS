@@ -4,8 +4,9 @@
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
-    "quantity": 1,
-    "description": "One spare standard cell; compatible weapon or device required. Quantity, supplies and effects are managed manually."
+    "quantity": 30,
+    "description": "Compatible ammunition: Laser Charges. Quantity counts individual rounds or charges; reload consumes only those needed to refill a compatible weapon.",
+    "ammoType": "Laser Charges"
   },
   "effects": [],
   "folder": "3391de5bd0cb9626",

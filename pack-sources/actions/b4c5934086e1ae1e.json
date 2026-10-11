@@ -2,7 +2,7 @@
   "_id": "b4c5934086e1ae1e",
   "name": "Three-round burst",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/burst.svg",
   "system": {
     "action": {
       "cost": 2,

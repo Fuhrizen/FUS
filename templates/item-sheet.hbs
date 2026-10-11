@@ -281,7 +281,7 @@
 .fus-overview-grid section{border:1px solid var(--color-border-light-primary,#888);border-radius:5px;padding:9px;min-width:0}.fus-overview-grid h3{font-size:1em;margin:0 0 6px}.fus-overview-grid p{margin:4px 0;overflow-wrap:anywhere}.fus-muted{opacity:.65}
 .fus-form-selection{display:block!important}.fus-form-selection button{width:100%}
 [data-action-drop]{min-height:40px;border:1px dashed var(--color-border-light-primary,#888);padding:5px;border-radius:4px}
-#fus-encounters-popup{position:fixed!important;left:auto!important;top:60px!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
+#fus-encounters-popup{position:fixed!important;left:auto!important;top:var(--fus-hud-top,60px)!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;max-height:calc(100vh - 40px);max-width:calc(100vw - 24px)}
 #fus-encounters-popup .window-header{cursor:default}
 @media(max-width:550px){.fus-definition-grid,.fus-character-details,.fus-overview-grid{grid-template-columns:1fr}}
 .fus-sidebar-speed{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--color-border-light-primary,#888)}
@@ -290,7 +290,7 @@
 .fus-chat-card [data-fus-chat-action="applyDamage"][disabled]{text-decoration:line-through;opacity:.55}.fus-chat-card [data-fus-chat-action="undoDamage"]{flex:0 0 auto}
 .fus-cover-preview{position:fixed;inset:0;width:100vw;height:100vh;z-index:9997;pointer-events:none}
 .fus-action-dropbox{padding:12px;text-align:center;min-height:70px}.fus-action-dropbox p{margin:4px}.fus-action-dropbox .fus-weapon-action-row{text-align:left}
-#fus-encounters-popup{position:fixed!important;left:auto!important;top:60px!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;transform:none!important;resize:none!important}
+#fus-encounters-popup{position:fixed!important;left:auto!important;top:var(--fus-hud-top,60px)!important;right:var(--fus-hud-right,332px)!important;bottom:auto!important;transform:none!important;resize:none!important}
 #fus-encounters-popup .window-header{pointer-events:none}#fus-encounters-popup .window-header button{pointer-events:auto}
 #token-hud [data-fus-encounter]{display:flex!important}.fus-pin-controls{display:flex;align-items:center;gap:3px;padding:3px}.fus-pin-controls button{width:24px;height:24px;padding:0}
 
@@ -298,15 +298,20 @@
 @keyframes fus-suppression{from{opacity:.35;transform:scale(.94)}to{opacity:.8;transform:scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.fus-suppression-overlay{animation:none}}
 
+.fus-pin-marker{position:fixed;transform:translate(-50%,-100%);z-index:9996;pointer-events:none;background:#211d16e6;color:#ffe39e;border:1px solid #cfa85b;border-radius:5px;padding:2px 6px;font-size:12px;white-space:nowrap}
+#token-hud .fus-pin-controls{position:absolute;left:50%;top:-36px;transform:translateX(-50%);width:max-content;pointer-events:auto;z-index:20;background:#211d16f2;border:1px solid #cfa85b;border-radius:5px;padding:3px}
+.fus-target-distance{max-width:340px;white-space:normal;font-weight:bold;background:#121b22ee;border:1px solid #62c995;padding:6px 10px;border-radius:5px}
+
 </style>
   <fieldset {{#unless editable}}disabled{{/unless}}>
     <div class="fus-item-heading"><button type="button" data-action="chooseIcon" title="Choose item icon"><img src="{{item.img}}" alt="{{item.name}}"></button><label>Title <input name="name" value="{{item.name}}" title="Item title" required></label></div>
 
+    {{#if misc}}<label>Ammunition type (optional)<input name="system.ammoType" value="{{system.ammoType}}" placeholder="Match a weapon ammunition type"></label>{{/if}}
     {{#if weapon}}
     <details class="fus-item-panel" open><summary>Weapon profile</summary><div class="fus-item-panel-body"><label>Combat type <select name="system.combatMode"><option value="ranged" {{#unless melee}}selected{{/unless}}>Ranged</option><option value="melee" {{#if melee}}selected{{/if}}>Melee</option></select></label>
     <div class="fus-range-field"><span>{{#if melee}}Reach{{else}}Range{{/if}} (ft)</span>{{#if melee}}<input type="number" min="0" name="system.optimal" value="{{system.optimal}}" title="Reach" aria-label="Reach in feet">{{else}}<div class="fus-range-pair" role="group" aria-label="Optimal and maximum range"><span aria-hidden="true">[</span><input type="number" min="0" name="system.optimal" value="{{system.optimal}}" title="Optimal range" aria-label="Optimal range in feet"><span aria-hidden="true">/</span><input type="number" min="0" name="system.maximum" value="{{system.maximum}}" title="Maximum range" aria-label="Maximum range in feet"><span aria-hidden="true">]</span></div>{{/if}}</div>
-    <div class="fus-range-field"><span>{{#if melee}}Charges{{else}}Ammo{{/if}}</span><div class="fus-range-pair"><span>[</span><input name="system.resourceCurrent" type="number" min="0" step="1" value="{{system.resourceCurrent}}" aria-label="Current charges or ammo"><span>/</span><input name="system.resourceMax" type="number" min="0" step="1" value="{{system.resourceMax}}" aria-label="Maximum charges or ammo"><span>]</span></div></div>
-    </div></details>{{/if}}<details class="fus-item-panel" {{#if weapon}}open{{/if}}><summary>Actions</summary><div class="fus-item-panel-body">
+    {{#if showResource}}<div class="fus-range-field"><span>{{#if melee}}Charges{{else}}Ammo{{/if}}</span><div class="fus-range-pair"><span>[</span><input name="system.resourceCurrent" type="number" min="0" step="1" value="{{system.resourceCurrent}}" aria-label="Current charges or ammo"><span>/</span><input name="system.resourceMax" type="number" min="0" step="1" value="{{system.resourceMax}}" aria-label="Maximum charges or ammo"><span>]</span></div></div>{{/if}}
+    {{#if ammoEnabled}}{{#unless melee}}<label>Compatible ammunition<input name="system.ammoType" value="{{system.ammoType}}" placeholder="Ammo type, item name or UUID"></label>{{/unless}}{{/if}}</div></details>{{/if}}<details class="fus-item-panel" {{#if weapon}}open{{/if}}><summary>Actions</summary><div class="fus-item-panel-body">
     <div class="fus-weapon-actions" data-action-drop>{{#each weaponActions}}<div class="fus-weapon-action-row"><span><strong>{{name}}</strong> <span class="fus-cost-pips" title="{{cost}} actions" aria-label="{{cost}} actions">{{#each costPips}}◆{{/each}}</span> {{#unless test}}· No roll{{/unless}}</span><div class="fus-reorder"><button type="button" data-action="moveEntry" data-list="weaponActions" data-index="{{index}}" data-direction="-1" aria-label="Move {{name}} up">↑</button><button type="button" data-action="moveEntry" data-list="weaponActions" data-index="{{index}}" data-direction="1" aria-label="Move {{name}} down">↓</button></div><button type="button" data-action="editWeaponAction" data-action-id="{{id}}" aria-label="Edit {{name}}"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></button><button type="button" data-action="removeWeaponAction" data-action-id="{{id}}" aria-label="Remove {{name}}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div>{{else}}<small>{{#if weapon}}Link or drop shared Action items here.{{else}}No actions yet.{{/if}}</small>{{/each}}</div>
     <button type="button" data-action="addWeaponAction">Link action</button>{{#if owned}}<button type="button" data-action="useWeaponActions">Use action</button>{{/if}}
     </div></details>

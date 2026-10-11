@@ -34,7 +34,8 @@
         "focusActorUuid": "",
         "focusName": ""
       }
-    ]
+    ],
+    "ammoType": "Bolts"
   },
   "effects": [],
   "folder": "ec5fcc05e9953f23",

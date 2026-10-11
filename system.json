@@ -94,6 +94,17 @@
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
       }
+    },
+    {
+      "name": "equipment",
+      "label": "Universal Equipment & Ammunition",
+      "path": "packs/equipment",
+      "type": "Item",
+      "system": "FUS",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "url": "https://github.com/Fuhrizen/FUS",

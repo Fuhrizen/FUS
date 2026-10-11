@@ -1,0 +1,25 @@
+{
+  "_id": "59ddd53df58e3ec7",
+  "name": "7.62 NATO Ammunition",
+  "type": "item",
+  "img": "systems/FUS/assets/actions/reload.svg",
+  "system": {
+    "quantity": 60,
+    "description": "Compatible ammunition: 7.62 NATO. Each quantity unit is one round, projectile or charge. Reloading consumes only the amount needed to refill the weapon.",
+    "ammoType": "7.62 NATO",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "894891f0dada37ca",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!59ddd53df58e3ec7"
+}

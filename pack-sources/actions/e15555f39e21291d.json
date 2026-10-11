@@ -2,7 +2,7 @@
   "_id": "e15555f39e21291d",
   "name": "Interface",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/interface.svg",
   "system": {
     "action": {
       "cost": 1,

@@ -4,8 +4,9 @@
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
-    "quantity": 1,
-    "description": "One full 15-round spare magazine; compatible weapon required. Quantity, supplies and effects are managed manually."
+    "quantity": 15,
+    "description": "Compatible ammunition: 9\u00d719. Quantity counts individual rounds or charges; reload consumes only those needed to refill a compatible weapon.",
+    "ammoType": "9\u00d719"
   },
   "effects": [],
   "folder": "31ada620e3528d4e",

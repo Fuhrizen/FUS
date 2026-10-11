@@ -2,7 +2,7 @@
   "_id": "40ed9bbd40c11a68",
   "name": "Recharge",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/reload.svg",
   "system": {
     "action": {
       "cost": 1,
@@ -17,7 +17,7 @@
       "adjustResource": true,
       "resourceMode": "reset",
       "resourceAmount": 0,
-      "description": "Requires a spare magazine, ammunition or suitable power source. Restore the counter to maximum; track supplies manually."
+      "description": "Restore source ammunition or charges to maximum. With ammunition tracking enabled, compatible supplies are required and consumed for weapons with a configured ammo type."
     }
   },
   "effects": [],

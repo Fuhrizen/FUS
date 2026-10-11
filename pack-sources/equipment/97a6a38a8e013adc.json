@@ -1,0 +1,25 @@
+{
+  "_id": "97a6a38a8e013adc",
+  "name": "Repair Supplies",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Five uses for ordinary equipment repairs. Tests and repair results are adjudicated normally.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!97a6a38a8e013adc"
+}

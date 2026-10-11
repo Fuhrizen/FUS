@@ -2,7 +2,7 @@
   "_id": "4707922d0a1c8ecd",
   "name": "Fire (5.56)",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/fire.svg",
   "system": {
     "action": {
       "cost": 1,

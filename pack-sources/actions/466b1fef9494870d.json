@@ -2,7 +2,7 @@
   "_id": "466b1fef9494870d",
   "name": "Burst fire",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/burst.svg",
   "system": {
     "action": {
       "cost": 2,

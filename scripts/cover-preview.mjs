@@ -1,13 +1,25 @@
-import {wallIntersection,wallCoverLevel,hasLineOfSight} from './cover.mjs';
-let overlay,timer;
+import {wallIntersection,wallEndpoints,wallCoverLevel,hasLineOfSight} from './cover.mjs';
+let overlay,timer,scheduled,pending,drag;
 export function clearCoverPreview(){clearTimeout(timer);overlay?.remove();overlay=null;}
-export function showCoverPreview(token,point=token.center){clearCoverPreview();if(!canvas.ready||!token.actor?.isOwner)return;const walls=Array.from(canvas.scene.walls??[]),soft=walls.filter(w=>[2,4].includes(wallCoverLevel(w)));if(!soft.length)return;
+export function showCoverPreview(token,point=token.center,{persistent=false}={}){clearCoverPreview();if(!canvas.ready||!token.actor?.isOwner)return;const walls=Array.from(canvas.scene.walls??[]),soft=walls.filter(w=>[2,4].includes(wallCoverLevel(w)));if(!soft.length)return;
  const center={...point,elevation:token.document?.elevation??0},length=Math.hypot(canvas.dimensions.width,canvas.dimensions.height),board=document.querySelector('#board')?.getBoundingClientRect()??{left:0,top:0};const screen=p=>{const s=canvas.stage.toGlobal(p);return {x:s.x+board.left,y:s.y+board.top};};
  overlay=document.createElementNS('http://www.w3.org/2000/svg','svg');overlay.classList.add('fus-cover-preview');overlay.setAttribute('aria-hidden','true');
  const ray=angle=>{const end={x:center.x+Math.cos(angle)*length,y:center.y+Math.sin(angle)*length,elevation:center.elevation};const at=t=>({x:center.x+(end.x-center.x)*t,y:center.y+(end.y-center.y)*t,elevation:center.elevation});let lo=0,hi=1;for(const wall of walls)if(wallCoverLevel(wall)===99){const t=wallIntersection(center,end,wall);if(t!==null)hi=Math.min(hi,t);}for(let i=0;i<12;i++){const mid=(lo+hi)/2;if(hasLineOfSight(center,at(mid)))lo=mid;else hi=mid;}const hits=new Map();for(const wall of soft){const t=wallIntersection(center,end,wall);if(t!==null&&t<lo)hits.set(wall,{near:at(t),far:at(lo)});}return hits;};
  const rays=Array.from({length:121},(_,i)=>ray((i%120)*3*Math.PI/180));
  for(const wall of [...soft].sort((a,b)=>wallCoverLevel(a)-wallCoverLevel(b)))for(let i=0;i<120;i++){const a=rays[i].get(wall),b=rays[i+1].get(wall);if(!a||!b)continue;const p=document.createElementNS(overlay.namespaceURI,'polygon');p.setAttribute('points',[a.near,a.far,b.far,b.near].map(screen).map(p=>`${p.x},${p.y}`).join(' '));p.setAttribute('fill',wallCoverLevel(wall)===4?'#e8b54f':'#62c995');p.setAttribute('fill-opacity','.12');overlay.append(p);}
 
- document.body.append(overlay);timer=setTimeout(clearCoverPreview,1800);
+ // Visible cover faces remain discoverable when the wall also blocks sight.
+ for(const wall of soft){const ends=wallEndpoints(wall);if(!ends)continue;const [a,b]=ends;for(let i=0;i<12;i++){const at=t=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,elevation:center.elevation});const mid=at((i+.5)/12),dx=mid.x-center.x,dy=mid.y-center.y,length=Math.hypot(dx,dy);if(!length)continue;const near={x:mid.x-dx/length*.5,y:mid.y-dy/length*.5,elevation:center.elevation};if(!hasLineOfSight(center,near)||walls.some(w=>wallCoverLevel(w)===99&&wallIntersection(center,near,w)!==null))continue;const start=screen(at(i/12)),end=screen(at((i+1)/12)),line=document.createElementNS(overlay.namespaceURI,'line');for(const [k,v] of Object.entries({x1:start.x,y1:start.y,x2:end.x,y2:end.y,stroke:wallCoverLevel(wall)===4?'#e8b54f':'#62c995','stroke-width':3,'stroke-opacity':'.65'}))line.setAttribute(k,v);overlay.append(line);}}
+
+ document.body.append(overlay);if(!persistent)timer=setTimeout(clearCoverPreview,1800);
 }
-export function registerCoverPreview(){Hooks.on('refreshToken',(token,flags)=>{if(token.controlled&&(flags.refreshPosition||flags.refreshMesh||flags.refreshState))showCoverPreview(token);});Hooks.on('controlToken',(token,controlled)=>{if(controlled)showCoverPreview(token);else clearCoverPreview();});Hooks.on('canvasTearDown',clearCoverPreview);document.addEventListener('pointerup',()=>{if(overlay){clearTimeout(timer);timer=setTimeout(clearCoverPreview,900);}},{passive:true});}
+export function requestCoverPreview(token,point=token.center){pending={token,point};if(scheduled)return;scheduled=setTimeout(()=>{scheduled=null;const next=pending;pending=null;if(next&&globalThis.canvas?.ready)showCoverPreview(next.token,next.point);},80);}
+export function registerCoverPreview(){
+ Hooks.on('refreshToken',token=>{if(token.actor?.isOwner&&(token.controlled||token.isDragged||token.isPreview&&token.previewType==='dragging'))requestCoverPreview(drag?.token??token,drag?.point??token.center);});
+ Hooks.on('controlToken',(token,controlled)=>{if(controlled)requestCoverPreview(token);else if(!drag)clearCoverPreview();});
+ Hooks.on('canvasPan',()=>{if(drag)requestCoverPreview(drag.token,drag.point);});
+ Hooks.on('canvasTearDown',()=>{clearTimeout(scheduled);scheduled=pending=drag=null;clearCoverPreview();});
+ document.addEventListener('pointerdown',event=>{if(event.button!==0||!event.target.closest?.('#board')||!canvas.ready)return;const rect=document.querySelector('#board').getBoundingClientRect(),p=canvas.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top}),token=canvas.tokens.controlled.find(t=>t.actor?.isOwner&&t.bounds?.contains(p.x,p.y));if(token)drag={token,offset:{x:token.center.x-p.x,y:token.center.y-p.y},start:p,point:token.center};});
+ document.addEventListener('pointermove',event=>{if(!drag||!(event.buttons&1)||!canvas.ready)return;const rect=document.querySelector('#board').getBoundingClientRect(),p=canvas.stage.toLocal({x:event.clientX-rect.left,y:event.clientY-rect.top});if(Math.hypot(p.x-drag.start.x,p.y-drag.start.y)<3)return;drag.point={x:p.x+drag.offset.x,y:p.y+drag.offset.y};requestCoverPreview(drag.token,drag.point);},{passive:true});
+ const finish=()=>{if(drag)requestCoverPreview(drag.token,drag.point);drag=null;if(overlay){clearTimeout(timer);timer=setTimeout(clearCoverPreview,1500);}};document.addEventListener('pointerup',finish,{passive:true});document.addEventListener('pointercancel',finish,{passive:true});
+}

@@ -1,11 +1,11 @@
 {
   "_id": "d5fc1e3e8968375c",
-  "name": "Field Rations (3 days)",
+  "name": "Field Rations (1 day)",
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
     "quantity": 1,
-    "description": "Three days of food for one character. Quantity, supplies and effects are managed manually."
+    "description": "One day of food for one character. Each inventory unit represents one day."
   },
   "effects": [],
   "folder": "31ada620e3528d4e",

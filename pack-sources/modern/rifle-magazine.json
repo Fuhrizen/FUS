@@ -4,8 +4,9 @@
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
-    "quantity": 1,
-    "description": "One full 30-round spare magazine; compatible weapon required. Quantity, supplies and effects are managed manually."
+    "quantity": 30,
+    "description": "Compatible ammunition: 5.56 NATO. Quantity counts individual rounds or charges; reload consumes only those needed to refill a compatible weapon.",
+    "ammoType": "5.56 NATO"
   },
   "effects": [],
   "folder": "31ada620e3528d4e",

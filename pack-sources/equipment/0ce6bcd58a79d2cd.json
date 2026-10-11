@@ -1,0 +1,25 @@
+{
+  "_id": "0ce6bcd58a79d2cd",
+  "name": "Lantern",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "A portable light source. Fuel and lighting are managed separately.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!0ce6bcd58a79d2cd"
+}

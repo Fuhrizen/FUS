@@ -2,7 +2,7 @@
   "_id": "36cb0296ce331700",
   "name": "Crushing strike",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/heavy.svg",
   "system": {
     "action": {
       "cost": 2,

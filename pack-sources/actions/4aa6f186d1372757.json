@@ -2,7 +2,7 @@
   "_id": "4aa6f186d1372757",
   "name": "Thrust",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/thrust.svg",
   "system": {
     "action": {
       "cost": 1,

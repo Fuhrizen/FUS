@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {registerCoverPreview,clearCoverPreview} from '../scripts/cover-preview.mjs';
+test('uncontrolled drag-preview clones display visible cover faces and clean up on teardown',async()=>{
+ const hooks={},events={},drawn=[];const node=tag=>({tag,namespaceURI:'svg',classList:{add(){}},setAttribute(){},append(child){drawn.push(child.tag);},remove(){}});
+ globalThis.Hooks={on:(name,fn)=>{hooks[name]=fn;}};globalThis.document={addEventListener:(name,fn)=>{events[name]=fn;},createElementNS:(_ns,tag)=>node(tag),body:{append(){}},querySelector:()=>({getBoundingClientRect:()=>({left:0,top:0})})};
+ globalThis.canvas={ready:true,dimensions:{width:200,height:200},stage:{toGlobal:p=>p},scene:{walls:[{c:[50,-100,50,100],flags:{FUS:{cover:2}}}]},tokens:{controlled:[]}};
+ globalThis.CONFIG={Canvas:{polygonBackends:{sight:{testCollision:(_a,b)=>b.x>=50}}}};
+ registerCoverPreview();hooks.refreshToken({isPreview:true,previewType:'dragging',controlled:false,actor:{isOwner:true},center:{x:0,y:0},document:{elevation:0}});
+ await new Promise(r=>setTimeout(r,110));assert.ok(drawn.includes('line'),'a cover wall with sight blocking must remain visible');assert.ok(events.pointermove);hooks.canvasTearDown();clearCoverPreview();
+});

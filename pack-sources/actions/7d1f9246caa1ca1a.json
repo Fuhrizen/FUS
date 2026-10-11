@@ -2,7 +2,7 @@
   "_id": "7d1f9246caa1ca1a",
   "name": "Psychic pulse",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/psychic.svg",
   "system": {
     "action": {
       "cost": 2,

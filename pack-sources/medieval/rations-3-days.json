@@ -1,11 +1,11 @@
 {
   "_id": "65c3220dc0efc6ae",
-  "name": "Rations (3 days)",
+  "name": "Rations (1 day)",
   "type": "item",
   "img": "icons/svg/item-bag.svg",
   "system": {
     "quantity": 1,
-    "description": "Three days of food for one character. Quantity, supplies and effects are managed manually."
+    "description": "One day of food for one character. Each inventory unit represents one day."
   },
   "effects": [],
   "folder": "0248d6a867316c2b",

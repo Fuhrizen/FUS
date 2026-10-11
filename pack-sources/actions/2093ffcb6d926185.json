@@ -2,7 +2,7 @@
   "_id": "2093ffcb6d926185",
   "name": "Brace",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/brace.svg",
   "system": {
     "action": {
       "cost": 1,

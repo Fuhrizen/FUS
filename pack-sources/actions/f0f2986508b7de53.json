@@ -2,7 +2,7 @@
   "_id": "f0f2986508b7de53",
   "name": "Strike",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/strike.svg",
   "system": {
     "action": {
       "cost": 1,

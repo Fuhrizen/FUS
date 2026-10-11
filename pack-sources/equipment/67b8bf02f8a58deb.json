@@ -1,0 +1,25 @@
+{
+  "_id": "67b8bf02f8a58deb",
+  "name": "Medical Supplies",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "Ten treatment uses for Medicine. Does not automatically restore HP.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!67b8bf02f8a58deb"
+}

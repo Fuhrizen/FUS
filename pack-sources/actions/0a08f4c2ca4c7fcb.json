@@ -2,7 +2,7 @@
   "_id": "0a08f4c2ca4c7fcb",
   "name": "Close shot",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/fire.svg",
   "system": {
     "action": {
       "cost": 1,

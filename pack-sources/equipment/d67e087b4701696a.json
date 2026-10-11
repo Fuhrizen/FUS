@@ -1,0 +1,25 @@
+{
+  "_id": "d67e087b4701696a",
+  "name": "Psi Charges Ammunition",
+  "type": "item",
+  "img": "systems/FUS/assets/actions/reload.svg",
+  "system": {
+    "quantity": 60,
+    "description": "Compatible ammunition: Psi Charges. Each quantity unit is one round, projectile or charge. Reloading consumes only the amount needed to refill the weapon.",
+    "ammoType": "Psi Charges",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "894891f0dada37ca",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!d67e087b4701696a"
+}

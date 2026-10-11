@@ -1,0 +1,25 @@
+{
+  "_id": "ff7fa855174dc446",
+  "name": "Rations (1 day)",
+  "type": "item",
+  "img": "icons/svg/food.svg",
+  "system": {
+    "quantity": 1,
+    "description": "One day of food for one character. Quantity counts days.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "58d0ff61579c0035",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!ff7fa855174dc446"
+}

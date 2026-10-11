@@ -2,7 +2,7 @@
   "_id": "a2f9c0f3a5217e73",
   "name": "Aimed Fire (5.56)",
   "type": "action",
-  "img": "systems/FUS/assets/action.svg",
+  "img": "systems/FUS/assets/actions/aim.svg",
   "system": {
     "action": {
       "cost": 2,

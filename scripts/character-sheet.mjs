@@ -1,3 +1,4 @@
+import {ammoTrackingEnabled} from './rules-settings.mjs';
 import {loadSourceActions} from './action-library.mjs';
 import {isFUSActor} from './actor-types.mjs';
 import {chooseActionDamage} from './action-damage.mjs';
@@ -54,7 +55,7 @@ export class FUSCharacterSheet extends HandlebarsApplicationMixin(foundry.applic
       hideUnavailable:this._hideUnavailable,
       actionGroups:availableActionGroups(this.document,{hideLocked:this._hideUnavailable}),
       health:characterStats(this.document),
-      overview:{weapons:Array.from(this.document.items??[]).filter(i=>i.type==='weapon'&&(i.system.quantity??1)>0).map(i=>({name:i.name,resource:i.system.resourceMax>0?`${i.system.resourceCurrent}/${i.system.resourceMax}`:''})),armour:Array.from(this.document.items??[]).filter(i=>i.type==='armour'&&i.system.equipped&&(i.system.quantity??1)>0).map(i=>({name:i.name})),focuses:system.focuses.filter(f=>f.rank>0).sort((a,b)=>b.rank-a.rank).slice(0,6),memoryCount:(system.memories??[]).length,actionCount:availableActionGroups(this.document).reduce((n,g)=>n+g.actions.length,0)},
+      overview:{weapons:Array.from(this.document.items??[]).filter(i=>i.type==='weapon'&&(i.system.quantity??1)>0).map(i=>({name:i.name,resource:i.system.resourceMax>0&&(i.system.combatMode==='melee'||ammoTrackingEnabled())?`${i.system.resourceCurrent}/${i.system.resourceMax}`:''})),armour:Array.from(this.document.items??[]).filter(i=>i.type==='armour'&&i.system.equipped&&(i.system.quantity??1)>0).map(i=>({name:i.name})),focuses:system.focuses.filter(f=>f.rank>0).sort((a,b)=>b.rank-a.rank).slice(0,6),memoryCount:(system.memories??[]).length,actionCount:availableActionGroups(this.document).reduce((n,g)=>n+g.actions.length,0)},
       skillGroups: this._skillGroups(),
       search: this._search,
       focusManagement: this._focusManagement,

@@ -1,0 +1,25 @@
+{
+  "_id": "b9596e07b25348f8",
+  "name": "Tool Kit",
+  "type": "item",
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "quantity": 1,
+    "description": "General-purpose tools for Craft tasks. Parts and suitable training may still be required.",
+    "ammoType": "",
+    "weaponActions": [],
+    "actionLinks": []
+  },
+  "effects": [],
+  "folder": "75b22c12568d2c13",
+  "sort": 0,
+  "flags": {
+    "FUS": {
+      "universalEquipment": 1
+    }
+  },
+  "ownership": {
+    "default": 2
+  },
+  "_key": "!items!b9596e07b25348f8"
+}
